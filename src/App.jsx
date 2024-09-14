@@ -1,13 +1,18 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
 
 
 function App() {
 
   return (
-    <div className="flex flex-col items-center justify-center bg-green-500 gap-5  text-3xl font-bold p-5">
-      <div className="">Final Project ! </div>
-      <div className="">إن شاء الله خير</div>
-      <div className="">إن شاء الله خير</div>
-      <div className="">إن شاء الله خير</div>
+    <div className='m-2 relative'>
+      <BrowserRouter>
+        <Navbar className="sticky" />
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
     </div>
 
   )
