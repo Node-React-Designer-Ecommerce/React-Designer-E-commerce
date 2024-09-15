@@ -20,8 +20,8 @@ export default function ProductDetails() {
     return (
         <div className="w-full pt-5 font-serif">
             <div className="w-4/5 m-auto border md:flex xs:flex xs:flex-col">
-                <div className="p-5 md:w-11/12 lg:w-3/4">
-                    <img src={product.image} alt={product.title} className="h-96 w-full object-cover" />
+                <div className="p-5 md:w-11/12 lg:w-3/4 ">
+                    <img src={product.image} alt={product.title} className=" w-full object-contain" />
                 </div>
                 <div className="p-10 ">
                     <div className="flex justify-between">

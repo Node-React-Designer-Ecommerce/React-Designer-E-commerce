@@ -47,7 +47,7 @@ export default function ProductsPage() {
 
     return (
         <div className="w-full font-serif">
-            <div className="relative w-full  bg-blue-500">
+            {/* <div className="relative w-full h-full">
                 <img src="/cover.jpg" alt="New Collection" className="w-full h-full object-cover" />
                 <div className="absolute top-1/4 left-10 text-white">
                     <p className="text-lg uppercase">Summer 2020</p>
@@ -60,12 +60,24 @@ export default function ProductsPage() {
                         Shop Now
                     </button>
                 </div>
-            </div>
-                <div className="py-36 flex flex-col items-center tracking-wide ">
-                    <p className="font-bold text-sm text-gray-500">Featured Products</p>
-                    <p className="font-bold uppercase">BestSeller Prouducts</p>
-                    <p className="text-sm text-gray-500">Simpilicty is the keynote of all true elegance</p>
+            </div> */}
+            <div className="relative w-full h-screen bg-blue-500">
+                <img src="/cover.jpg" alt="New Collection" className="w-full h-full object-cover"/>
+                <div className="absolute top-1/4 left-5 right-5 md:left-10 text-white p-4">
+                    <p className="text-sm md:text-lg uppercase">Summer 2020</p>
+                    <h1 className="text-3xl md:text-6xl font-bold">New Collection</h1>
+                    <p className="mt-4 max-w-xs text-sm md:text-base">We know how large objects will act, but things on a small scale.</p>
+                    <input type="text" placeholder="Search here .." className="input input-bordered rounded-3xl my-5 input-sm md:input-md w-full max-w-xs text-black" onChange={handleSearch}/>
+                    <button className="bg-green-600 text-white px-3 py-1 md:px-4 md:py-2 rounded-3xl ms-7">
+                        Shop Now
+                    </button>
                 </div>
+            </div>
+            <div className="py-36 flex flex-col items-center tracking-wide ">
+                <p className="font-bold text-sm text-gray-500">Featured Products</p>
+                <p className="font-bold uppercase">BestSeller Prouducts</p>
+                <p className="text-sm text-gray-500">Simpilicty is the keynote of all true elegance</p>
+            </div>
             <div className="flex justify-center ">
                 <div className="grid grid-cols-1 lg:grid lg:grid-cols-4 md:grid md:grid-cols-2 gap-3 w-10/12">
                     {currentProducts.map(product =>
@@ -77,7 +89,7 @@ export default function ProductsPage() {
                                 <p className="text-center">{product.title}</p>
                                 <p className="text-gray-400">{product.category}</p>
                                 <p className="text-green-800">${product.price}</p>
-                                <Link to={`/product-details/${product.id}`} className="hover:underline flex">See More <ArrowRight/></Link>
+                                <Link to={`/product-details/${product.id}`} className="hover:underline flex">See More <ArrowRight /></Link>
                             </div>
                         </div>
                     )}
