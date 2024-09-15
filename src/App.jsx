@@ -1,9 +1,14 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Components
-import Navbar from './components/Navbar';
+import Navbar from "./components/Navbar";
 
 //import pages
-import Home from './pages/Home';
+
+import Home from "./pages/Home";
+import Registration from "./pages/Registration";
+import Landing from './pages/Landing';
+
+//import Home from './pages/Home';
 
 import ProductsPage from './pages/ProductsPage';
 import ProductDetails from './pages/ProductDetails';
@@ -13,9 +18,10 @@ import Registration from './pages/Registration';
 
 
 
-function App() {
 
+function App() {
   return (
+
     <div className='m-2 relative'>
       <BrowserRouter>
         <Navbar className="sticky" />
@@ -26,6 +32,7 @@ function App() {
           <Route path="/product-details/:id" element={<ProductDetails/>}/>
 
           <Route path="/sign-up" element={<Registration />} />
+           <Route path="/landing" element={<Landing />} />
 
 
         </Routes>
@@ -33,6 +40,7 @@ function App() {
     </div>
 
   )
+
 }
 
-export default App
+export default App;
