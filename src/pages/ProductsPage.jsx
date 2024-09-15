@@ -46,7 +46,7 @@ export default function ProductsPage() {
     };
 
     return (
-        <div className="w-full">
+        <div className="w-full font-serif">
             <div className="relative w-full  bg-blue-500">
                 <img src="/cover.jpg" alt="New Collection" className="w-full h-full object-cover" />
                 <div className="absolute top-1/4 left-10 text-white">
@@ -55,13 +55,13 @@ export default function ProductsPage() {
                     <p className="mt-4 max-w-xs">
                         We know how large objects will act, but things on a small scale.
                     </p>
-                    <input type="text" placeholder="Search here .." className="input input-bordered rounded-3xl my-5 input-md w-full max-w-xs" onChange={handleSearch} />
+                    <input type="text" placeholder="Search here .." className="input input-bordered rounded-3xl my-5 input-md w-full max-w-xs text-black" onChange={handleSearch} />
                     <button className="bg-green-600 text-white px-4 py-2 rounded-3xl ms-7">
                         Shop Now
                     </button>
                 </div>
             </div>
-                <div className="py-36 flex flex-col items-center ">
+                <div className="py-36 flex flex-col items-center tracking-wide ">
                     <p className="font-bold text-sm text-gray-500">Featured Products</p>
                     <p className="font-bold uppercase">BestSeller Prouducts</p>
                     <p className="text-sm text-gray-500">Simpilicty is the keynote of all true elegance</p>
@@ -70,7 +70,7 @@ export default function ProductsPage() {
                 <div className="grid grid-cols-1 lg:grid lg:grid-cols-4 md:grid md:grid-cols-2 gap-3 w-10/12">
                     {currentProducts.map(product =>
                         <div key={product.id} className="hover:border border-gray-300">
-                            <div className="p-1">
+                            <div className="p-4">
                                 <img src={product.image} alt="product" className="h-96 w-full object-cover" />
                             </div>
                             <div className="flex flex-col items-center p-4 font-bold">
