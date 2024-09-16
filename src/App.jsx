@@ -14,7 +14,6 @@ import ProductsPage from './pages/ProductsPage';
 import ProductDetails from './pages/ProductDetails';
 // import ProductsProvider from './hooks/Products';
 
-import Registration from './pages/Registration';
 
 
 
