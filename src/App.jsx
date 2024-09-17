@@ -5,27 +5,18 @@ import Footer from './components/Footer';
 
 //import pages
 
-// import Home from "./pages/Home";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Landing from './pages/Landing';
-
-//import Home from './pages/Home';
-
 import ProductsPage from './pages/ProductsPage';
 import ProductDetails from './pages/ProductDetails';
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-// import ProductsProvider from './hooks/Products';
-
-
-
-
 
 function App() {
   return (
 
-    <div className='relative'>
+    <div className='relative font-serif'>
       <AuthProvider>
         <BrowserRouter>
           <Navbar className="sticky top-0 z-50" />
