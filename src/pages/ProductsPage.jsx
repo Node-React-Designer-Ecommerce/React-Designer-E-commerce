@@ -1,15 +1,17 @@
 import { useState } from "react";
-// import axios from 'axios';
 import { Link } from "react-router-dom";
 import ArrowRight from "../icons/ArrowRight";
-import { useProducts } from "../hooks/Products";
-// import men from "../images/men.jpg";
+import { useProducts } from "../context/ProductsContext";
+import HeartIcon from "../icons/HeartIcon";
+import Skelton from "../components/Skelton";
+import HeardFilledIcon from './../icons/HeardFilledIcon';
+import ShoppingBag from './../icons/ShoppingBag';
 
 export default function ProductsPage() {
-    const { products } = useProducts();
-    console.log(products)
+    const { products, loading, toggleFavorite, favoriteProducts } = useProducts();
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+
     const productsPerPage = 8;
 
     const handleSearch = (event) => {
@@ -38,6 +40,20 @@ export default function ProductsPage() {
             setCurrentPage(currentPage - 1);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="flex justify-center">
+                <div className="grid grid-cols-1 lg:grid lg:grid-cols-4 md:grid md:grid-cols-2 gap-5">
+                    {Array.from({ length: productsPerPage }).map((_, index) => (
+                        <div key={index} className="card bg-base-100 w-80 shadow-xl">
+                            <Skelton />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="w-full font-serif">
             <div className="relative w-full h-screen">
@@ -58,21 +74,24 @@ export default function ProductsPage() {
                 <p className="lg:text-lg text-gray-500">Simpilicty is the keynote of all true elegance</p>
             </div>
             <div className="flex justify-center ">
-                <div className="grid grid-cols-1 lg:grid lg:grid-cols-4 md:grid md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 lg:grid lg:grid-cols-3 xl:grid-cols-4 md:grid md:grid-cols-2 gap-5">
                     {currentProducts.map(product =>
                         <div key={product._id} className="card bg-base-100 w-80 shadow-xl">
-                            <figure className="px-5 pt-10">
-                                <img
-                                    src="/men.jpg"
-                                    alt="Shoes"
-                                    className="rounded-xl" />
-                            </figure>
+                            <figure className="px-5 relative pt-10">
+                                <div
+                                    className="bg-white rounded-3xl w-11 absolute top-12 start-7 h-11 flex justify-center items-center cursor-pointer"
+                                    onClick={() => toggleFavorite(product._id)}
+                                >
+                                    {favoriteProducts[product._id] ? <HeardFilledIcon /> : <HeartIcon />}
+                                </div>
+                                <img src="/men.jpg" alt="Shoes" className="rounded-xl" /></figure>
                             <div className="card-body items-center text-center">
-                                <h2 className="card-title">{product.name}</h2>
+                                <h2 className="card-title uppercase">{product.name}</h2>
                                 <p>{product.description}</p>
                                 <p className="text-green-800">${product.price}</p>
-                                <div className="card-actions">
+                                <div className="flex justify-between pt-4 w-full">
                                     <Link to={`/product-details/${product._id}`} className="flex">See More <ArrowRight /></Link>
+                                    <Link className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-3xl w-11 h-11 flex justify-center items-center cursor-pointer"><ShoppingBag /></Link>
                                 </div>
                             </div>
                         </div>
