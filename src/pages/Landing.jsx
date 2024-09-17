@@ -5,6 +5,7 @@ import Hero from './../components/Hero';
 import MiniSection from "../components/MiniSection";
 import CategorySection from "../components/CategorySection";
 import Slider from "../components/Slider";
+import Footer from './../components/Footer';
 
 function Landing() {
  
@@ -24,7 +25,7 @@ function Landing() {
       <section className="py-10 font-serif ">
         <div className="text-center mb-6">
           <p className="text-gray-500">FEATURED PRODUCTS</p>
-          <h2 className="text-2xl font-bold">EDITOR'S PICK</h2>
+          <h2 className="text-2xl font-bold">EDITORS PICK</h2>
           <p className="text-gray-500">
             Problems trying to resolve the conflict between
           </p>
@@ -38,7 +39,10 @@ function Landing() {
 
       {/* slider section5 */}
       <Slider></Slider>
-     
+       
+
+       {/* footer section6 */}
+       <Footer></Footer>
     </>
   );
 }
