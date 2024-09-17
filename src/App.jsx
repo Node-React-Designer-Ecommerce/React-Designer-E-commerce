@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Components
 import Navbar from "./components/Navbar";
+import Footer from './components/Footer';
 
 //import pages
 
@@ -27,7 +28,7 @@ function App() {
     <div className='relative'>
       <AuthProvider>
         <BrowserRouter>
-          <Navbar className="sticky" />
+          <Navbar className="sticky top-0 z-50" />
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/products" element={<ProductsPage /> } />
@@ -35,6 +36,7 @@ function App() {
             <Route path="/sign-up" element={<ProtectedRoute isAuth={false}><Registration /></ProtectedRoute>} />
             <Route path="/login" element={<ProtectedRoute isAuth={false}><Login /></ProtectedRoute>} />
           </Routes>
+          <Footer />
         </BrowserRouter>
       </AuthProvider>
 

@@ -17,7 +17,7 @@ export default function ProductsProvider({ children }) {
 
     const getProductById = (id) => {
         axios.get(`https://react-node-designer.glitch.me/api/v1/products/${id}`)
-            .then(res => setProduct(res.data.data.products))
+            .then(res => setProduct(res.data.data.product))
             .catch(error => console.error("Error fetching data by ID:", error));
     };
 
