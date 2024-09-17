@@ -5,7 +5,7 @@ import Hero from '../components/Hero';
 import MiniSection from "../components/MiniSection";
 import CategorySection from "../components/CategorySection";
 import Slider from "../components/Slider";
-import Footer from './../components/Footer';
+
 
 
 function Landing() {
@@ -42,8 +42,6 @@ function Landing() {
       <Slider></Slider>
        
 
-       {/* footer section6 */}
-       <Footer></Footer>
     </>
   );
 }
