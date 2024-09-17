@@ -1,11 +1,12 @@
 
 
 import ProductItem from "../components/ProductItem";
-import Hero from './../components/Hero';
+import Hero from '../components/Hero';
 import MiniSection from "../components/MiniSection";
 import CategorySection from "../components/CategorySection";
 import Slider from "../components/Slider";
 import Footer from './../components/Footer';
+
 
 function Landing() {
  

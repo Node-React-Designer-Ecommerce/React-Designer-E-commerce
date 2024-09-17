@@ -1,6 +1,6 @@
-import HeroSlider1 from "./HeroSlider1";
-import HeroSlider2 from "./HeroSlider2";
-import HeroSlider3 from "./HeroSlider3";
+import HeroSlider1 from "../HerosSlider/HeroSlider1";
+import HeroSlider2 from "../HerosSlider/HeroSlider2";
+import HeroSlider3 from "../HerosSlider/HeroSlider3";
 function Hero() {
   return (
     <div className="carousel font-serif w-full h-screen">
