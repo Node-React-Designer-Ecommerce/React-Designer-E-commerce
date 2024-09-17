@@ -6,15 +6,15 @@ function Slider() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const slides = [
       {
-        backgroundColor: "bg-green-800",
+        backgroundColor: "bg-SecondaryColor",
         image: "preview.png",
         text: "Vita Classic Product",
         price: "$16.48",
         buttonText: "Add to Cart",
       },
       {
-        backgroundColor: "bg-yellow-500",
-        image: "preview.png",
+        backgroundColor: "bg-black",
+        image: "removebg-preview.png",
         text: "Summer 2020",
         price: "$19.99",
         buttonText: "Buy Now",
@@ -31,7 +31,7 @@ function Slider() {
     useEffect(() => {
       const interval = setInterval(() => {
         nextSlide();
-      }, 2000); // Slide every 2 seconds
+      }, 3000); // Slide every 2 seconds
   
       return () => clearInterval(interval); // Cleanup interval on component unmount
     }, [currentSlide, nextSlide]);
@@ -48,7 +48,7 @@ function Slider() {
               <div className="text-white">
                 <h2 className="text-4xl font-bold">{slide.text}</h2>
                 <p className="mt-4">{slide.price}</p>
-                <button className="btn mt-6">{slide.buttonText}</button>
+                <button className="btn mt-6 rounded-none">{slide.buttonText}</button>
               </div>
               <img
                 src={slide.image}
@@ -65,7 +65,7 @@ function Slider() {
           ❮
         </button>
         <button
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white"
+          className="absolute  right-2 top-1/2 transform -translate-y-1/2 text-white"
           onClick={nextSlide}
         >
           ❯
