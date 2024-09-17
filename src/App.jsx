@@ -30,7 +30,7 @@ function App() {
           <Navbar className="sticky" />
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products" element={<ProductsPage /> } />
             <Route path="/product-details/:id" element={<ProductDetails />} />
             <Route path="/sign-up" element={<ProtectedRoute isAuth={false}><Registration /></ProtectedRoute>} />
             <Route path="/login" element={<ProtectedRoute isAuth={false}><Login /></ProtectedRoute>} />

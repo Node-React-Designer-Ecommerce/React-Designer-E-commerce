@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 import ArrowRight from "../icons/ArrowRight";
 import { useProducts } from "../hooks/Products";
+import { useState } from 'react';
 
 export default function ProductsPage() {
     const { products } = useProducts();

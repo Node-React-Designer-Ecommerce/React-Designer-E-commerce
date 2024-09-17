@@ -34,7 +34,7 @@ export default function App() {
                 data
             );
             toast.success("Registration successful! Please Log In", {
-                autoClose: 5000, 
+                autoClose: 5000,
             });
             navigate("/login");
         } catch (error) {
@@ -56,31 +56,31 @@ export default function App() {
     };
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto border p-5 m-9 rounded-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2  max-w-4xl mx-auto border m-9 rounded-3xl">
             {/* Image Section */}
             <div className="md:order-1">
                 <img
-                    src="/register2.jpg"
+                    src="/form.webp"
                     alt="Sign Up"
-                    className="w-full h-full object-contain rounded-lg"
+                    className="w-full h-full object-cover rounded-3xl"
                 />
             </div>
 
             {/* Form Section */}
-            <form onSubmit={handleSubmit(onSubmit)} className="md:order-2">
+            <form onSubmit={handleSubmit(onSubmit)} className="md:order-2 p-5 rounded-3xl">
                 <div>
-                    <h1 className="text-center text-3xl pb-6 text-sky-600 font-bold">Sign up now!</h1>
+                    <h1 className="text-center text-3xl pb-6 text-SecondaryColor font-bold">Sign up now!</h1>
                 </div>
 
                 {/* Name */}
                 <div className="mb-4">
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-SecondaryColor">Name</label>
                     <div className="relative">
                         <input
                             {...register("name", { required: true, minLength: 3, maxLength: 100 })}
                             type="text"
                             id="name"
-                            className={`mt-1 block w-full px-3 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                            className={`mt-1 block w-full px-3 py-2 border-b ${errors.name ? 'border-b-red-500' : 'border-b-gray-300'} rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
                             placeholder="Enter name"
                         />
                         {errors.name && <ErrorIcon />}
@@ -92,7 +92,7 @@ export default function App() {
 
                 {/* Email */}
                 <div className="mb-4">
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>
+                    <label htmlFor="email" className="block text-sm font-medium text-SecondaryColor">Email address</label>
                     <div className="relative">
                         <input
                             {...register("email", {
@@ -101,7 +101,7 @@ export default function App() {
                             })}
                             type="email"
                             id="email"
-                            className={`mt-1 block w-full px-3 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                            className={`mt-1 block w-full px-3 py-2 border-b ${errors.email ? 'border-b-red-500' : 'border-b-gray-300'} rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
                             placeholder="Enter email"
                         />
                         {errors.email && <ErrorIcon />}
@@ -113,7 +113,7 @@ export default function App() {
 
                 {/* Password */}
                 <div className="mb-4">
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                    <label htmlFor="password" className="block text-sm font-medium text-SecondaryColor">Password</label>
                     <div className="relative">
                         <input
                             {...register("password", {
@@ -124,7 +124,7 @@ export default function App() {
                             })}
                             type={showPassword ? "text" : "password"}
                             id="password"
-                            className={`mt-1 block w-full px-3 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                            className={`mt-1 block w-full px-3 py-2 border-b ${errors.password ? 'border-b-red-500' : 'border-b-gray-300'} rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
                             placeholder="Password"
                         />
                         {showPassword ? (
@@ -142,7 +142,7 @@ export default function App() {
 
                 {/* Confirm Password */}
                 <div className="mb-4">
-                    <label htmlFor="passwordConfirm" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <label htmlFor="passwordConfirm" className="block text-sm font-medium text-SecondaryColor">Confirm Password</label>
                     <div className="relative">
                         <input
                             {...register("passwordConfirm", {
@@ -151,7 +151,7 @@ export default function App() {
                             })}
                             type={showConfirmPassword ? "text" : "password"}
                             id="passwordConfirm"
-                            className={`mt-1 block w-full px-3 py-2 border ${errors.passwordConfirm ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                            className={`mt-1 block w-full px-3 py-2 border-b ${errors.passwordConfirm ? 'border-b-red-500' : 'border-b-gray-300'} rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
                             placeholder="Confirm Password"
                         />
                         {showConfirmPassword ? (
@@ -167,13 +167,13 @@ export default function App() {
 
                 {/* Address */}
                 <div className="mb-4">
-                    <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
+                    <label htmlFor="address" className="block text-sm font-medium text-SecondaryColor">Address</label>
                     <div className="relative">
                         <input
                             {...register("address", { required: true, minLength: 3, maxLength: 100 })}
                             type="text"
                             id="address"
-                            className={`mt-1 block w-full px-3 py-2 border ${errors.address ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                            className={`mt-1 block w-full px-3 py-2 border-b ${errors.address ? 'border-b-red-500' : 'border-b-gray-300'} rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
                             placeholder="Enter address"
                         />
                         {errors.address && <ErrorIcon />}
