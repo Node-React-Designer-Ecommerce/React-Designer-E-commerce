@@ -5,9 +5,9 @@ function LikeIcon() {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={1}
+            strokeWidth={1.25}
             stroke="currentColor"
-            className="absolute  size-11 top-2 right-0.5 -left-.5"
+            className="absolute text-white size-11 top-2 right-0.5 -left-.5 hover:animate-bounce  transition-transform transform hover:scale-125 duration-300 ease-in-out"
           >
             <path
               strokeLinecap="round"
