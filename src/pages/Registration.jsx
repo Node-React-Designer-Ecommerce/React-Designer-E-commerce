@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom'; // Assuming you are using React Router for navigation
+import { Link, useNavigate } from 'react-router-dom'; // Assuming you are using React Router for navigation
 import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -56,20 +56,20 @@ export default function App() {
     };
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2  max-w-4xl mx-auto border m-9 rounded-3xl">
+        <div className="grid grid-cols-1 md:grid-cols-2  max-w-4xl mx-auto border m-9 rounded-3xl p-5 shadow-[0px_0px_19px_16px_#f4eeee]">
             {/* Image Section */}
-            <div className="md:order-1">
+            <div className="md:order-1 flex justify-center items-center  rounded-3xl bg-SecondaryColor">
                 <img
-                    src="/form.webp"
+                    src="/register.jpg"
                     alt="Sign Up"
-                    className="w-full h-full object-cover rounded-3xl"
+                    className="w-4/5 h-4/5 object-cover rounded-3xl"
                 />
             </div>
 
             {/* Form Section */}
             <form onSubmit={handleSubmit(onSubmit)} className="md:order-2 p-5 rounded-3xl">
                 <div>
-                    <h1 className="text-center text-3xl pb-6 text-SecondaryColor font-bold">Sign up now!</h1>
+                    <h1 className="text-center sm:text-start text-3xl pb-6 text-SecondaryColor font-bold">Create Account</h1>
                 </div>
 
                 {/* Name */}
@@ -185,8 +185,8 @@ export default function App() {
 
                 <button
                     type="submit"
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-500 hover:bg-sky-400 hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    disabled={isLoading} // Disable the button when loading
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-sm font-bold text-white bg-SecondaryColor hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-SecondaryColor"x
+                    disabled={isLoading}
                 >
                     {isLoading ? (
                         <span className="loading loading-ring loading-md"></span>
@@ -194,7 +194,7 @@ export default function App() {
                         "Register"
                     )}
                 </button>
-                <p className="text-center">Already have account? <a href="/login" className="font-bold text-sky-500">Login Now</a></p>
+                <p className="text-center">Already have account? <Link to="/login" className="font-bold text-SecondaryColor">Login Now</Link></p>
             </form>
         </div>
     );

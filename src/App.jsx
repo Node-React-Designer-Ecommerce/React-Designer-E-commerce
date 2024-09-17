@@ -27,7 +27,7 @@ function App() {
     <div className='relative'>
       <AuthProvider>
         <BrowserRouter>
-          <Navbar className="sticky" />
+          <Navbar className="sticky top-0 z-50" />
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/products" element={<ProductsPage /> } />
