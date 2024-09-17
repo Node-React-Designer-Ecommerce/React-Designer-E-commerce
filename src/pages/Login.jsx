@@ -40,7 +40,7 @@ export default function Login() {
             console.log(res.data.data.token);
             console.log(res.data.data.role);
             login({ role: res.data.data.role }, res.data.data.token); // Set the user data and token in the context
-            navigate("/products");
+            navigate("/");
         } catch (error) {
             if (error.response?.data?.message === "Invalid email or password") {
                 setError("email", {
@@ -53,6 +53,10 @@ export default function Login() {
                 });
             } else {
                 toast.error("Login failed");
+                setError("password", {
+                    type: "manual",
+                    message: "Invalid email or password",
+                });
             }
         } finally {
             setIsLoading(false);
