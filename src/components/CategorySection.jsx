@@ -10,8 +10,9 @@ function CategorySection() {
             Problems trying to resolve the conflict between
           </p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+
           <div className="relative">
             <img src={men} alt="Men" className="w-full h-auto object-cover" />
             <div className="absolute bottom-4 left-4">
