@@ -1,9 +1,7 @@
-import {  useState } from "react";
-// import axios from 'axios';
+import axios from 'axios';
 import { Link } from "react-router-dom";
 import ArrowRight from "../icons/ArrowRight";
 import { useProducts } from "../hooks/Products";
-import men from "../images/men.jpg";
 
 export default function ProductsPage() {
     const { products } = useProducts();
@@ -62,7 +60,7 @@ export default function ProductsPage() {
                     {currentProducts.map(product =>
                         <div key={product._id} className="hover:border border-gray-300">
                             <div className="p-4">
-                                <img src={men} alt="product" className="h-96 w-full object-cover" />
+                                <img src="men.jpg" alt="product" className="h-96 w-full object-cover" />
                             </div>
                             <div className="flex flex-col items-center p-4 font-bold">
                                 <p className="text-center">{product.name}</p>
