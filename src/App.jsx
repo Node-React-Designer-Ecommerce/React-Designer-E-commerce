@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Components
 import Navbar from "./components/Navbar";
+import Footer from './components/Footer';
 
 //import pages
 
@@ -35,6 +36,7 @@ function App() {
             <Route path="/sign-up" element={<ProtectedRoute isAuth={false}><Registration /></ProtectedRoute>} />
             <Route path="/login" element={<ProtectedRoute isAuth={false}><Login /></ProtectedRoute>} />
           </Routes>
+          <Footer />
         </BrowserRouter>
       </AuthProvider>
 
