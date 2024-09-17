@@ -24,13 +24,13 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
 
-    <div className='m-2 relative'>
+    <div className='relative'>
       <AuthProvider>
         <BrowserRouter>
           <Navbar className="sticky" />
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/products" element={<ProtectedRoute><ProductsPage /></ProtectedRoute>} />
+            <Route path="/products" element={<ProductsPage />} />
             <Route path="/product-details/:id" element={<ProductDetails />} />
             <Route path="/sign-up" element={<ProtectedRoute isAuth={false}><Registration /></ProtectedRoute>} />
             <Route path="/login" element={<ProtectedRoute isAuth={false}><Login /></ProtectedRoute>} />

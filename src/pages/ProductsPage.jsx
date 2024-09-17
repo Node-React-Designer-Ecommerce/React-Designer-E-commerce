@@ -1,31 +1,25 @@
-import { useEffect, useState } from "react";
-import axios from 'axios';
+import {  useState } from "react";
+// import axios from 'axios';
 import { Link } from "react-router-dom";
 import ArrowRight from "../icons/ArrowRight";
+import { useProducts } from "../hooks/Products";
+import men from "../images/men.jpg";
 
 export default function ProductsPage() {
-    const [products, setProducts] = useState([]);
+    const { products } = useProducts();
+    console.log(products)
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 8;
 
-    useEffect(() => {
-        axios.get("https://fakestoreapi.com/products")
-            .then(res => {
-                setProducts(res.data)
-                console.log(res);
-            })
-            .catch(error => console.error("Error fetching data", error))
-    }, [])
-
     const handleSearch = (event) => {
-        console.log(event);
+        // console.log(event);
         setSearch(event.target.value.toLowerCase());
         setCurrentPage(1);
     };
 
     const filteredProducts = products.filter(product =>
-        product.title.toLowerCase().includes(search)
+        product.name.toLowerCase().includes(search)
     );
 
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -44,24 +38,9 @@ export default function ProductsPage() {
             setCurrentPage(currentPage - 1);
         }
     };
-
     return (
         <div className="w-full font-serif">
-            {/* <div className="relative w-full h-full">
-                <img src="/cover.jpg" alt="New Collection" className="w-full h-full object-cover" />
-                <div className="absolute top-1/4 left-10 text-white">
-                    <p className="text-lg uppercase">Summer 2020</p>
-                    <h1 className="text-6xl font-bold">New Collection</h1>
-                    <p className="mt-4 max-w-xs">
-                        We know how large objects will act, but things on a small scale.
-                    </p>
-                    <input type="text" placeholder="Search here .." className="input input-bordered rounded-3xl my-5 input-md w-full max-w-xs text-black" onChange={handleSearch} />
-                    <button className="bg-green-600 text-white px-4 py-2 rounded-3xl ms-7">
-                        Shop Now
-                    </button>
-                </div>
-            </div> */}
-            <div className="relative w-full h-screen bg-blue-500">
+            <div className="relative w-full h-screen ">
                 <img src="/cover.jpg" alt="New Collection" className="w-full h-full object-cover"/>
                 <div className="absolute top-1/4 left-5 right-5 md:left-10 text-white p-4">
                     <p className="text-sm md:text-lg uppercase">Summer 2020</p>
@@ -81,15 +60,15 @@ export default function ProductsPage() {
             <div className="flex justify-center ">
                 <div className="grid grid-cols-1 lg:grid lg:grid-cols-4 md:grid md:grid-cols-2 gap-3 w-10/12">
                     {currentProducts.map(product =>
-                        <div key={product.id} className="hover:border border-gray-300">
+                        <div key={product._id} className="hover:border border-gray-300">
                             <div className="p-4">
-                                <img src={product.image} alt="product" className="h-96 w-full object-cover" />
+                                <img src={men} alt="product" className="h-96 w-full object-cover" />
                             </div>
                             <div className="flex flex-col items-center p-4 font-bold">
-                                <p className="text-center">{product.title}</p>
-                                <p className="text-gray-400">{product.category}</p>
+                                <p className="text-center">{product.name}</p>
+                                <p className="text-gray-400">{product.description}</p>
                                 <p className="text-green-800">${product.price}</p>
-                                <Link to={`/product-details/${product.id}`} className="hover:underline flex">See More <ArrowRight /></Link>
+                                <Link to={`/product-details/${product._id}`} className="hover:underline flex">See More <ArrowRight /></Link>
                             </div>
                         </div>
                     )}

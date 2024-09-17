@@ -1,28 +1,36 @@
-// import { useEffect, useState, createContext, useContext } from "react";
-// import axios from 'axios';
-// import PropTypes from "prop-types";
+import { useEffect, useState, createContext, useContext } from "react";
+import axios from 'axios';
+import PropTypes from "prop-types";
 
-// const ProductContext = createContext();
+const ProductContext = createContext();
 
-// export default function ProductsProvider({ children }) {
-//     const [products, setProducts] = useState([]);
+export default function ProductsProvider({ children }) {
+    const [products, setProducts] = useState([]);
+    const [product, setProduct] = useState(null);
 
-//     useEffect(() => {
+    useEffect(() => {
 
-//         axios.get(`https://api.escuelajs.co/api/v1/products`)
-//             .then(res => setProducts(res.data))
-//             .catch(error => console.error("Error fetching data", error))
-//     }, [])
-//     return (
-//         <ProductContext.Provider value={{ products }}>
-//             {children}
-//         </ProductContext.Provider>
-//     )
-// }
-// ProductContext.propTypes = {
-//     children: PropTypes.node.isRequired,
-// }
+        axios.get(`https://react-node-designer.glitch.me/api/v1/products`)
+            .then(res => setProducts(res.data.data.products))
+            .catch(error => console.error("Error fetching data", error))
+    }, [])
 
-// export const useProducts = () => {
-//     return useContext(ProductContext);
-// }
+    const getProductById = (id) => {
+        axios.get(`https://react-node-designer.glitch.me/api/v1/products/${id}`)
+            .then(res => setProduct(res.data.data.products))
+            .catch(error => console.error("Error fetching data by ID:", error));
+    };
+
+    return (
+        <ProductContext.Provider value={{ products, getProductById, product }}>
+            {children}
+        </ProductContext.Provider>
+    )
+}
+ProductsProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+export const useProducts = () => {
+    return useContext(ProductContext);
+}

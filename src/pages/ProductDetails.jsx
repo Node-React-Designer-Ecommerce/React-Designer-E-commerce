@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useProducts } from "../hooks/Products";
 import { useParams } from "react-router";
-import axios from "axios";
 
 export default function ProductDetails() {
-    const [product, setProduct] = useState(null);
+    const { getProductById, product } = useProducts();
     const { id } = useParams();
 
+
     useEffect(() => {
-        axios.get(`https://fakestoreapi.com/products/${id}`)
-            .then(res => {
-                setProduct(res.data);
-                console.log(res.data);
-            })
-            .catch(err => console.error("Error Fetching Data", err));
-    }, [id]);
+        getProductById(id);
+    }, [id, getProductById]);
 
     if (!product) return <p>Loading...</p>;
 
@@ -41,11 +37,10 @@ export default function ProductDetails() {
                     <p className="text-gray-400 py-3">{product.category}</p>
                     <p className="text-green-800 text-xl">${product.price}</p>
                     <p className="py-4">{product.description}</p>
-
                     <div className="dropdown">
                         <div className="flex gap-5">
-                        <label className="font-bold">Size</label>
-                        <div tabIndex={0} role="button" className="border border-gray-300 py-1 px-11 rounded">Please Select</div>
+                            <label className="font-bold">Size</label>
+                            <div tabIndex={0} role="button" className="border border-gray-300 py-1 px-11 rounded">Please Select</div>
                         </div>
                         <ul tabIndex={0} className="dropdown-content menu rounded-box z-[1] w-52 p-2 shadow">
                             <li><a>Large</a></li>
@@ -54,7 +49,7 @@ export default function ProductDetails() {
                         </ul>
                     </div>
                     <div className="float-right">
-                    <button className="bg-black  text-white py-1 px-14 hover:bg-white hover:text-black hover:border hover:border-black transition duration-150 ease-out hover:ease-in">ADD TO CART</button>
+                        <button className="bg-black  text-white py-1 px-14 hover:bg-white hover:text-black hover:border hover:border-black transition duration-150 ease-out hover:ease-in">ADD TO CART</button>
                     </div>
                 </div>
             </div>
