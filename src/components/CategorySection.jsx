@@ -1,6 +1,6 @@
-import KidsCategorySection from "../Categories/KidsCategorySection";
-import MenCategorySection from "../Categories/MenCategorySection";
-import WomanCatregorySection from "../Categories/WomanCatregorySection";
+import KidsCategorySection from "../components/Categories/KidsCategorySection";
+import MenCategorySection from "../components/Categories/MenCategorySection";
+import WomanCatregorySection from "../components/Categories/WomanCatregorySection";
 function CategorySection() {
   return (
     <section className="py-10 font-serif">

@@ -5,10 +5,10 @@ import JwellIcon from "../icons/JwellIcon";
 import LikeIcon from "../icons/LikeIcon";
 
 // text related to icons
-import TextCarIcon from "../Text Icon/TextCarIcon";
-import TextReturnIcon from "../Text Icon/TextReturnIcon";
-import TextJwellIcon from "../Text Icon/TextJwellIcon";
-import TextLikeIcon from "../Text Icon/TextLikeIcon";
+import TextCarIcon from "../components/Text Icon/TextCarIcon";
+import TextReturnIcon from "../components/Text Icon/TextReturnIcon";
+import TextJwellIcon from "../components/Text Icon/TextJwellIcon";
+import TextLikeIcon from "../components/Text Icon/TextLikeIcon";
 
 function MiniSection() {
   return (
@@ -21,6 +21,8 @@ function MiniSection() {
           <TextCarIcon></TextCarIcon>
         </div>
       </div>
+
+      <TextReturnIcon></TextReturnIcon>
 
       <div className="flex items-center w-full md:w-auto">
         <ReturnIcon></ReturnIcon>
