@@ -44,7 +44,6 @@ export default function Delivery() {
                     <li>Free returns via USPS Dropoff Service</li>
                 </ul>
             </div>
-                <p className="uppercase text-gray-400">free shipping on orders 100 dollar</p>
         </div>
 
     )
