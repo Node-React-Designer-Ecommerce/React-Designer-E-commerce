@@ -8,6 +8,7 @@ import Rating from "../components/Rating";
 import ArrowLeft from './../icons/ArrowLeft';
 import XIcon from "../icons/XIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
+import RadioComponent from "../components/RadioComponent";
 
 export default function ProductDetails() {
     const { getProductById, product, favoriteProducts, toggleFavorite } = useProducts();
@@ -33,33 +34,29 @@ export default function ProductDetails() {
                     <button onClick={() => window.history.back()} className="bg-white p-2 top-3 start-3 absolute rounded-3xl">
                         <ArrowLeft />
                     </button>
-                    <img src="/men.jpg" alt={product.name} className=" w-full h-full rounded-xl object-fit" />
+                    <img src={product.image} alt={product.name} className=" w-full h-full rounded-xl object-fit" />
                 </div>
                 <div className="w-full p-5">
                     <div className="flex justify-between">
-                        <h1 className="text-3xl font-bold ">{product.name}</h1>
-                        <div className="bg-gray-100 rounded-3xl w-11 h-11 flex justify-center items-center" onClick={() => toggleFavorite(product._id)}>
+                        <h1 className="text-3xl font-bold uppercase ">{product.name}</h1>
+                        <div className="bg-gray-100 rounded-3xl w-12 h-12 flex justify-center items-center" onClick={() => toggleFavorite(product._id)}>
                             {favoriteProducts[product._id] ? <HeardFilledIcon /> : <HeartIcon />}   </div>
                     </div>
                     <Rating />
                     <div className="py-3 flex justify-between">
                         <p className="text-black "><span className="font-bold">Only In Stock:</span> {product.quantity}</p>
-                        <div className="dropdown">
-                            <div className="flex gap-5">
-                                <label className="font-bold">Size</label>
-                                <div tabIndex={0} role="button" className="border border-gray-300 py-1 px-11 rounded-xl">Please Select</div>
-                            </div>
-                            <ul tabIndex={0} className="dropdown-content menu rounded-box z-[1] w-52 p-2 shadow">
-                                <li><a>Small</a></li>
-                                <li><a>Meduim</a></li>
-                                <li><a>Large</a></li>
-                            </ul>
-                        </div>
+                   
                     </div>
-                    <p className="text-green-800 text-xl">${product.price}</p>
+                    <p className="text-green-800 text-xl font-bold">${product.price}</p>
                     <p className="py-4">{product.description}</p>
-                    <div className="">
-                        <button className="font-bold underline" onClick={() => document.getElementById('my_modal_5').showModal()}>Size Charts</button>
+                    <div>
+                        <div className="flex justify-between">
+                            <div className="flex gap-3">
+                            <button className="font-bold underline" onClick={() => document.getElementById('my_modal_5').showModal()}>Size Charts</button>
+                            <p className="text-[13px] flex items-center text-gray-500">Check your size from here..</p>
+                            </div>
+                            <RadioComponent/>
+                        </div>
                         <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                             <div className="modal-box">
                                 <form method="dialog">
@@ -72,14 +69,13 @@ export default function ProductDetails() {
                                 <div className="modal-action justify-center">
                                     <form method="dialog">
                                         <SizeCharts />
-
                                     </form>
                                 </div>
                             </div>
                         </dialog>
                         <Delivery />
                         <div className="flex justify-center lg:flex lg:justify-end p-5">
-                            <button className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-xl text-white py-1 px-14 ">ADD TO CART</button>
+                            <button className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-2xl text-white py-2 px-14 ">ADD TO CART</button>
                         </div>
                     </div>
                 </div>
