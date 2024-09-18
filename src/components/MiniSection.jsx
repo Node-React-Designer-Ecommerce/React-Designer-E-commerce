@@ -14,16 +14,14 @@ function MiniSection() {
   return (
     <div className="flex  font-serif flex-wrap justify-between items-center w-full py-10 space-y-4 md:space-y-0">
       <div className="flex items-center w-full md:w-auto">
-        <div className="bg-SecondaryColor w-16 h-16  rounded-r-3xl relative">
+        <div className="bg-SecondaryColor text-white w-16 h-16  rounded-r-3xl relative">
           <CarIcon></CarIcon>
         </div>
         <div className="pl-5">
           <TextCarIcon></TextCarIcon>
         </div>
       </div>
-
-      <TextReturnIcon></TextReturnIcon>
-
+      
       <div className="flex items-center w-full md:w-auto">
         <ReturnIcon></ReturnIcon>
         <div className="pl-4">

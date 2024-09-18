@@ -1,13 +1,16 @@
-import {  FaGem } from "react-icons/fa";
+import { FaGem } from "react-icons/fa";
 
 function JwellIcon() {
   return (
-  <>
-  <div className="bg-SecondaryColor w-16 h-16 p-4 rounded-r-3xl relative">
-          <FaGem className="absolute text-4xl top-2 right-0.5 -left-.5" />
-        </div>
-  </>
-  )
+    <>
+      <div className="bg-SecondaryColor  text-white w-16 h-16 p-4 rounded-r-3xl ">
+        <FaGem
+          className=" text-white text-[30px] flex justify-center items-center  hover:animate-bounce 
+    transition-transform transform hover:scale-150 duration-300 ease-in-out"
+        />
+      </div>
+    </>
+  );
 }
 
-export default JwellIcon
+export default JwellIcon;
