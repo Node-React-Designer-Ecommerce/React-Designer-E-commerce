@@ -1,3 +1,5 @@
+import CardOfDesigner from "../components/CardOfDesigner";
+
 export default function CustomizePage() {
   return (
     <div className="mb-44">
@@ -95,6 +97,8 @@ export default function CustomizePage() {
           </div>
         </div>
       </div>
+      {/* cards */}
+      <CardOfDesigner />
     </div>
   );
 }
