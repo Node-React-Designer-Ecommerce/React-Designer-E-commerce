@@ -8,19 +8,19 @@ export default function CardOfDesigner() {
       id: 1,
       title: "Short Sleeve T-Shirt",
       image: "T-SHIRT.png",
-      price: "150$",
+      price: "150",
     },
     {
       id: 2,
       title: "Hoodie",
       image: "hoodie.webp",
-      price: "300$",
+      price: "300",
     },
     {
       id: 3,
       title: "Long Sleeve T-Shirt",
       image: "sleevet-shirt.jpg",
-      price: "200$",
+      price: "200",
     },
   ];
 
@@ -40,7 +40,7 @@ export default function CardOfDesigner() {
                 <div className="card-body items-center text-center">
                   <h2 className="card-title uppercase">{product.title}</h2>
 
-                  <p className="text-green-800">{product.price}</p>
+                  <p className="text-green-800">EGP {product.price}</p>
                   <Link
                     to={`/designer/${product.id}`}
                     className="flex justify-between  w-44 bg-SecondaryColor text-white rounded cursor-pointer hover:bg-gray-700 transition duration-300 ease-in-out text-center p-2 text-center "

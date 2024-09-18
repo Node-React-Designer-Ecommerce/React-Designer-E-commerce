@@ -17,7 +17,7 @@ export default function Navbar() {
     <div className="navbar bg-base-100 sticky top-0 z-50 border bottom-1">
       <div className="flex-1">
         <Link to="/" className="">
-          <img src="/drying-clothes-3d-icon-png.webp" width={50} alt="logo" />
+          <img src="/logo.jpeg" width={80} alt="logo" />
         </Link>
       </div>
       <div className="flex-none">

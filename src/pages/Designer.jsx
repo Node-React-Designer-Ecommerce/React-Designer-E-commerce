@@ -1,6 +1,10 @@
 import { useRef, useEffect, useState } from "react";
 import { fabric } from "fabric";
 import { useParams } from "react-router";
+import RadioComponent from "../components/RadioComponent";
+import SizeCharts from "../components/SizeCharts";
+import XIcon from "../icons/XIcon";
+import ArrowLeft from "../icons/ArrowLeft";
 
 export default function Designer() {
   const { id } = useParams();
@@ -22,14 +26,14 @@ export default function Designer() {
       id: 1,
       title: "Short Sleeve T-Shirt",
       image: "T-SHIRT.png",
-      price: "150$",
+      price: "150",
     },
-    { id: 2, title: "Hoodie", image: "hoodie.webp", price: "300$" },
+    { id: 2, title: "Hoodie", image: "hoodie.webp", price: "300" },
     {
       id: 3,
       title: "Long Sleeve T-Shirt",
       image: "sleevet-shirt.jpg",
-      price: "200$",
+      price: "200",
     },
   ];
 
@@ -90,8 +94,10 @@ export default function Designer() {
     // Cleanup when the component unmounts
     return () => {
       fabricCanvas.current.dispose(); // Dispose of the Fabric.js canvas
-      document.getElementById("addTextBtn");
-      //.removeEventListener("click", addText);
+      const addTextBtn = document.getElementById("addTextBtn");
+      if (addTextBtn) {
+        addTextBtn.removeEventListener("click", addText);
+      }
     };
   }, [id, textProps]); // Only re-run this effect if textProps changes
 
@@ -134,58 +140,145 @@ export default function Designer() {
       };
     };
   };
+
+  const removeSelectedObject = () => {
+    const canvas = fabricCanvas.current;
+    const activeObject = canvas.getActiveObject(); // Get the selected object
+
+    if (activeObject && activeObject.type === "image") {
+      // Check if the selected object is an image
+      canvas.remove(activeObject); // Remove the selected object
+      canvas.renderAll(); // Re-render the canvas to reflect the changes
+      console.log("Image removed"); // Debugging
+    } else {
+      console.warn("No image is selected to remove");
+    }
+  };
   return (
     <div>
-      <div className="card-actions justify-start">
-        <img
-          src="/public/icon2.png"
-          alt="icon2"
-          className="ms-12 mt-20  border border-indigo-600 border-SecondaryColor rounded-lg p-5 w-32 h-32 "
-        />
+      <div className="flex justify-between ">
+        <div className="mt-20 ms-10   ">
+          <button
+            style={{ borderColor: "#4e7f62" }}
+            onClick={() => window.history.back()}
+            className="bg-white p-2 border border-indigo-600  rounded-lg "
+          >
+            <ArrowLeft />
+          </button>
+        </div>
+        <div className="mb-5 font-bold text-4xl text-black text-center mt-10 ">
+          Design your piece
+          <br />
+          <div className="text-xl font-normal text-gray-500 w-96 mt-4">
+            Use our intuitive design tools to personalize your T-shirt with text
+            and images.
+          </div>
+        </div>
+
+        <div className="card-actions justify-start">
+          <img
+            src="/public/icon2.png"
+            alt="icon2"
+            className=" mt-6 me-10  border border-indigo-600  rounded-lg p-5 w-32 h-32 "
+            style={{ borderColor: "#4e7f62" }}
+          />
+        </div>
       </div>
 
       <div className="mt-10 mb-44 flex flex-row justify-between">
         {/**Tools */}
 
         <div
-          style={{ width: "650px", height: "500px" }}
-          className="ms-12 mt-5 flex flex-col border border-indigo-600 border-SecondaryColor rounded-lg p-5  "
+          style={{ width: "650px", height: "500px", borderColor: "#4e7f62" }}
+          className="ms-12 mt-5 flex flex-col border border-indigo-600  rounded-lg p-5  "
         >
           <div>
             <div className="mb-5 font-bold text-3xl text-black">{title}</div>
             <div className="mb-5 font-bold text-3xl text-green-800">
-              {price}
+              EGP {price}
             </div>
           </div>
-          {/* Image Upload */}
-          <div>
-            <input
-              id="chooseImg"
-              className="hidden"
-              type="file"
-              accept="image/*"
-              onChange={handleAddImage} // Handle the image upload
-            />
-            {/* Custom Button */}
-            <label
-              htmlFor="chooseImg" // Triggers the hidden file input
-              className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 border-SecondaryColor text-center"
-            >
-              Choose Image
-            </label>
-            <span className="mb-5 ms-5 text-2xl text-green-800">50$</span>
-          </div>
+          <div className="flex flex-row justify-start mb-5">
+            {/* Image Upload */}
+            <div>
+              <input
+                id="chooseImg"
+                className="hidden"
+                type="file"
+                accept="image/*"
+                onChange={handleAddImage} // Handle the image upload
+              />
+              {/* Custom Button */}
+              <label
+                style={{ borderColor: "#4e7f62" }}
+                htmlFor="chooseImg" // Triggers the hidden file input
+                className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600  text-center"
+              >
+                Choose Image
+              </label>
+              <span className="mb-5 ms-5 text-2xl text-green-800">EGP 100</span>
+            </div>
 
-          {/* Button to Add Text */}
+            {/* Button to Add Text */}
+            <div>
+              <button
+                style={{ borderColor: "#4e7f62" }}
+                className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600  ms-10 "
+                id="addTextBtn"
+              >
+                Add Text
+              </button>
+              <span className="mb-5 ms-5 text-2xl text-green-800">EGP 50</span>
+            </div>
+          </div>
           <div>
             <button
-              className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 border-SecondaryColor "
-              id="addTextBtn"
+              style={{ borderColor: "#4e7f62" }}
+              className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 mb-5"
+              onClick={removeSelectedObject} // Handle image removal
             >
-              Add Text
+              Remove Image
             </button>
-            <span className="mb-5 ms-5 text-2xl text-green-800">30$</span>
           </div>
+          {/*chart */}
+
+          <div className="flex justify-between mb-5">
+            <div className="flex gap-3">
+              <button
+                className="font-bold underline"
+                onClick={() =>
+                  document.getElementById("my_modal_5").showModal()
+                }
+              >
+                Size Charts
+              </button>
+              <p className="text-[13px] flex items-center text-gray-500">
+                Check your size from here..
+              </p>
+            </div>
+            <RadioComponent />
+          </div>
+          <dialog
+            id="my_modal_5"
+            className="modal modal-bottom sm:modal-middle"
+          >
+            <div className="modal-box">
+              <form method="dialog">
+                <div className="p-3">
+                  <button className="float-right rounded-full">
+                    <XIcon />
+                  </button>
+                </div>
+              </form>
+              <h3 className="font-bold text-2xl ">Size Charts</h3>
+              <p className="py-4">Choose your size carfully ..</p>
+              <div className="modal-action justify-center">
+                <form method="dialog">
+                  <SizeCharts />
+                </form>
+              </div>
+            </div>
+          </dialog>
 
           {/* Color Picker for Text */}
           <input
@@ -238,8 +331,9 @@ export default function Designer() {
             width: "650px",
             height: "800px",
             backgroundImage: `url(${backgroundImage})`,
+            borderColor: "#4e7f62",
           }}
-          className="flex flex-col justify-center  items-center  bg-center bg-contain bg-no-repeat bg-white relative me-5 rounded-lg border border-indigo-600 border-SecondaryColor rounded-lg p-5"
+          className="flex flex-col justify-center  items-center  bg-center bg-contain bg-no-repeat bg-white relative me-10 rounded-lg border border-indigo-600  rounded-lg p-5"
         >
           {/* Fabric.js Canvas */}
           <canvas
