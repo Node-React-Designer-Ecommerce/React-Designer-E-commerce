@@ -16,6 +16,7 @@ import ProductDetails from "./pages/ProductDetails";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CustomizePage from "./pages/CustomizePage";
+import Designer from "./pages/Designer";
 // import ProductsProvider from './hooks/Products';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/customize" element={<CustomizePage />} />
+            <Route path="/Designer/:id" element={<Designer />} />
             <Route path="/product-details/:id" element={<ProductDetails />} />
             <Route
               path="/sign-up"

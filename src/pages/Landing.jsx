@@ -17,12 +17,13 @@ function Landing() {
       <CategorySection></CategorySection>
 
       {/*ProductItem- section4 */}
-      <section className="py-10 font-serif ">
+      <section className="py-10 ">
         <div className="text-center mb-6">
           <p className="text-gray-500">FEATURED PRODUCTS</p>
-          <h2 className="text-2xl font-bold">EDITORS PICK</h2>
-          <p className="text-gray-500">
-            Problems trying to resolve the conflict between
+          <h2 className="text-2xl font-bold">BEST SELLER</h2>
+          <p className="text-gray-500 text-2xl">
+            Discover our best-selling clothing pieces <br /> that combine style and
+            quality to complete your perfect look
           </p>
         </div>
       </section>
