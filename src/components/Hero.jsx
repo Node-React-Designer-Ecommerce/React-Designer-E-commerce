@@ -1,12 +1,22 @@
-import HeroSlider1 from "../components/HerosSlider/HeroSlider1";
-import HeroSlider2 from "../components/HerosSlider/HeroSlider2";
-import HeroSlider3 from "../components/HerosSlider/HeroSlider3";
 function Hero() {
   return (
-    <div className="carousel font-serif w-full h-screen">
-      <HeroSlider1></HeroSlider1>
-      <HeroSlider2></HeroSlider2>
-      <HeroSlider3></HeroSlider3>
+    <div className=" font-serif w-full h-screen">
+      <div className="relative w-full h-screen">
+        <img
+          src="/coverproduct.jpg"
+          alt="New Collection"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute top-1/4 left-5 right-5 md:left-10 text-neutral-950 p-4">
+          <h1 className="text-3xl md:text-6xl font-bold">
+            Show The World Your <br />
+            Own Unique Style
+          </h1>
+          <button className="bg-SecondaryColor text-white px-3 mt-9   md:px-4 md:py-2  ms-7">
+            Shop Now
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
