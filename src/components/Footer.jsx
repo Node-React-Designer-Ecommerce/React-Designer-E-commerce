@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="bg-gray-100 text-center sm:text-start  text-gray-700 p-10">
+    <footer className="bg-gray-100  text-gray-700 p-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
         <div>
           <h2 className="text-xl font-bold text-gray-900">صـــــــمم</h2>
@@ -106,7 +106,9 @@ function Footer() {
             <button className="btn rounded-none bg-SecondaryColor text-white hover:text-black w-full">
               Subscribe
             </button>
-
+            <p className="text-xs text-gray-500 mt-2">
+              Lorem ipsum dolor sit amet
+            </p>
           </form>
         </div>
       </div>
