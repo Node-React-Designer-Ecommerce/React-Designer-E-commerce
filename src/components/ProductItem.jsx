@@ -1,58 +1,55 @@
-import { useState, useEffect } from "react";
+import { useProducts } from "../context/ProductsContext";
+import ArrowRight from "./../icons/ArrowRight";
+import { Link } from "react-router-dom";
+import Skelton from "./Skelton";
+import HeardFilledIcon from './../icons/HeardFilledIcon';
+import HeartIcon from './../icons/HeartIcon';
+import ShoppingBag from './../icons/ShoppingBag';
 
 function ProductItem() {
-  const [products, setProduct] = useState(null); // Initially, no product data
-  const [loading, setLoading] = useState(true); // Set initial loading state to true
-  const [error, setError] = useState(null); // Initially, no error
+  const { products, loading ,toggleFavorite, favoriteProducts} = useProducts();
 
-  useEffect(() => {
-    // Fetch data from the API
-    const fetchProduct = async () => {
-      try {
-        const response = await fetch("https://react-node-designer.glitch.me/api/v1/products");
-        const data = await response.json();
-        
-        console.log("Data fetched from API:", data.data.products); 
-        const products = data.data.products
-        console.log(products)
-        if (products && products.length > 0) {
-          setProduct(products); 
-        } else {
-          setError("No products available.");
-        }
-
-        setLoading(false); // Stop loading after data is fetched
-      } catch (err) {
-        console.error("Error fetching product data:", err); // Log the error if any
-        setError(err.message); // Catch any errors and store the message
-        setLoading(false); // Stop loading even if there's an error
-      }
-    };
-
-    fetchProduct();
-  }, []);
-
-  // Conditional rendering based on state
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) {
+    return (
+      <div className="flex justify-center">
+        <div className="grid grid-cols-1 lg:grid lg:grid-cols-4 md:grid md:grid-cols-2 gap-5">
+          {Array.from({ length: products.length || 8 }).map((_, index) => (
+            <div key={index} className="card bg-base-100 w-80 shadow-xl">
+              <Skelton />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className=" font-serif flex flex-row gap-8"> 
-      {products.map((product) => (
-        <div key={product._id} className="border font-serif flex flex-col gap-5">
-          <div className="w-full">
-            <img className="w-full" src="men.jpg" alt={product.name} />
-          </div>
-          <div className="text-center">
-            <h2 className="text-xl font-bold">{product.name}</h2>
-            <p className="text-sm">English Department</p>
-            <p className="text-slate-600">
-              {product.price}$
-              <span className="text-red-950 pl-3 line-through font-bold">650$</span>
-            </p>
-          </div>
+    <div className="font-serif flex justify-center">
+      <div className="flex justify-center">
+        <div className="grid grid-cols-1 xl:grid-cols-3  md:grid-cols-2 gap-5">
+          {products.map((product) => (
+            <div key={product._id} className="card bg-base-100 w-80 shadow-xl">
+            <figure className="px-5 relative pt-10">
+                <div
+                    className="bg-white rounded-3xl w-11 absolute top-12 start-7 h-11 flex justify-center items-center cursor-pointer"
+                    onClick={() => toggleFavorite(product._id)}
+                >
+                    {favoriteProducts[product._id] ? <HeardFilledIcon /> : <HeartIcon />}
+                </div>
+                <img src="/men.jpg" alt="Shoes" className="rounded-xl" /></figure>
+            <div className="card-body items-center text-center">
+                <h2 className="card-title uppercase">{product.name}</h2>
+                <p>{product.description}</p>
+                <p className="text-green-800">${product.price}</p>
+                <div className="flex justify-between pt-4 w-full">
+                    <Link to={`/product-details/${product._id}`} className="flex items-center">See More <ArrowRight /></Link>
+                    <Link className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-3xl w-11 h-11 flex justify-center items-center cursor-pointer"><ShoppingBag /></Link>
+                </div>
+            </div>
         </div>
-      ))}
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
