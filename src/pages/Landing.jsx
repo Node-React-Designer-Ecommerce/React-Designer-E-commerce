@@ -3,7 +3,6 @@ import Hero from "../components/Hero";
 import MiniSection from "../components/MiniSection";
 import CategorySection from "../components/CategorySection";
 import Slider from "../components/Slider";
-import LandingProductItem from "../components/LandingProductItem";
 
 function Landing() {
   return (
@@ -29,7 +28,7 @@ function Landing() {
         </div>
       </section>
 
-      <LandingProductItem className="h-72"></LandingProductItem>
+      <ProductItem className="h-72"></ProductItem>
 
       {/* slider section5 */}
       <Slider></Slider>
