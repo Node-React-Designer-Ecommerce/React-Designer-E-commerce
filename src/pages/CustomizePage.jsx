@@ -7,7 +7,7 @@ export default function CustomizePage() {
         <div className="bg-SecondaryColor flex justify-center items-center">
           <img
             className="w-60 h-80 mt-20 mx-auto"
-            src="girl.png"
+            src="/girl.png"
             alt="men t-shirt"
           />
         </div>
@@ -47,7 +47,7 @@ export default function CustomizePage() {
                 </p>
                 <div className="card-actions justify-end">
                   <img
-                    src="icon1.png"
+                    src="/icon1.png"
                     alt="icon1"
                     className="w-8 sm:w-12 md:w-16"
                   />
@@ -67,7 +67,7 @@ export default function CustomizePage() {
                 </p>
                 <div className="card-actions justify-end">
                   <img
-                    src="icon2.png"
+                    src="/icon2.png"
                     alt="icon2"
                     className="w-8 sm:w-12 md:w-16"
                   />
@@ -87,7 +87,7 @@ export default function CustomizePage() {
                 </p>
                 <div className="card-actions justify-end">
                   <img
-                    src="icon3.png"
+                    src="/icon3.png"
                     alt="icon3"
                     className="w-8 sm:w-12 md:w-16"
                   />
