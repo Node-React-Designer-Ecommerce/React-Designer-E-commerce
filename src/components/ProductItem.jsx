@@ -24,7 +24,7 @@ function ProductItem() {
   }
 
   return (
-    <div className="font-serif flex justify-center">
+    <div className="flex justify-center">
       <div className="flex justify-center">
         <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-5">
           {products.slice(0, 8).map((product) => (

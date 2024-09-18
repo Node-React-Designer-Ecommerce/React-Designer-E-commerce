@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="bg-gray-100  font-serif text-gray-700 p-10">
+    <footer className="bg-gray-100  text-gray-700 p-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
         <div>
           <h2 className="text-xl font-bold text-gray-900">صـــــــمم</h2>

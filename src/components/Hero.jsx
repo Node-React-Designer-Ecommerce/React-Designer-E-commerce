@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Hero() {
   return (
-    <div className=" font-serif w-full h-screen">
+    <div className=" w-full h-screen">
       <div className="relative w-full h-screen">
         <img
           src="/coverproduct.jpg"
