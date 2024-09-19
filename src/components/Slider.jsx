@@ -8,14 +8,14 @@ function Slider() {
     {
       backgroundColor: "bg-black",
       image: "/slider2.jpg",
-      text: "Vita Classic Product",
+      text: "Custom Your Hoodie ",
       price: "$50.99",
       buttonText: "Add to Cart",
     },
     {
       backgroundColor: "bg-custom-bg",
-      image: "/couples3.jpg",
-      text: "Custom Hoodie  ",
+      image: "/couples1.jpg",
+      text: "Custom Couples T-shirt  ",
       price: "$99.99",
       buttonText: "Buy Now",
     },
@@ -54,7 +54,7 @@ function Slider() {
                 <img
                   src={slide.image}
                   alt={slide.text}
-                  className="w-3/4 h-3/4  object-cover rounded-2xl"
+                  className="w-3/4 h-4/4  object-cover rounded-2xl"
                 />
               </div>
             </div>

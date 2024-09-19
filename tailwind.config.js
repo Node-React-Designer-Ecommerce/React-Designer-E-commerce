@@ -8,7 +8,7 @@ export default {
     extend: {
       colors: {
         'SecondaryColor': '#4e7f62',
-        'custom-bg': 'rgb(150 172 175)',
+        'custom-bg': 'rgb(104 42 34)',
       }
     }
   },

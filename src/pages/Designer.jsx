@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState } from "react";
-
 import { fabric } from "fabric";
 import { useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
@@ -22,6 +21,7 @@ export default function Designer() {
   const [backgroundImage, setBackgroundImage] = useState(""); // State for background image
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+
   const products = [
     {
       id: 1,
@@ -155,53 +155,24 @@ export default function Designer() {
       console.warn("No image is selected to remove");
     }
   };
+
   return (
-    <div>
-      <div className="flex justify-between ">
-        <div className="mt-20 ms-10   ">
-          <button
-            style={{ borderColor: "#4e7f62" }}
-            onClick={() => window.history.back()}
-            className="bg-white p-2 border border-indigo-600  rounded-lg "
-          >
-            <ArrowLeft />
-          </button>
-        </div>
-        <div className="mb-5 font-bold text-4xl text-black text-center mt-10 ">
-          Design your piece
-          <br />
-          <div className="text-xl font-normal text-gray-500 w-96 mt-4">
-            Use our intuitive design tools to personalize your T-shirt with text
-            and images.
-          </div>
-        </div>
-
-        <div className="card-actions justify-start">
-          <img
-            src="/public/icon2.png"
-            alt="icon2"
-            className=" mt-6 me-10  border border-indigo-600  rounded-lg p-5 w-32 h-32 "
-            style={{ borderColor: "#4e7f62" }}
-          />
-        </div>
-      </div>
-
-      <div className="mt-10 mb-44 flex flex-row justify-between">
-        {/**Tools */}
-
+    <div className="flex flex-col lg:flex-row">
+      {/* Sidebar */}
+      <div className="w-full lg:w-2/4 p-4 bg-base-200 text-base-content">
         <div
-          style={{ width: "650px", height: "500px", borderColor: "#4e7f62" }}
-          className="ms-12 mt-5 flex flex-col border border-indigo-600  rounded-lg p-5  "
+          style={{ width: "100%", height: "100%", borderColor: "#4e7f62" }}
+          className="flex flex-col border border-indigo-600 rounded-lg p-5"
         >
-          <div>
+          <div className="flex justify-between">
             <div className="mb-5 font-bold text-3xl text-black">{title}</div>
             <div className="mb-5 font-bold text-3xl text-green-800">
               EGP {price}
             </div>
           </div>
-          <div className="flex flex-row justify-start mb-5">
+          <div className="flex flex-col justify-center mb-5">
             {/* Image Upload */}
-            <div>
+            <div className="flex justify-between items-center">
               <input
                 id="chooseImg"
                 className="hidden"
@@ -209,27 +180,36 @@ export default function Designer() {
                 accept="image/*"
                 onChange={handleAddImage} // Handle the image upload
               />
+
               {/* Custom Button */}
               <label
                 style={{ borderColor: "#4e7f62" }}
                 htmlFor="chooseImg" // Triggers the hidden file input
-                className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600  text-center"
+                className=" bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 text-center"
               >
                 Choose Image
               </label>
-              <span className="mb-5 ms-5 text-2xl text-green-800">EGP 100</span>
+
+              <button
+                style={{ borderColor: "#4e7f62" }}
+                className="btn btn-sm btn-error hover:bg-red-200 transition duration-300 ease-in-out"
+                onClick={removeSelectedObject} // Handle image removal
+              >
+                X
+              </button>
+              <span className=" text-2xl text-green-800">EGP 100</span>
             </div>
 
             {/* Button to Add Text */}
-            <div>
+            <div className="flex justify-between items-center">
               <button
                 style={{ borderColor: "#4e7f62" }}
-                className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600  ms-10 "
+                className=" bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 "
                 id="addTextBtn"
               >
                 Add Text
               </button>
-              <span className="mb-5 ms-5 text-2xl text-green-800">EGP 50</span>
+              <span className=" text-2xl text-green-800">EGP 50</span>
             </div>
           </div>
           <div>
@@ -243,7 +223,7 @@ export default function Designer() {
           </div>
           {/*chart */}
 
-          <div className="flex justify-between mb-5">
+          <div className="flex flex-col justify-between mb-5">
             <div className="flex gap-3">
               <button
                 className="font-bold underline"
@@ -251,11 +231,8 @@ export default function Designer() {
                   document.getElementById("my_modal_5").showModal()
                 }
               >
-                Size Charts
+                Sizes table
               </button>
-              <p className="text-[13px] flex items-center text-gray-500">
-                Check your size from here..
-              </p>
             </div>
             <RadioComponent />
           </div>
@@ -271,8 +248,8 @@ export default function Designer() {
                   </button>
                 </div>
               </form>
-              <h3 className="font-bold text-2xl ">Size Charts</h3>
-              <p className="py-4">Choose your size carfully ..</p>
+              {/* <h3 className="font-bold text-2xl ">Size Charts</h3> */}
+              {/* <p className="py-4">Choose your size carfully ..</p> */}
               <div className="modal-action justify-center">
                 <form method="dialog">
                   <SizeCharts />
@@ -282,59 +259,86 @@ export default function Designer() {
           </dialog>
 
           {/* Color Picker for Text */}
-          <input
-            className="w-20 mt-3"
-            type="color"
-            value={textProps.fill} // Bind the color picker to the current text color
-            onChange={(e) => {
-              updateTextProps("fill", e.target.value);
-              console.log("Color changed to:", e.target.value); // Debugging
-            }} // Update the fill color when changed
-          />
+          <div className="flex gap-9 items-center mt-3">
+            <div className="">
+              Color
+            </div>
+            <div className="">
+              <input
+                className="w-20 mt-3"
+                type="color"
+                value={textProps.fill} // Bind the color picker to the current text color
+                onChange={(e) => {
+                  updateTextProps("fill", e.target.value);
+                  console.log("Color changed to:", e.target.value); // Debugging
+                }} // Update the fill color when changed
+              />
+            </div>
+          </div>
 
           {/* Font Size Input */}
-          <input
-            className="w-44"
-            type="number"
-            value={textProps.fontSize} // Bind the input to the current font size
-            onChange={(e) => {
-              updateTextProps("fontSize", parseInt(e.target.value));
-              console.log("Font size changed to:", e.target.value); // Debugging
-            }} // Update the font size when changed
-            placeholder="Font Size"
-          />
+          <div className="flex gap-9 items-center mt-3">
+            <div className="">
+              Font Size
+            </div>
+            <div className="">
+              <input
+                className="w-44"
+                type="number"
+                value={textProps.fontSize} // Bind the input to the current font size
+                onChange={(e) => {
+                  updateTextProps("fontSize", parseInt(e.target.value));
+                  console.log("Font size changed to:", e.target.value); // Debugging
+                }} // Update the font size when changed
+                placeholder="Font Size"
+              />
+            </div>
+          </div>
 
           {/* Font Family Selector */}
-          <select
-            className="w-44"
-            value={textProps.fontFamily} // Bind the select dropdown to the current font family
-            onChange={(e) => {
-              updateTextProps("fontFamily", e.target.value);
-              console.log("Font family changed to:", e.target.value); // Debugging
-            }} // Update the font family when changed
-          >
-            {/* Options for font family */}
-            <option value="Arial">Arial</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Courier New">Courier New</option>
-            <option value="Georgia">Georgia</option>
-          </select>
+          <div className="flex gap-9 items-center mt-3">
+            <div className="">
+              Font Style
+            </div>
+            <div className="">
+              <select
+                className="w-44"
+                value={textProps.fontFamily} // Bind the select dropdown to the current font family
+                onChange={(e) => {
+                  updateTextProps("fontFamily", e.target.value);
+                  console.log("Font family changed to:", e.target.value); // Debugging
+                }} // Update the font family when changed
+              >
+                {/* Options for font family */}
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Georgia">Georgia</option>
+              </select>
+            </div>
+
+          </div>
+
+
+
           <div className="flex justify-end">
             <div className="inline-block bg-SecondaryColor text-white py-2 px-4 rounded cursor-pointer hover:bg-gray-700 transition duration-300 ease-in-out mt-5 w-44 text-center">
               Add to Cart
             </div>
           </div>
         </div>
+      </div>
 
-        {/*canva */}
+      {/* T-shirt Canvas */}
+      <div className="w-full lg:w-3/4 flex justify-center items-center p-4">
         <div
           style={{
-            width: "650px",
-            height: "800px",
+            width: "100%",
+            height: "100%",
             backgroundImage: `url(${backgroundImage})`,
             borderColor: "#4e7f62",
           }}
-          className="flex flex-col justify-center  items-center  bg-center bg-contain bg-no-repeat bg-white relative me-10 rounded-lg border border-indigo-600  rounded-lg p-5"
+          className="flex flex-col justify-center items-center bg-center bg-contain bg-no-repeat bg-white relative rounded-lg border border-indigo-600 p-5"
         >
           {/* Fabric.js Canvas */}
           <canvas
@@ -353,3 +357,5 @@ export default function Designer() {
     </div>
   );
 }
+//wak wak wak //
+
