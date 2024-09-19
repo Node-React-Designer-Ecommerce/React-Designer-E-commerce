@@ -1,4 +1,3 @@
-import ProductItem from "../components/ProductItem";
 import Hero from "../components/Hero";
 import MiniSection from "../components/MiniSection";
 import CategorySection from "../components/CategorySection";
