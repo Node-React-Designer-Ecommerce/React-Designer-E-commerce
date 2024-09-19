@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        SecondaryColor: '#4e7f62',
-       
+        'SecondaryColor': '#4e7f62',
+        'custom-bg': 'rgb(104 42 34)',
       }
     }
   },

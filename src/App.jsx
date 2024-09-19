@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Components
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Footer from "./layouts/Footer";
 
 //import pages
 
