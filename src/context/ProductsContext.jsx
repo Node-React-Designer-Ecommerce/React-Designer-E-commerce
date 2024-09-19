@@ -36,7 +36,6 @@ export default function ProductsProvider({ children }) {
         }));
     };
 
-
     return (
         <ProductContext.Provider value={{ products, getProductById, product, loading, favoriteProducts, toggleFavorite }}>
             {children}
