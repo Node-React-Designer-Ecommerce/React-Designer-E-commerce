@@ -1,8 +1,8 @@
-import Hero from "../components/Hero";
-import MiniSection from "../components/MiniSection";
-import CategorySection from "../components/CategorySection";
-import Slider from "../components/Slider";
-import LandingProductItem from "../components/LandingProductItem";
+import Hero from "../components/Landing/Hero";
+import Slider from "../components/Landing/Slider";
+import CategorySection from './../components/Landing/CategorySection';
+import MiniSection from '../components/Landing/MiniSection';
+import LandingProductItem from './../layouts/LandingProductItem';
 
 function Landing() {
   return (

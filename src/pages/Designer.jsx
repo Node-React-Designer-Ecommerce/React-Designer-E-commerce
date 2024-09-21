@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from "react";
 import { fabric } from "fabric";
 import { useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
-import SizeCharts from "../components/SizeCharts";
+import SizeCharts from "../components/Charts/SizeCharts";
 import XIcon from "../icons/XIcon";
 
 export default function Designer() {

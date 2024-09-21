@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import ArrowRight from "../icons/ArrowRight";
 import { useProducts } from "../context/ProductsContext";
 import HeartIcon from "../icons/HeartIcon";
-import Skelton from "../components/Skelton";
 import HeardFilledIcon from './../icons/HeardFilledIcon';
 import ShoppingBag from './../icons/ShoppingBag';
 import Filter from "../components/Filter";
 import ArrowLeft from "../icons/ArrowLeft";
+import Skelton from '../layouts/Skelton';
 
 export default function ProductsPage() {
     const { products, loading, toggleFavorite, favoriteProducts } = useProducts();
@@ -86,7 +86,7 @@ export default function ProductsPage() {
 
             </div>
             <div className="flex justify-center p-3">
-                <div className="w-11/12 gap-5 relative">
+                <div className="w-11/12 gap-5 relative flex justify-center">
                     <div className=" md:pt-16 pt-2">
                         <div className=" grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
                             {/* No Data Found Message */}
