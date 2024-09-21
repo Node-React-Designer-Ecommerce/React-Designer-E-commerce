@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
 import SizeCharts from "../components/Charts/SizeCharts";
 import XIcon from "../icons/XIcon";
+//import "../styles/CanvaStyle.css";
 
 export default function Designer() {
   const { id } = useParams();
@@ -40,6 +41,38 @@ export default function Designer() {
       price: "200",
     },
   ];
+
+  // function to manage size of canva
+  const resizeCanvas = () => {
+    const canvas = fabricCanvas.current;
+    const isSmallScreen = window.innerWidth < 768; // Adjust the breakpoint as needed
+
+    const width =
+      window.innerWidth < 576
+        ? 160
+        : window.innerWidth < 768
+        ? 220
+        : window.innerWidth < 992
+        ? 240
+        : window.innerWidth < 1200
+        ? 270
+        : 270; // Default for extra large screens
+
+    const height =
+      window.innerWidth < 576
+        ? 180
+        : window.innerWidth < 768
+        ? 300
+        : window.innerWidth < 992
+        ? 320
+        : window.innerWidth < 1200
+        ? 350
+        : 350; // Default for extra large screens
+
+    canvas.setWidth(width);
+    canvas.setHeight(height);
+    canvas.renderAll(); // Re-render the canvas to apply changes
+  };
 
   useEffect(() => {
     const product = products.find((product) => product.id === parseInt(id));
@@ -81,10 +114,17 @@ export default function Designer() {
       console.log("Selection cleared"); // Debugging
     });
 
+    // Run resizeCanvas when the component is mounted
+    resizeCanvas();
+
+    // Add event listener for window resizing
+    window.addEventListener("resize", resizeCanvas);
+
     // Function to add a new text object to the canvas
 
     // Cleanup when the component unmounts
     return () => {
+      window.removeEventListener("resize", resizeCanvas);
       fabricCanvas.current.dispose(); // Dispose of the Fabric.js canvas
       const addTextBtn = document.getElementById("addTextBtn");
       if (addTextBtn) {
@@ -248,8 +288,8 @@ export default function Designer() {
                   </button>
                 </div>
               </form>
-              {/* <h3 className="font-bold text-2xl ">Size Charts</h3> */}
-              {/* <p className="py-4">Choose your size carfully ..</p> */}
+              <h3 className="font-bold text-2xl ">Size Charts</h3>
+              <p className="py-4">Choose your size carfully ..</p>
               <div className="modal-action justify-center">
                 <form method="dialog">
                   <SizeCharts />
@@ -410,22 +450,19 @@ export default function Designer() {
         <div
           style={{
             width: "100%",
-            height: "100%",
+            height: "600px",
             backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
             borderColor: "#4e7f62",
           }}
-          className="flex flex-col justify-center items-center bg-center bg-contain bg-no-repeat bg-white relative rounded-lg border border-indigo-600 p-5"
+          className="flex flex-col justify-center items-center bg-center bg-contain bg-no-repeat bg-white relative rounded-lg border border-indigo-600 p-5 "
         >
           {/* Fabric.js Canvas */}
           <canvas
             ref={canvasRef} // Reference to the canvas element
-            width="270"
-            height="400"
             style={{
               border: "1px dotted gray",
-              position: "absolute",
-              top: "30%",
-              left: "30%",
             }}
           />
         </div>
