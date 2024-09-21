@@ -15,8 +15,11 @@ export default function Designer() {
 
   const [textProps, setTextProps] = useState({
     fontSize: 24, // Initial font size
-    fill: "#ff0000", // Initial text color (black)
+    fill: "#000000", // Initial text color (black)
     fontFamily: "Arial", // Initial font family
+    fontWeight: "",
+    fontStyle: "",
+    textBackgroundColor: "transparent", // Initial background color (transparent)
   });
   const [backgroundImage, setBackgroundImage] = useState(""); // State for background image
   const [title, setTitle] = useState("");
@@ -59,6 +62,9 @@ export default function Designer() {
           fontSize: e.selected[0].fontSize, // Set the current text properties in the state
           fill: e.selected[0].fill, // Use the current text color from the state
           fontFamily: e.selected[0].fontFamily,
+          fontWeight: e.selected[0].fontWeight,
+          fontStyle: e.selected[0].fontStyle,
+          // textBackgroundColor: e.selected[0].backgroundColor, // Use the current background color from the state
         });
 
         console.log("Text selected:", e.selected[0]); // Debugging
@@ -95,6 +101,8 @@ export default function Designer() {
       fontSize: textProps.fontSize, // Use the current font size from the state
       fill: textProps.fill, // Use the current text color from the state
       fontFamily: textProps.fontFamily, // Use the current font family from the state
+      fontWeight: textProps.fontWeight,
+      fontStyle: textProps.fontStyle,
       editable: true, // Allow the user to edit the text
     });
     canvas.add(textbox); // Add the textbox to the canvas
@@ -108,7 +116,7 @@ export default function Designer() {
       ...prev, // Keep the existing properties
       [prop]: value, // Update the specific property that was changed
     }));
-    console.log(canvasRef);
+    console.log(textProps);
     if (selectedText) {
       selectedText.set(prop, value); // Update the specific property of the selected text
       fabricCanvas.current.renderAll(); // Re-render the canvas immediately to apply the change
@@ -252,10 +260,18 @@ export default function Designer() {
 
           {/* Color Picker for Text */}
           <div className="flex gap-9 items-center mt-3">
-            <div className="">Color</div>
+            <div className="">
+              <label
+                htmlFor="color_picker"
+                className="text-sm font-medium mb-2 dark:text-white"
+              >
+                Color
+              </label>
+            </div>
             <div className="">
               <input
-                className="w-20 mt-3"
+                id="color_picker"
+                className="p-1 h-8 w-12 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
                 type="color"
                 value={textProps.fill} // Bind the color picker to the current text color
                 onChange={(e) => {
@@ -269,9 +285,28 @@ export default function Designer() {
 
           {/* Font Size Input */}
           <div className="flex gap-9 items-center mt-3">
-            <div className="">Font Size</div>
+            <div className="">
+              <label htmlFor="font-size">Font Size</label>
+            </div>
             <div className="">
               <input
+                id="font-size"
+                type="range"
+                min={1}
+                max="50"
+                value={textProps.fontSize} // Bind the input to the current font size
+                className="range range-xs"
+                onChange={(e) => {
+                  if (parseInt(e.target.value) <= 0 || e.target.value === "") {
+                    e.target.value = 1;
+                  }
+                  updateTextProps("fontSize", parseInt(e.target.value));
+                  console.log("Font size changed to:", e.target.value); // Debugging
+                  console.log(textProps);
+                }}
+              />
+
+              {/* <input
                 className="w-44"
                 type="number"
                 value={textProps.fontSize} // Bind the input to the current font size
@@ -284,16 +319,19 @@ export default function Designer() {
                   console.log(textProps);
                 }} // Update the font size when changed
                 placeholder="Font Size"
-              />
+              /> */}
             </div>
           </div>
 
           {/* Font Family Selector */}
           <div className="flex gap-9 items-center mt-3">
-            <div className="">Font Style</div>
+            <div className="">
+              <label htmlFor="font-style">Font Style</label>
+            </div>
             <div className="">
               <select
-                className="w-44"
+                id="font-style"
+                className="select select-sm select-success w-full max-w-xs"
                 value={textProps.fontFamily} // Bind the select dropdown to the current font family
                 onChange={(e) => {
                   updateTextProps("fontFamily", e.target.value);
@@ -302,11 +340,60 @@ export default function Designer() {
                 }} // Update the font family when changed
               >
                 {/* Options for font family */}
-                <option value="Arial">Arial</option>
+                {/* <option value="Arial">Arial</option>
                 <option value="Times New Roman">Times New Roman</option>
                 <option value="Courier New">Courier New</option>
-                <option value="Georgia">Georgia</option>
+                <option value="Georgia">Georgia</option> */}
+                <option value="arial">Arial</option>
+                <option value="helvetica" selected>
+                  Helvetica
+                </option>
+                <option value="verdana">Verdana</option>
+                <option value="georgia">Georgia</option>
+                <option value="courier">Courier</option>
+                <option value="comic sans ms">Comic Sans MS</option>
+                <option value="impact">Impact</option>
+                <option value="monaco">Monaco</option>
               </select>
+            </div>
+          </div>
+          {/* Button to make text Bold */}
+          <div className="flex gap-9 items-center mt-3">
+            <div>
+              <label htmlFor="bold-button">Bold</label>
+            </div>
+            <div>
+              <input
+                id="bold-button"
+                type="checkbox"
+                onChange={(e) => {
+                  updateTextProps(
+                    "fontWeight",
+                    textProps.fontWeight === "" ? "bold" : ""
+                  );
+                  console.log("Bold changed to:", textProps.fontWeight); // Debugging
+                }}
+                className="checkbox"
+              />{" "}
+            </div>
+          </div>
+          <div className="flex gap-9 items-center mt-3">
+            <div>
+              <label htmlFor="italic-button">Italic</label>
+            </div>
+            <div>
+              <input
+                id="italic-button"
+                type="checkbox"
+                value={textProps.italic}
+                onChange={() => {
+                  updateTextProps(
+                    "fontStyle",
+                    textProps.fontStyle === "" ? "italic" : ""
+                  );
+                }}
+                className="checkbox"
+              />{" "}
             </div>
           </div>
 
