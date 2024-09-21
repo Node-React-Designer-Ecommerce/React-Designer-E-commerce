@@ -1,21 +1,21 @@
+/* eslint-disable no-unused-vars */
 import { useRef, useEffect, useState } from "react";
 import { fabric } from "fabric";
 import { useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
 import SizeCharts from "../components/SizeCharts";
 import XIcon from "../icons/XIcon";
-import ArrowLeft from "../icons/ArrowLeft";
 
 export default function Designer() {
   const { id } = useParams();
 
-  const canvasRef = useRef(); // Reference to the canvas element
+  const canvasRef = useRef(null); // Reference to the canvas element
   const fabricCanvas = useRef(null); // Reference to the Fabric.js canvas
   const [selectedText, setSelectedText] = useState(null); // Track the currently selected text object
 
   const [textProps, setTextProps] = useState({
     fontSize: 24, // Initial font size
-    fill: "#000000", // Initial text color (black)
+    fill: "#ff0000", // Initial text color (black)
     fontFamily: "Arial", // Initial font family
   });
   const [backgroundImage, setBackgroundImage] = useState(""); // State for background image
@@ -47,19 +47,21 @@ export default function Designer() {
     }
 
     // Initialize the Fabric.js canvas
+
     fabricCanvas.current = new fabric.Canvas(canvasRef.current);
 
     // Function to handle when text is selected or updated
     const handleSelection = (e) => {
-      if (e.target && e.target.type === "textbox") {
+      if (e.selected[0].type === "textbox") {
         // Check if a textbox was selected
-        setSelectedText(e.target); // Set the selected text
+        setSelectedText(e.selected[0]); // Set the selected text
         setTextProps({
-          fontSize: e.target.fontSize, // Set the current text properties in the state
-          fill: e.target.fill, // Use the current text color from the state
-          fontFamily: e.target.fontFamily,
+          fontSize: e.selected[0].fontSize, // Set the current text properties in the state
+          fill: e.selected[0].fill, // Use the current text color from the state
+          fontFamily: e.selected[0].fontFamily,
         });
-        console.log("Text selected:", e.target); // Debugging
+
+        console.log("Text selected:", e.selected[0]); // Debugging
       }
     };
 
@@ -74,23 +76,6 @@ export default function Designer() {
     });
 
     // Function to add a new text object to the canvas
-    const addText = () => {
-      const canvas = fabricCanvas.current;
-      const textbox = new fabric.Textbox("Enter text here", {
-        left: 100,
-        top: 100,
-        fontSize: textProps.fontSize, // Use the current font size from the state
-        fill: textProps.fill, // Use the current text color from the state
-        fontFamily: textProps.fontFamily, // Use the current font family from the state
-        editable: true, // Allow the user to edit the text
-      });
-      canvas.add(textbox); // Add the textbox to the canvas
-      canvas.setActiveObject(textbox); // Make the new textbox the active object
-      canvas.renderAll(); // Re-render the canvas to display the changes
-    };
-
-    // Add the event listener for the "Add Text" button
-    document.getElementById("addTextBtn").addEventListener("click", addText);
 
     // Cleanup when the component unmounts
     return () => {
@@ -100,21 +85,34 @@ export default function Designer() {
         addTextBtn.removeEventListener("click", addText);
       }
     };
-  }, [id, textProps]); // Only re-run this effect if textProps changes
+  }, [id]); // Only re-run this effect if textProps changes
+
+  const addText = () => {
+    const canvas = fabricCanvas.current;
+    const textbox = new fabric.Textbox("Enter text here", {
+      left: 100,
+      top: 100,
+      fontSize: textProps.fontSize, // Use the current font size from the state
+      fill: textProps.fill, // Use the current text color from the state
+      fontFamily: textProps.fontFamily, // Use the current font family from the state
+      editable: true, // Allow the user to edit the text
+    });
+    canvas.add(textbox); // Add the textbox to the canvas
+    canvas.setActiveObject(textbox); // Make the new textbox the active object
+    canvas.renderAll(); // Re-render the canvas to display the changes
+  };
 
   // Function to update the properties of the selected text
   const updateTextProps = (prop, value) => {
+    setTextProps((prev) => ({
+      ...prev, // Keep the existing properties
+      [prop]: value, // Update the specific property that was changed
+    }));
+    console.log(canvasRef);
     if (selectedText) {
-      // Only proceed if a text object is selected
-      selectedText.set(prop, value); // Update the property (e.g., font size or color) of the selected text
-      selectedText.setCoords(); // Recalculate the text's coordinates in case of any changes
-      fabricCanvas.current.renderAll(); // Re-render the canvas
+      selectedText.set(prop, value); // Update the specific property of the selected text
+      fabricCanvas.current.renderAll(); // Re-render the canvas immediately to apply the change
 
-      // Update the state with the new text properties
-      setTextProps((prev) => ({
-        ...prev, // Keep the existing properties
-        [prop]: value, // Update the specific property that was changed
-      }));
       console.log("Text properties updated:", prop, value); // Debugging
     } else {
       console.warn("No text object selected"); // Debugging
@@ -145,14 +143,15 @@ export default function Designer() {
   const removeSelectedObject = () => {
     const canvas = fabricCanvas.current;
     const activeObject = canvas.getActiveObject(); // Get the selected object
+    console.log(activeObject);
 
-    if (activeObject && activeObject.type === "image") {
+    if (activeObject) {
       // Check if the selected object is an image
       canvas.remove(activeObject); // Remove the selected object
       canvas.renderAll(); // Re-render the canvas to reflect the changes
-      console.log("Image removed"); // Debugging
+      // console.log("Image removed"); // Debugging
     } else {
-      console.warn("No image is selected to remove");
+      console.warn("No object is selected to remove");
     }
   };
 
@@ -189,14 +188,6 @@ export default function Designer() {
               >
                 Choose Image
               </label>
-
-              <button
-                style={{ borderColor: "#4e7f62" }}
-                className="btn btn-sm btn-error hover:bg-red-200 transition duration-300 ease-in-out"
-                onClick={removeSelectedObject} // Handle image removal
-              >
-                X
-              </button>
               <span className=" text-2xl text-green-800">EGP 100</span>
             </div>
 
@@ -206,6 +197,7 @@ export default function Designer() {
                 style={{ borderColor: "#4e7f62" }}
                 className=" bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 "
                 id="addTextBtn"
+                onClick={addText}
               >
                 Add Text
               </button>
@@ -218,7 +210,7 @@ export default function Designer() {
               className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 mb-5"
               onClick={removeSelectedObject} // Handle image removal
             >
-              Remove Image
+              Remove Selected Object
             </button>
           </div>
           {/*chart */}
@@ -260,9 +252,7 @@ export default function Designer() {
 
           {/* Color Picker for Text */}
           <div className="flex gap-9 items-center mt-3">
-            <div className="">
-              Color
-            </div>
+            <div className="">Color</div>
             <div className="">
               <input
                 className="w-20 mt-3"
@@ -271,6 +261,7 @@ export default function Designer() {
                 onChange={(e) => {
                   updateTextProps("fill", e.target.value);
                   console.log("Color changed to:", e.target.value); // Debugging
+                  console.log(textProps);
                 }} // Update the fill color when changed
               />
             </div>
@@ -278,17 +269,19 @@ export default function Designer() {
 
           {/* Font Size Input */}
           <div className="flex gap-9 items-center mt-3">
-            <div className="">
-              Font Size
-            </div>
+            <div className="">Font Size</div>
             <div className="">
               <input
                 className="w-44"
                 type="number"
                 value={textProps.fontSize} // Bind the input to the current font size
                 onChange={(e) => {
+                  if (parseInt(e.target.value) <= 0 || e.target.value === "") {
+                    e.target.value = 1;
+                  }
                   updateTextProps("fontSize", parseInt(e.target.value));
                   console.log("Font size changed to:", e.target.value); // Debugging
+                  console.log(textProps);
                 }} // Update the font size when changed
                 placeholder="Font Size"
               />
@@ -297,9 +290,7 @@ export default function Designer() {
 
           {/* Font Family Selector */}
           <div className="flex gap-9 items-center mt-3">
-            <div className="">
-              Font Style
-            </div>
+            <div className="">Font Style</div>
             <div className="">
               <select
                 className="w-44"
@@ -307,6 +298,7 @@ export default function Designer() {
                 onChange={(e) => {
                   updateTextProps("fontFamily", e.target.value);
                   console.log("Font family changed to:", e.target.value); // Debugging
+                  console.log(textProps);
                 }} // Update the font family when changed
               >
                 {/* Options for font family */}
@@ -316,10 +308,7 @@ export default function Designer() {
                 <option value="Georgia">Georgia</option>
               </select>
             </div>
-
           </div>
-
-
 
           <div className="flex justify-end">
             <div className="inline-block bg-SecondaryColor text-white py-2 px-4 rounded cursor-pointer hover:bg-gray-700 transition duration-300 ease-in-out mt-5 w-44 text-center">
@@ -358,4 +347,3 @@ export default function Designer() {
   );
 }
 //wak wak wak //
-
