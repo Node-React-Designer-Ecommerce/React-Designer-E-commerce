@@ -1,14 +1,14 @@
 // Icons
-import CarIcon from "../icons/CarIcon";
-import ReturnIcon from "../icons/ReturnIcon";
-import JwellIcon from "../icons/JwellIcon";
-import LikeIcon from "../icons/LikeIcon";
+import CarIcon from "../../icons/CarIcon";
+import ReturnIcon from "../../icons/ReturnIcon";
+import JwellIcon from "../../icons/JwellIcon";
+import LikeIcon from "../../icons/LikeIcon";
 
 // text related to icons
-import TextCarIcon from "../components/Text Icon/TextCarIcon";
-import TextReturnIcon from "../components/Text Icon/TextReturnIcon";
-import TextJwellIcon from "../components/Text Icon/TextJwellIcon";
-import TextLikeIcon from "../components/Text Icon/TextLikeIcon";
+import TextCarIcon from "./TextIconSection/TextCarIcon";
+import TextReturnIcon from "./TextIconSection/TextReturnIcon";
+import TextJwellIcon from "./TextIconSection/TextJwellIcon";
+import TextLikeIcon from "./TextIconSection/TextLikeIcon";
 
 function MiniSection() {
   return (

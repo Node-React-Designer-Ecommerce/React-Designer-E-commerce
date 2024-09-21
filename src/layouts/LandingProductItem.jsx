@@ -1,12 +1,12 @@
 import { useProducts } from "../context/ProductsContext";
-import ArrowRight from "./../icons/ArrowRight";
+import ArrowRight from "../icons/ArrowRight";
 import { Link } from "react-router-dom";
-import Skelton from "./Skelton";
-import HeardFilledIcon from './../icons/HeardFilledIcon';
-import HeartIcon from './../icons/HeartIcon';
-import ShoppingBag from './../icons/ShoppingBag';
+import HeardFilledIcon from '../icons/HeardFilledIcon';
+import HeartIcon from '../icons/HeartIcon';
+import ShoppingBag from '../icons/ShoppingBag';
+import Skelton from './Skelton';
 
-function ProductItem() {
+function LandingProductItem() {
   const { products, loading, toggleFavorite, favoriteProducts } = useProducts();
 
   if (loading) {
@@ -26,8 +26,8 @@ function ProductItem() {
   return (
     <div className="flex justify-center">
       <div className="flex justify-center">
-        <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-5">
-          {products.slice(0, 8).map((product) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          {products.slice(0, 3).map((product) => (
             <div key={product._id} className="card bg-base-100 w-80 shadow-xl">
               <figure className="px-5 relative pt-10">
                 <div
@@ -59,4 +59,4 @@ function ProductItem() {
   );
 }
 
-export default ProductItem;
+export default LandingProductItem;
