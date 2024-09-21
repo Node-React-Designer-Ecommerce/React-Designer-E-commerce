@@ -3,12 +3,9 @@ import { useState } from 'react';
 const Filter = () => {
   const [priceRange, setPriceRange] = useState([100, 1000]);
   const [categories, setCategories] = useState({
-    Clothing: false,
-    Hoodies: false,
-    TShirts: false,
-    Jeans: false,
-    Shoes: false,
-    Sweater: false,
+    Men: false,
+    Female: false,
+    Kids: false,
   });
 
   const handleCategoryChange = (e) => {

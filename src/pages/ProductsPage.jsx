@@ -1,16 +1,37 @@
 import { useState } from "react";
+import { useQuery } from '@tanstack/react-query';
 import { Link } from "react-router-dom";
 import ArrowRight from "../icons/ArrowRight";
-import { useProducts } from "../context/ProductsContext";
-import HeartIcon from "../icons/HeartIcon";
-import HeardFilledIcon from './../icons/HeardFilledIcon';
 import ShoppingBag from './../icons/ShoppingBag';
 import Filter from "../components/Filter";
 import ArrowLeft from "../icons/ArrowLeft";
 import Skelton from '../layouts/Skelton';
+import { getAllProducts } from '../utils/api/productsapi'
+import { useQueryClient } from '@tanstack/react-query';
+import { useToggleFavorite } from '../utils/helpers/help';
+import HeartIcon from "../icons/HeartIcon";
+import HeardFilledIcon from "../icons/HeardFilledIcon";
+
 
 export default function ProductsPage() {
-    const { products, loading, toggleFavorite, favoriteProducts } = useProducts();
+    const { isLoading, data, isError, error} = useQuery(
+        {
+            queryKey: ['products'],
+            queryFn: getAllProducts,
+            cacheTime: 50000,
+        }
+    );
+    const queryClient = useQueryClient();
+    const cachedData = queryClient.getQueryData(['products']);
+
+    if (cachedData) {
+        console.log('Data is cached:', cachedData);
+    } else {
+        console.log('Data is not cached');
+    }
+
+    const { favoriteProducts, toggleFavorite } = useToggleFavorite();
+
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 8;
@@ -19,6 +40,10 @@ export default function ProductsPage() {
         setSearch(event.target.value.toLowerCase());
         setCurrentPage(1);
     };
+
+    const products = data ? data : [];
+    console.log(products)
+
 
     const filteredProducts = products.filter(product =>
         product.name.toLowerCase().includes(search)
@@ -41,10 +66,10 @@ export default function ProductsPage() {
         }
     };
 
-    if (loading) {
+    if (isLoading) {
         return (
             <div className="flex justify-center">
-                <div className="grid grid-cols-1 lg:grid lg:grid-cols-4 md:grid md:grid-cols-2 py-10 gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 py-10 gap-5">
                     {Array.from({ length: productsPerPage }).map((_, index) => (
                         <div key={index} className="card bg-base-100 w-80 shadow-xl">
                             <Skelton />
@@ -53,6 +78,10 @@ export default function ProductsPage() {
                 </div>
             </div>
         );
+    }
+
+    if (isError) {
+        return <h2>Error: {error.message}</h2>;
     }
 
     return (
@@ -68,7 +97,7 @@ export default function ProductsPage() {
                     <div className="drawer-content flex justify-center">
                         <div className="group">
                             <label htmlFor="my-drawer" className="text-2xl cursor-pointer font-bold">
-                                Filters here ..
+                                Filters here 
                             </label>
                             <div className="bg-green-700 w-full h-[3px] rounded-xl transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                         </div>

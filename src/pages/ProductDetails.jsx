@@ -1,29 +1,43 @@
-import { useEffect } from "react";
-import { useProducts } from "../context/ProductsContext";
 import { useParams } from "react-router";
-import HeartIcon from "../icons/HeartIcon";
 import SizeCharts from "../components/Charts/SizeCharts";
 import Delivery from "../components/Charts/Delivery";
 import Rating from "../components/Rating";
 import ArrowLeft from './../icons/ArrowLeft';
 import XIcon from "../icons/XIcon";
+import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
+import { useToggleFavorite } from '../utils/helpers/help';
 import RadioComponent from "../components/RadioComponent";
+import { useQuery } from '@tanstack/react-query';
+import { getProductById } from '../utils/api/productsapi'
+
 
 export default function ProductDetails() {
-    const { getProductById, product, favoriteProducts, toggleFavorite } = useProducts();
+
     const { id } = useParams();
 
-    useEffect(() => {
-        getProductById(id);
-    }, [id, getProductById]);
+    const { data: product, isLoading, isError } = useQuery(
+        {
+            queryKey: ['product', id],  
+            queryFn: () => getProductById(id), 
+            cacheTime: 50000,
+        }
+    );
 
-    if (!product) {
+    const { favoriteProducts, toggleFavorite } = useToggleFavorite();
+
+    if (isLoading) {
         return <div className="h-screen text-SecondaryColor flex justify-center align-middle">
             <span className="loading loading-ball loading-xs"></span>
             <span className="loading loading-ball loading-sm"></span>
             <span className="loading loading-ball loading-md"></span>
             <span className="loading loading-ball loading-lg"></span>
+        </div>
+    }
+
+    if (isError) {
+        return <div className="h-screen text-red-600 flex justify-center align-middle">
+            <p>Failed to load product details. Please try again later.</p>
         </div>
     }
 
@@ -40,22 +54,22 @@ export default function ProductDetails() {
                     <div className="flex justify-between">
                         <h1 className="text-3xl font-bold uppercase ">{product.name}</h1>
                         <div className="bg-gray-100 rounded-3xl w-12 h-12 flex justify-center items-center" onClick={() => toggleFavorite(product._id)}>
-                            {favoriteProducts[product._id] ? <HeardFilledIcon /> : <HeartIcon />}   </div>
+                            {favoriteProducts[product._id] ? <HeardFilledIcon /> : <HeartIcon />}   
+                        </div>
                     </div>
                     <Rating />
                     <div className="py-3 flex justify-between">
                         <p className="text-black "><span className="font-bold">Only In Stock:</span> {product.quantity}</p>
-                   
                     </div>
                     <p className="text-green-800 text-xl font-bold">${product.price}</p>
                     <p className="py-4">{product.description}</p>
                     <div>
                         <div className="flex justify-between">
                             <div className="flex gap-3">
-                            <button className="font-bold underline" onClick={() => document.getElementById('my_modal_5').showModal()}>Size Charts</button>
-                            <p className="text-[13px] flex items-center text-gray-500">Check your size from here..</p>
+                                <button className="font-bold underline" onClick={() => document.getElementById('my_modal_5').showModal()}>Size Charts</button>
+                                <p className="text-[13px] flex items-center text-gray-500">Check your size from here..</p>
                             </div>
-                            <RadioComponent/>
+                            <RadioComponent />
                         </div>
                         <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                             <div className="modal-box">
@@ -65,7 +79,7 @@ export default function ProductDetails() {
                                     </div>
                                 </form>
                                 <h3 className="font-bold text-lg">Size Charts</h3>
-                                <p className="py-4">Choose your size carfully ..</p>
+                                <p className="py-4">Choose your size carefully ..</p>
                                 <div className="modal-action justify-center">
                                     <form method="dialog">
                                         <SizeCharts />
@@ -83,4 +97,3 @@ export default function ProductDetails() {
         </div>
     );
 }
-

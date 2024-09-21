@@ -1,15 +1,29 @@
-import { useProducts } from "../context/ProductsContext";
+// import { useProducts } from "../context/ProductsContext";
 import ArrowRight from "../icons/ArrowRight";
 import { Link } from "react-router-dom";
 import HeardFilledIcon from '../icons/HeardFilledIcon';
 import HeartIcon from '../icons/HeartIcon';
 import ShoppingBag from '../icons/ShoppingBag';
 import Skelton from './Skelton';
+import { useQuery } from "@tanstack/react-query";
+import { getAllProducts } from '../utils/api/productsapi'
+import { useToggleFavorite } from '../utils/helpers/help';
 
 function LandingProductItem() {
-  const { products, loading, toggleFavorite, favoriteProducts } = useProducts();
+  // const { products, loading, toggleFavorite, favoriteProducts } = useProducts();
+  const { isLoading, data } = useQuery(
+    {
+        queryKey: ['products'],
+        queryFn: getAllProducts,
+        cacheTime: 50000,
+    }
+);
 
-  if (loading) {
+const products = data ? data : [];
+
+const { favoriteProducts, toggleFavorite } = useToggleFavorite();
+
+  if (isLoading) {
     return (
       <div className="flex justify-center">
         <div className="grid grid-cols-1 lg:grid lg:grid-cols-4 md:grid md:grid-cols-2 gap-5">
