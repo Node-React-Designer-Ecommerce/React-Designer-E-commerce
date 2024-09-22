@@ -178,8 +178,8 @@ export default function Designer() {
       imgElement.src = e.target.result; // Set the image source to the data URL
       imgElement.onload = function () {
         const image = new fabric.Image(imgElement, {
-          scaleX: 0.2, // Scale down the image for the canvas
-          scaleY: 0.2,
+          scaleX: 0.1, // Scale down the image for the canvas
+          scaleY: 0.1,
         });
         canvas.add(image); // Add the image to the canvas
         canvas.centerObject(image); // Center the image on the canvas
