@@ -12,7 +12,7 @@ import TextLikeIcon from "./TextIconSection/TextLikeIcon";
 
 function MiniSection() {
   return (
-    <div className="flex  font-serif flex-wrap justify-start p-3 items-center w-full py-10 space-y-4 md:space-y-0">
+    <div className="flex  font-serif flex-wrap justify-start sm:justify-center p-3 items-center w-full py-10 space-y-4 md:space-y-0">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
         <div className="flex items-center w-full md:w-auto">
           <div className="bg-SecondaryColor text-white w-16 h-16  rounded-r-3xl relative">

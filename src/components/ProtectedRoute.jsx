@@ -1,6 +1,10 @@
-import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+
+//context
+import { useContext } from 'react';
 import AuthContext from '../context/AuthContext'; // Default import
+
+//prop types
 import PropTypes from 'prop-types';
 
 export default function ProtectedRoute({ children, isAuth = true }) {

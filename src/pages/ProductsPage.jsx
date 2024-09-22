@@ -1,20 +1,29 @@
 import { useState } from "react";
-import { useQuery } from '@tanstack/react-query';
 import { Link } from "react-router-dom";
+
+//react query
+import { useQuery } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+
+//utils
+import { getAllProducts } from '../utils/api/productsapi'
+import { useToggleFavorite } from '../utils/helpers/help';
+
+import Filter from "../components/Filter";
+import Skelton from '../layouts/Skelton';
+
+//icons
 import ArrowRight from "../icons/ArrowRight";
 import ShoppingBag from './../icons/ShoppingBag';
-import Filter from "../components/Filter";
 import ArrowLeft from "../icons/ArrowLeft";
-import Skelton from '../layouts/Skelton';
-import { getAllProducts } from '../utils/api/productsapi'
-import { useQueryClient } from '@tanstack/react-query';
-import { useToggleFavorite } from '../utils/helpers/help';
 import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
+import SearchIcon from './../icons/SearchIcon';
+import NoData from './../components/NoData';
 
 
 export default function ProductsPage() {
-    const { isLoading, data, isError, error} = useQuery(
+    const { isLoading, data, isError, error } = useQuery(
         {
             queryKey: ['products'],
             queryFn: getAllProducts,
@@ -69,7 +78,7 @@ export default function ProductsPage() {
     if (isLoading) {
         return (
             <div className="flex justify-center">
-                <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 py-10 gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
                     {Array.from({ length: productsPerPage }).map((_, index) => (
                         <div key={index} className="card bg-base-100 w-80 shadow-xl">
                             <Skelton />
@@ -81,27 +90,34 @@ export default function ProductsPage() {
     }
 
     if (isError) {
-        return <h2>Error: {error.message}</h2>;
+        return (
+            <div className="">
+                <NoData />
+                <h2 className="text-center text-red-600">Error: {error.message}</h2>;
+            </div>
+        )
     }
 
     return (
-        <div className="w-full font-serif">
-            <div className="py-24 flex flex-col lg:text-2xl items-center tracking-wide">
+        <div className="w-full font-serif relative">
+            <div className="pt-12 flex flex-col lg:text-2xl items-center tracking-wide">
                 <p className="font-bold  text-gray-500">Featured Products</p>
                 <p className="font-bold uppercase">BestSeller Products</p>
                 <p className="lg:text-lg text-gray-500">Simplicity is the keynote of all true elegance</p>
             </div>
-            <div className="m">
-                <div className="drawer">
+            <div className="sticky  top-28 z-50 mt-3">
+                <div className="drawer flex justify-start px-5">
                     <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                     <div className="drawer-content flex justify-center">
                         <div className="group">
-                            <label htmlFor="my-drawer" className="text-2xl cursor-pointer font-bold">
-                                Filters here 
+                            <label htmlFor="my-drawer" className="text-2xl cursor-pointer font-bold bg-SecondaryColor
+                                                                  text-white flex items-center gap-3 py-2 px-5 rounded-lg ">
+                                Filters here <SearchIcon />
                             </label>
-                            <div className="bg-green-700 w-full h-[3px] rounded-xl transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                            {/* bg-gradient-to-r from-emerald-600 to-emerald-800 
+                                                                  hover:bg-gradient-to-l hover:from-emerald-600 hover:to-emerald-800 */}
+                            {/* <div className="bg-green-700 w-full h-[3px] rounded-xl transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div> */}
                         </div>
-
                     </div>
                     <div className="drawer-side z-10 pt-20">
                         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
@@ -117,7 +133,7 @@ export default function ProductsPage() {
             <div className="flex justify-center p-3">
                 <div className="w-11/12 gap-5 relative flex justify-center">
                     <div className=" md:pt-16 pt-2">
-                        <div className=" grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
                             {/* No Data Found Message */}
                             {currentProducts.length === 0 ? (
                                 <div className="flex items-center justify-center text-5xl text-gray-500 ">

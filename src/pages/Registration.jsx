@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom"; // Assuming you are using React Router for navigation
 import axios from "axios";
-import "react-toastify/dist/ReactToastify.css";
 
 // Icons
 import ErrorIcon from "../icons/ErrorIcon";
 import Eye from "./../icons/Eye";
 import EyeSlash from "./../icons/EyeSlash";
+
+//toast
+import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
 export default function App() {
@@ -38,7 +40,7 @@ export default function App() {
       });
       navigate("/login");
     } catch (error) {
-      console.log(error.response?.data?.message);
+      // console.log(error.response?.data?.message);
       if (error.response?.data?.message === "Email already exists") {
         setError("email", {
           type: "manual",

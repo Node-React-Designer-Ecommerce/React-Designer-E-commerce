@@ -1,28 +1,27 @@
 import { createContext, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
 
-// Create AuthContext
 const AuthContext = createContext();
 
-// Create a provider component
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = Cookies.get('token');
     return storedToken ? JSON.parse(storedToken) : null;
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    const storedLoggedIn = localStorage.getItem('isLoggedIn');
+    const storedLoggedIn = Cookies.get('isLoggedIn');
     return storedLoggedIn ? JSON.parse(storedLoggedIn) : false;
   });
 
   useEffect(() => {
     if (token) {
-      localStorage.setItem('token', JSON.stringify(token));
-      localStorage.setItem('isLoggedIn', JSON.stringify(true));
+      Cookies.set('token', JSON.stringify(token), { expires: 7, secure: true, sameSite: 'strict' });
+      Cookies.set('isLoggedIn', JSON.stringify(true), { expires: 7, secure: true, sameSite: 'strict' });
     } else {
-      localStorage.removeItem('token');
-      localStorage.removeItem('isLoggedIn');
+      Cookies.remove('token');
+      Cookies.remove('isLoggedIn');
     }
   }, [token]);
 

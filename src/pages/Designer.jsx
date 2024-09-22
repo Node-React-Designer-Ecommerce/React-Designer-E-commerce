@@ -1,11 +1,15 @@
-/* eslint-disable no-unused-vars */
 import { useRef, useEffect, useState } from "react";
-import { fabric } from "fabric";
 import { useParams } from "react-router";
+
+import { fabric } from "fabric";
+
+//T-shirt chart tables
 import RadioComponent from "../components/RadioComponent";
 import SizeCharts from "../components/Charts/SizeCharts";
+
+//icons
 import XIcon from "../icons/XIcon";
-//import "../styles/CanvaStyle.css";
+
 
 export default function Designer() {
   const { id } = useParams();
@@ -16,11 +20,8 @@ export default function Designer() {
 
   const [textProps, setTextProps] = useState({
     fontSize: 24, // Initial font size
-    fill: "#000000", // Initial text color (black)
+    fill: "#ff0000", // Initial text color (black)
     fontFamily: "Arial", // Initial font family
-    fontWeight: "",
-    fontStyle: "",
-    textBackgroundColor: "transparent", // Initial background color (transparent)
   });
   const [backgroundImage, setBackgroundImage] = useState(""); // State for background image
   const [title, setTitle] = useState("");
@@ -41,38 +42,6 @@ export default function Designer() {
       price: "200",
     },
   ];
-
-  // function to manage size of canva
-  const resizeCanvas = () => {
-    const canvas = fabricCanvas.current;
-    const isSmallScreen = window.innerWidth < 768; // Adjust the breakpoint as needed
-
-    const width =
-      window.innerWidth < 576
-        ? 160
-        : window.innerWidth < 768
-        ? 220
-        : window.innerWidth < 992
-        ? 240
-        : window.innerWidth < 1200
-        ? 270
-        : 270; // Default for extra large screens
-
-    const height =
-      window.innerWidth < 576
-        ? 180
-        : window.innerWidth < 768
-        ? 300
-        : window.innerWidth < 992
-        ? 320
-        : window.innerWidth < 1200
-        ? 350
-        : 350; // Default for extra large screens
-
-    canvas.setWidth(width);
-    canvas.setHeight(height);
-    canvas.renderAll(); // Re-render the canvas to apply changes
-  };
 
   useEffect(() => {
     const product = products.find((product) => product.id === parseInt(id));
@@ -95,9 +64,6 @@ export default function Designer() {
           fontSize: e.selected[0].fontSize, // Set the current text properties in the state
           fill: e.selected[0].fill, // Use the current text color from the state
           fontFamily: e.selected[0].fontFamily,
-          fontWeight: e.selected[0].fontWeight,
-          fontStyle: e.selected[0].fontStyle,
-          // textBackgroundColor: e.selected[0].backgroundColor, // Use the current background color from the state
         });
 
         console.log("Text selected:", e.selected[0]); // Debugging
@@ -114,17 +80,10 @@ export default function Designer() {
       console.log("Selection cleared"); // Debugging
     });
 
-    // Run resizeCanvas when the component is mounted
-    resizeCanvas();
-
-    // Add event listener for window resizing
-    window.addEventListener("resize", resizeCanvas);
-
     // Function to add a new text object to the canvas
 
     // Cleanup when the component unmounts
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
       fabricCanvas.current.dispose(); // Dispose of the Fabric.js canvas
       const addTextBtn = document.getElementById("addTextBtn");
       if (addTextBtn) {
@@ -141,8 +100,6 @@ export default function Designer() {
       fontSize: textProps.fontSize, // Use the current font size from the state
       fill: textProps.fill, // Use the current text color from the state
       fontFamily: textProps.fontFamily, // Use the current font family from the state
-      fontWeight: textProps.fontWeight,
-      fontStyle: textProps.fontStyle,
       editable: true, // Allow the user to edit the text
     });
     canvas.add(textbox); // Add the textbox to the canvas
@@ -156,7 +113,7 @@ export default function Designer() {
       ...prev, // Keep the existing properties
       [prop]: value, // Update the specific property that was changed
     }));
-    console.log(textProps);
+    console.log(canvasRef);
     if (selectedText) {
       selectedText.set(prop, value); // Update the specific property of the selected text
       fabricCanvas.current.renderAll(); // Re-render the canvas immediately to apply the change
@@ -288,8 +245,8 @@ export default function Designer() {
                   </button>
                 </div>
               </form>
-              <h3 className="font-bold text-2xl ">Size Charts</h3>
-              <p className="py-4">Choose your size carfully ..</p>
+              {/* <h3 className="font-bold text-2xl ">Size Charts</h3> */}
+              {/* <p className="py-4">Choose your size carfully ..</p> */}
               <div className="modal-action justify-center">
                 <form method="dialog">
                   <SizeCharts />
@@ -300,18 +257,10 @@ export default function Designer() {
 
           {/* Color Picker for Text */}
           <div className="flex gap-9 items-center mt-3">
-            <div className="">
-              <label
-                htmlFor="color_picker"
-                className="text-sm font-medium mb-2 dark:text-white"
-              >
-                Color
-              </label>
-            </div>
+            <div className="">Color</div>
             <div className="">
               <input
-                id="color_picker"
-                className="p-1 h-8 w-12 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
+                className="w-20 mt-3"
                 type="color"
                 value={textProps.fill} // Bind the color picker to the current text color
                 onChange={(e) => {
@@ -325,28 +274,9 @@ export default function Designer() {
 
           {/* Font Size Input */}
           <div className="flex gap-9 items-center mt-3">
-            <div className="">
-              <label htmlFor="font-size">Font Size</label>
-            </div>
+            <div className="">Font Size</div>
             <div className="">
               <input
-                id="font-size"
-                type="range"
-                min={1}
-                max="50"
-                value={textProps.fontSize} // Bind the input to the current font size
-                className="range range-xs"
-                onChange={(e) => {
-                  if (parseInt(e.target.value) <= 0 || e.target.value === "") {
-                    e.target.value = 1;
-                  }
-                  updateTextProps("fontSize", parseInt(e.target.value));
-                  console.log("Font size changed to:", e.target.value); // Debugging
-                  console.log(textProps);
-                }}
-              />
-
-              {/* <input
                 className="w-44"
                 type="number"
                 value={textProps.fontSize} // Bind the input to the current font size
@@ -359,19 +289,16 @@ export default function Designer() {
                   console.log(textProps);
                 }} // Update the font size when changed
                 placeholder="Font Size"
-              /> */}
+              />
             </div>
           </div>
 
           {/* Font Family Selector */}
           <div className="flex gap-9 items-center mt-3">
-            <div className="">
-              <label htmlFor="font-style">Font Style</label>
-            </div>
+            <div className="">Font Style</div>
             <div className="">
               <select
-                id="font-style"
-                className="select select-sm select-success w-full max-w-xs"
+                className="w-44"
                 value={textProps.fontFamily} // Bind the select dropdown to the current font family
                 onChange={(e) => {
                   updateTextProps("fontFamily", e.target.value);
@@ -380,60 +307,11 @@ export default function Designer() {
                 }} // Update the font family when changed
               >
                 {/* Options for font family */}
-                {/* <option value="Arial">Arial</option>
+                <option value="Arial">Arial</option>
                 <option value="Times New Roman">Times New Roman</option>
                 <option value="Courier New">Courier New</option>
-                <option value="Georgia">Georgia</option> */}
-                <option value="arial">Arial</option>
-                <option value="helvetica" selected>
-                  Helvetica
-                </option>
-                <option value="verdana">Verdana</option>
-                <option value="georgia">Georgia</option>
-                <option value="courier">Courier</option>
-                <option value="comic sans ms">Comic Sans MS</option>
-                <option value="impact">Impact</option>
-                <option value="monaco">Monaco</option>
+                <option value="Georgia">Georgia</option>
               </select>
-            </div>
-          </div>
-          {/* Button to make text Bold */}
-          <div className="flex gap-9 items-center mt-3">
-            <div>
-              <label htmlFor="bold-button">Bold</label>
-            </div>
-            <div>
-              <input
-                id="bold-button"
-                type="checkbox"
-                onChange={(e) => {
-                  updateTextProps(
-                    "fontWeight",
-                    textProps.fontWeight === "" ? "bold" : ""
-                  );
-                  console.log("Bold changed to:", textProps.fontWeight); // Debugging
-                }}
-                className="checkbox"
-              />{" "}
-            </div>
-          </div>
-          <div className="flex gap-9 items-center mt-3">
-            <div>
-              <label htmlFor="italic-button">Italic</label>
-            </div>
-            <div>
-              <input
-                id="italic-button"
-                type="checkbox"
-                value={textProps.italic}
-                onChange={() => {
-                  updateTextProps(
-                    "fontStyle",
-                    textProps.fontStyle === "" ? "italic" : ""
-                  );
-                }}
-                className="checkbox"
-              />{" "}
             </div>
           </div>
 
@@ -450,19 +328,22 @@ export default function Designer() {
         <div
           style={{
             width: "100%",
-            height: "600px",
+            height: "100%",
             backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
             borderColor: "#4e7f62",
           }}
-          className="flex flex-col justify-center items-center bg-center bg-contain bg-no-repeat bg-white relative rounded-lg border border-indigo-600 p-5 "
+          className="flex flex-col justify-center items-center bg-center bg-contain bg-no-repeat bg-white relative rounded-lg border border-indigo-600 p-5"
         >
           {/* Fabric.js Canvas */}
           <canvas
             ref={canvasRef} // Reference to the canvas element
+            width="270"
+            height="400"
             style={{
               border: "1px dotted gray",
+              position: "absolute",
+              top: "30%",
+              left: "30%",
             }}
           />
         </div>

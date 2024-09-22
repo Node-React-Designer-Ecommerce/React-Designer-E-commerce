@@ -9,6 +9,7 @@
     opacity: 0;
     transform: translateX(-100%);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -24,6 +25,21 @@
     font-family: "Serif", serif;
   }
 }
+
 /* .carousel{
     height:100vh;
   }  */
+
+
+.active {
+  /* Add any additional styles for the active state */
+}
+
+.group:hover .bg-green-700 {
+  transform: scaleX(1);
+}
+
+.bg-green-700 {
+  transform: scaleX(0);
+  transition: transform 0.5s;
+}

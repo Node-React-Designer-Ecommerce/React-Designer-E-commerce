@@ -1,15 +1,24 @@
 import { useParams } from "react-router";
+
+//chart table
 import SizeCharts from "../components/Charts/SizeCharts";
 import Delivery from "../components/Charts/Delivery";
 import Rating from "../components/Rating";
+import RadioComponent from "../components/RadioComponent";
+
+//utils
+import { useToggleFavorite } from '../utils/helpers/help';
+import { getProductById } from '../utils/api/productsapi'
+
+//react query
+import { useQuery } from '@tanstack/react-query';
+
+//icons
 import ArrowLeft from './../icons/ArrowLeft';
 import XIcon from "../icons/XIcon";
 import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
-import { useToggleFavorite } from '../utils/helpers/help';
-import RadioComponent from "../components/RadioComponent";
-import { useQuery } from '@tanstack/react-query';
-import { getProductById } from '../utils/api/productsapi'
+import NoData from "../components/NoData";
 
 
 export default function ProductDetails() {
@@ -18,8 +27,8 @@ export default function ProductDetails() {
 
     const { data: product, isLoading, isError } = useQuery(
         {
-            queryKey: ['product', id],  
-            queryFn: () => getProductById(id), 
+            queryKey: ['product', id],
+            queryFn: () => getProductById(id),
             cacheTime: 50000,
         }
     );
@@ -36,9 +45,9 @@ export default function ProductDetails() {
     }
 
     if (isError) {
-        return <div className="h-screen text-red-600 flex justify-center align-middle">
-            <p>Failed to load product details. Please try again later.</p>
-        </div>
+        return (
+            <NoData />
+        )
     }
 
     return (
@@ -54,7 +63,7 @@ export default function ProductDetails() {
                     <div className="flex justify-between">
                         <h1 className="text-3xl font-bold uppercase ">{product.name}</h1>
                         <div className="bg-gray-100 rounded-3xl w-12 h-12 flex justify-center items-center" onClick={() => toggleFavorite(product._id)}>
-                            {favoriteProducts[product._id] ? <HeardFilledIcon /> : <HeartIcon />}   
+                            {favoriteProducts[product._id] ? <HeardFilledIcon /> : <HeartIcon />}
                         </div>
                     </div>
                     <Rating />

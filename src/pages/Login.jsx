@@ -1,14 +1,16 @@
 import { useState, useContext } from 'react';
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from 'react-router-dom'; // Assuming you are using React Router for navigation
+import { Link, useNavigate } from 'react-router-dom';
+
 import axios from "axios";
+
 import AuthContext from '../context/AuthContext';
 
 //toast
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Icons
+//icons
 import ErrorIcon from '../icons/ErrorIcon';
 import Eye from './../icons/Eye';
 import EyeSlash from './../icons/EyeSlash';
@@ -24,22 +26,18 @@ export default function Login() {
     const navigate = useNavigate();
     const { login } = useContext(AuthContext);
 
-    // States
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async (data) => {
-        setIsLoading(true); // Set isLoading to true before making the request
+        setIsLoading(true);
         try {
             const res = await axios.post(
                 "https://react-node-designer.glitch.me/api/v1/users/login",
                 data
             );
             toast.success("Logged In Successfully");
-            console.log(res.data);
-            console.log(res.data.data.token);
-            console.log(res.data.data.role);
-            login({ role: res.data.data.role }, res.data.data.token); // Set the user data and token in the context
+            login(res.data.data.token);
             navigate("/");
         } catch (error) {
             if (error.response?.data?.message === "Invalid email or password") {

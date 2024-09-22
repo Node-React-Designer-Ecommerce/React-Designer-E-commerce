@@ -21,6 +21,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CustomizePage from "./pages/CustomizePage";
 import Designer from "./pages/Designer";
+import Error from './components/Error';
 
 
 const queryClient = new QueryClient({
@@ -62,6 +63,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+               <Route path="*" element={<Error />} />
             </Routes>
             <Footer />
           </BrowserRouter>

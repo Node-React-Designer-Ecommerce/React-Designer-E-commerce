@@ -1,6 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import CustomLink from "./CustomLink"; // Import the custom link component
+
+//icons
 import ExitIcon from "../icons/ExitIcon";
 import CartIcon from "../icons/CartIcon";
 
@@ -14,29 +17,19 @@ export default function Navbar() {
   };
 
   return (
-    <div className="navbar bg-base-100 sticky top-0 z-50 border bottom-1">
-      <div className="flex-1">
+    <div className="navbar bg-base-100 sticky top-0 z-50 border bottom-1 flex justify-between">
+      <div className="">
         <Link to="/" className="">
           <img src="/logo.jpeg" width={80} alt="logo" />
         </Link>
       </div>
-      <div className="flex-none">
-        <div className="">
-          <Link
-            to="/products"
-            className="px-5 py-1  text-SecondaryColor font-bold text-xl  hover:transition-all"
-          >
-            products
-          </Link>
-        </div>
-        <div className="">
-          <Link
-            to="/customize"
-            className="px-5 py-1  text-SecondaryColor font-bold text-xl  hover:transition-all"
-          >
-            Customize
-          </Link>
-        </div>
+
+      <div className="flex space-x-4">
+        <CustomLink to="/products">products</CustomLink>
+        <CustomLink to="/customize">Customize</CustomLink>
+      </div>
+
+      <div className="">
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
             <div className="indicator">
@@ -115,5 +108,3 @@ export default function Navbar() {
     </div>
   );
 }
-
-
