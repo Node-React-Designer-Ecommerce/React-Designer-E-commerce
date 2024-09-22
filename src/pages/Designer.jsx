@@ -10,6 +10,8 @@ import XIcon from "../icons/XIcon";
 export default function Designer() {
   const { id } = useParams();
 
+  const [savedCanvas, setSavedCanvas] = useState(null);
+
   const canvasRef = useRef(null); // Reference to the canvas element
   const fabricCanvas = useRef(null); // Reference to the Fabric.js canvas
   const [selectedText, setSelectedText] = useState(null); // Track the currently selected text object
@@ -45,29 +47,26 @@ export default function Designer() {
   // function to manage size of canva
   const resizeCanvas = () => {
     const canvas = fabricCanvas.current;
-    const isSmallScreen = window.innerWidth < 768; // Adjust the breakpoint as needed
+    let width = 270;
+    let height = 350;
 
-    const width =
+    width =
       window.innerWidth < 576
-        ? 160
+        ? width * 0.58
         : window.innerWidth < 768
-        ? 220
+        ? width * 0.81
         : window.innerWidth < 992
-        ? 240
-        : window.innerWidth < 1200
-        ? 270
-        : 270; // Default for extra large screens
+        ? width * 0.88
+        : width; // Default for extra large screens
 
-    const height =
+    height =
       window.innerWidth < 576
-        ? 180
+        ? height * 0.51
         : window.innerWidth < 768
-        ? 300
+        ? 0.85 * height
         : window.innerWidth < 992
-        ? 320
-        : window.innerWidth < 1200
-        ? 350
-        : 350; // Default for extra large screens
+        ? height * 0.91
+        : height;
 
     canvas.setWidth(width);
     canvas.setHeight(height);
@@ -165,6 +164,44 @@ export default function Designer() {
     } else {
       console.warn("No text object selected"); // Debugging
     }
+  };
+
+  const saveAsImage = () => {
+    const canvas = fabricCanvas.current;
+    const dataURL = canvas.toDataURL({
+      format: "png",
+      quality: 1, // quality is a number between 0 and 1 for JPEGs, ignored for PNG
+    });
+
+    const link = document.createElement("a");
+    link.href = dataURL;
+    link.download = "canvas-image.png";
+    link.click();
+  };
+
+  const saveAsJSON = () => {
+    const canvas = fabricCanvas.current;
+    const canvasJSON = JSON.stringify(canvas.toJSON());
+    setSavedCanvas(canvasJSON);
+    console.log("Canvas JSON:", canvasJSON);
+    // You can send this JSON to your backend to save it
+  };
+
+  const loadFromJSON = () => {
+    const canvas = fabricCanvas.current;
+
+    // Load the canvas from the JSON string
+    canvas.loadFromJSON(savedCanvas, () => {
+      canvas.renderAll(); // Render the canvas after loading
+      console.log("Canvas loaded from JSON");
+    });
+  };
+
+  const resetCanvas = () => {
+    const canvas = fabricCanvas.current;
+
+    // Clear all objects from the canvas
+    canvas.clear();
   };
 
   // Function to handle adding an image to the canvas
@@ -441,6 +478,24 @@ export default function Designer() {
             <div className="inline-block bg-SecondaryColor text-white py-2 px-4 rounded cursor-pointer hover:bg-gray-700 transition duration-300 ease-in-out mt-5 w-44 text-center">
               Add to Cart
             </div>
+            <button
+              style={{ borderColor: "#4e7f62" }}
+              className="bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
+              onClick={saveAsImage}
+            >
+              Save as Image
+            </button>
+            <button onClick={loadFromJSON}>load from json</button>
+            <button onClick={resetCanvas}>reset canvas</button>
+
+            {/* Button to save canvas as JSON */}
+            <button
+              style={{ borderColor: "#4e7f62" }}
+              className="bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
+              onClick={saveAsJSON}
+            >
+              Save as JSON
+            </button>
           </div>
         </div>
       </div>
