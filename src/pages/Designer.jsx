@@ -8,10 +8,9 @@ import XIcon from "../icons/XIcon";
 //import "../styles/CanvaStyle.css";
 
 import { takeScreenShotFunc } from "../utils/helpers/screenshot.js";
-import { createFileName, useScreenshot } from 'use-react-screenshot'
+import { createFileName, useScreenshot } from "use-react-screenshot";
 
 export default function Designer() {
-
   //--------------- use react screenshot ------------------------------
   // const ref = useRef(null)
   // const [image, takeScreenshot] = useScreenshot()
@@ -23,7 +22,6 @@ export default function Designer() {
   //   console.log(takeScreenshot);
   // };
   //--------------- use react screenshot ------------------------------
-
 
   //--------------- use react screenshot ------------------------------
   // const [image3, takeScreenShot] = useScreenshot({
@@ -41,18 +39,11 @@ export default function Designer() {
   // const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
   //--------------- use react screenshot ------------------------------
 
-
-
-  //---------------  screenshot.js ------------------------------
-  const captureScreenShot = () => {
-    takeScreenShotFunc("divToTakeScreenshot", "MyImage", "image/jpeg", "#f5f5f5");
-    const canvasBorder = document.getElementById("canvasBorder");
-    canvasBorder.style.border = "none";
-  }
   //---------------  screenshot.js ------------------------------
 
-//--------------------------------------------------------------------------------------------
+  //---------------  screenshot.js ------------------------------
 
+  //--------------------------------------------------------------------------------------------
 
   const { id } = useParams();
 
@@ -100,23 +91,33 @@ export default function Designer() {
       window.innerWidth < 576
         ? width * 0.58
         : window.innerWidth < 768
-          ? width * 0.81
-          : window.innerWidth < 992
-            ? width * 0.88
-            : width; // Default for extra large screens
+        ? width * 0.81
+        : window.innerWidth < 992
+        ? width * 0.88
+        : width; // Default for extra large screens
 
     height =
       window.innerWidth < 576
         ? height * 0.51
         : window.innerWidth < 768
-          ? 0.85 * height
-          : window.innerWidth < 992
-            ? height * 0.91
-            : height;
+        ? 0.85 * height
+        : window.innerWidth < 992
+        ? height * 0.91
+        : height;
 
     canvas.setWidth(width);
     canvas.setHeight(height);
     canvas.renderAll(); // Re-render the canvas to apply changes
+  };
+  const captureScreenShot = async () => {
+    fabricCanvas.current.discardActiveObject();
+    fabricCanvas.current.renderAll();
+    await takeScreenShotFunc(
+      "divToTakeScreenshot",
+      "MyImage",
+      "image/jpeg",
+      "#f5f5f5"
+    );
   };
 
   useEffect(() => {
@@ -126,9 +127,6 @@ export default function Designer() {
       setTitle(product.title);
       setPrice(product.price);
     }
-
-
-
 
     // Initialize the Fabric.js canvas
 
@@ -215,8 +213,6 @@ export default function Designer() {
     }
   };
 
-
-
   const saveAsImage = () => {
     const canvas = fabricCanvas.current;
     const dataURL = canvas.toDataURL({
@@ -228,7 +224,7 @@ export default function Designer() {
     link.href = dataURL;
     link.download = "canvas-image.png";
     link.click();
-    console.log(dataURL)
+    console.log(dataURL);
   };
 
   const saveAsJSON = () => {
@@ -548,11 +544,12 @@ export default function Designer() {
             >
               Save as JSON
             </button>
-
-
           </div>
           <div className="p-5 flex justify-around">
-            <button className="btn btn-error" onClick={captureScreenShot}> screenshot.js </button>
+            <button className="btn btn-error" onClick={captureScreenShot}>
+              {" "}
+              screenshot.js{" "}
+            </button>
             {/* <button className="btn btn-success" onClick={getImage}>react screenshot  </button>
             <button className="btn btn-secondary" onClick={downloadScreenshot}>download screenshot  </button> */}
           </div>
@@ -562,10 +559,10 @@ export default function Designer() {
       {/* T-shirt Canvas */}
       {/* Display the captured screenshot if available */}
 
-
       {/* <div ref={ref} className="w-full lg:w-3/4 flex justify-center items-center p-4"> */}
-      <div  id="divToTakeScreenshot" className="w-full lg:w-3/4 flex justify-center items-center p-4">
+      <div className="w-full lg:w-3/4 flex justify-center items-center p-4">
         <div
+          id="divToTakeScreenshot"
           style={{
             width: "100%",
             height: "600px",
@@ -577,10 +574,11 @@ export default function Designer() {
           className="flex flex-col justify-center items-center bg-center bg-contain bg-no-repeat bg-white relative rounded-lg border border-indigo-600 p-5 "
         >
           {/* Fabric.js Canvas */}
-          <canvas id="canvasBorder"
+          <canvas
+            id="canvasBorder"
             ref={canvasRef} // Reference to the canvas element
             style={{
-              border: "1px dotted gray",
+              border: "1px dashed gray",
             }}
           />
         </div>
