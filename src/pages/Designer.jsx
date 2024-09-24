@@ -150,11 +150,11 @@ export default function Designer() {
     });
 
     // Run resizeCanvas when the component is mounted
-    resizeCanvas(fabricCanvas.current, canvasWidth, canvasHeight);
+    resizeCanvas(fabricCanvas, canvasWidth, canvasHeight);
 
     // Add event listener for window resizing
     window.addEventListener("resize", () =>
-      resizeCanvas(fabricCanvas.current, canvasWidth, canvasHeight)
+      resizeCanvas(fabricCanvas, canvasWidth, canvasHeight)
     );
 
     // Function to add a new text object to the canvas

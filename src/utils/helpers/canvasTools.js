@@ -23,9 +23,9 @@ export const resizeCanvas = (fabricCanvas, canvasWidth, canvasHeight) => {
   //     ? height * 0.91
   //     : height;
 
-  fabricCanvas.setWidth(width);
-  fabricCanvas.setHeight(height);
-  fabricCanvas.renderAll(); // Re-render the canvas to apply changes
+  fabricCanvas.current.setWidth(width);
+  fabricCanvas.current.setHeight(height);
+  fabricCanvas.current.renderAll(); // Re-render the canvas to apply changes
 };
 //screenshot capture
 export const captureScreenShot = async (fabricCanvas) => {
