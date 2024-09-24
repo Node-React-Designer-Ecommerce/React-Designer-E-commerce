@@ -1,29 +1,46 @@
 //import { Link } from "react-router-dom";
 
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { getIsDesignableProduct } from "../../utils/api/productsapi";
 
 export default function CardOfDesigner() {
-  const products = [
-    {
-      id: 1,
-      title: "Short Sleeve T-Shirt",
-      image: "T-SHIRT.png",
-      price: "150",
-    },
-    {
-      id: 2,
-      title: "Hoodie",
-      image: "hoodie.webp",
-      price: "300",
-    },
-    {
-      id: 3,
-      title: "Long Sleeve T-Shirt",
-      image: "sleevet-shirt.jpg",
-      price: "200",
-    },
-  ];
+  // const products = [
+  //   {
+  //     id: 1,
+  //     title: "Short Sleeve T-Shirt",
+  //     image: "T-SHIRT.png",
+  //     price: "150",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Hoodie",
+  //     image: "hoodie.webp",
+  //     price: "300",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Long Sleeve T-Shirt",
+  //     image: "sleevet-shirt.jpg",
+  //     price: "200",
+  //   },
+  // ];
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["isDesignableProducts"],
+    queryFn: getIsDesignableProduct,
+    cacheTime: 50000,
+  });
+  console.log(data);
 
+  if (isLoading) {
+    return <div>Loading...</div>; // Loading state
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>; // Display error message
+  }
+
+  const products = data || []; // Ensure products is an array
   return (
     <div className="mt-32">
       <div className="mb-5 font-bold text-4xl text-black text-center">
