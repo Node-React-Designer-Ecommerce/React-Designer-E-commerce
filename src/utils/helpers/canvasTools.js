@@ -2,27 +2,26 @@ import { fabric } from "fabric";
 import { takeScreenShotFunc } from "./screenshot";
 
 //resize canva in responsive
-export const resizeCanvas = (fabricCanvas) => {
-  let width = 270;
-  let height = 350;
+export const resizeCanvas = (fabricCanvas, canvasWidth, canvasHeight) => {
+  let width = canvasWidth;
+  let height = canvasHeight;
+  //1285 - > 1024
+  // 683 - > 0
 
-  width =
-    window.innerWidth < 576
-      ? width * 0.58
-      : window.innerWidth < 768
-      ? width * 0.81
-      : window.innerWidth < 992
-      ? width * 0.88
-      : width; // Default for extra large screens
-
-  height =
-    window.innerWidth < 576
-      ? height * 0.51
-      : window.innerWidth < 768
-      ? 0.85 * height
-      : window.innerWidth < 992
-      ? height * 0.91
-      : height;
+  // width =
+  //   window.innerWidth < 683
+  //     ? width * 0.58
+  //     : window.innerWidth < 1285 && window.innerWidth > 1024
+  //     ? width * (window.innerWidth / (1285 - window.innerWidth))
+  //     : width; // Default for extra large screens
+  // height =
+  //   window.innerWidth < 683
+  //     ? height * 0.51
+  //     : window.innerWidth < 1285 && window.innerWidth > 1024
+  //     ? 0.85 * (window.innerWidth / (1285 - window.innerWidth))
+  //     : window.innerWidth < 992
+  //     ? height * 0.91
+  //     : height;
 
   fabricCanvas.setWidth(width);
   fabricCanvas.setHeight(height);

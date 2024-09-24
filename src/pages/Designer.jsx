@@ -73,20 +73,33 @@ export default function Designer() {
   const [backgroundImage, setBackgroundImage] = useState(""); // State for background image
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [canvasWidth, setCanvasWidth] = useState(0); // State for canvas width
+  const [canvasHeight, setCanvasHeight] = useState(0); // State for canvas height
 
   const products = [
     {
       id: 1,
       title: "Short Sleeve T-Shirt",
-      image: "T-SHIRT.png",
+      image: "T-SHIRTc.png",
       price: "150",
+      width: 250,
+      height: 350,
     },
-    { id: 2, title: "Hoodie", image: "hoodie.webp", price: "300" },
+    {
+      id: 2,
+      title: "Hoodie",
+      image: "hoodiec.png",
+      price: "300",
+      width: 250,
+      height: 190,
+    },
     {
       id: 3,
       title: "Long Sleeve T-Shirt",
-      image: "sleevet-shirt.jpg",
+      image: "sleevet-shirtc.png",
       price: "200",
+      width: 240,
+      height: 350,
     },
   ];
 
@@ -100,6 +113,8 @@ export default function Designer() {
       setBackgroundImage(`/public/${product.image}`); // Set the background image
       setTitle(product.title);
       setPrice(product.price);
+      setCanvasWidth(product.width); // Set canvas width from product
+      setCanvasHeight(product.height); // Set canvas height from product
     }
 
     // Initialize the Fabric.js canvas
@@ -135,23 +150,27 @@ export default function Designer() {
     });
 
     // Run resizeCanvas when the component is mounted
-    resizeCanvas(fabricCanvas.current);
+    resizeCanvas(fabricCanvas.current, canvasWidth, canvasHeight);
 
     // Add event listener for window resizing
-    window.addEventListener("resize", () => resizeCanvas(fabricCanvas.current));
+    window.addEventListener("resize", () =>
+      resizeCanvas(fabricCanvas.current, canvasWidth, canvasHeight)
+    );
 
     // Function to add a new text object to the canvas
 
     // Cleanup when the component unmounts
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", () =>
+        resizeCanvas(fabricCanvas.current, canvasWidth, canvasHeight)
+      );
       fabricCanvas.current.dispose(); // Dispose of the Fabric.js canvas
       const addTextBtn = document.getElementById("addTextBtn");
       if (addTextBtn) {
         addTextBtn.removeEventListener("click", addText);
       }
     };
-  }, [id]); // Only re-run this effect if textProps changes
+  }, [id, canvasHeight, canvasWidth]); // Only re-run this effect if textProps changes
 
   // add text
   const handleAddText = () => {
@@ -288,7 +307,7 @@ export default function Designer() {
             <div className="">
               <label
                 htmlFor="color_picker"
-                className="text-sm font-medium mb-2 dark:text-white"
+                className="text-sm font-medium mb-2"
               >
                 Color
               </label>
@@ -296,7 +315,7 @@ export default function Designer() {
             <div className="">
               <input
                 id="color_picker"
-                className="p-1 h-8 w-12 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
+                className="p-1 h-8 w-12 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none"
                 type="color"
                 value={textProps.fill} // Bind the color picker to the current text color
                 onChange={(e) => {
