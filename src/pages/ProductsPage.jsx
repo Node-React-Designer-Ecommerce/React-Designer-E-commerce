@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 //react query
 import { useQuery } from '@tanstack/react-query';
@@ -23,10 +23,19 @@ import NoData from './../components/NoData';
 
 
 export default function ProductsPage() {
+    const location = useLocation(); // To access current URL
+    const navigate = useNavigate();  // To update URL
+    const queryParams = new URLSearchParams(location.search); // Get query params
+    const initialSearch = queryParams.get("search") || ""; 
+    const [search, setSearch] = useState(initialSearch);
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 8;
+
+
     const { isLoading, data, isError, error } = useQuery(
         {
-            queryKey: ['products'],
-            queryFn: getAllProducts,
+            queryKey: ['products', search],
+            queryFn: () => getAllProducts(search),
             cacheTime: 50000,
         }
     );
@@ -41,14 +50,20 @@ export default function ProductsPage() {
 
     const { favoriteProducts, toggleFavorite } = useToggleFavorite();
 
-    const [search, setSearch] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 8;
 
     const handleSearch = (event) => {
-        setSearch(event.target.value.toLowerCase());
-        setCurrentPage(1);
+        const newSearch = event.target.value.toLowerCase();
+        setSearch(newSearch);
+        navigate(`?search=${newSearch}`);
     };
+
+    useEffect(() => {
+        const searchParam = queryParams.get("search");
+        if (searchParam && searchParam !== search) {
+          setSearch(searchParam); // Sync the search state with the URL query param
+        }
+      }, [location.search]); 
+    
 
     const products = data ? data : [];
     console.log(products)
@@ -122,7 +137,7 @@ export default function ProductsPage() {
                     <div className="drawer-side z-10 pt-20">
                         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-                            <input type="text" placeholder="Search here .." className="input input-bordered rounded-3xl my-5 input-sm md:input-md w-full max-w-xs text-black" onChange={handleSearch} />
+                            <input type="text" placeholder="Search here .." value={search} className="input input-bordered rounded-3xl my-5 input-sm md:input-md w-full max-w-xs text-black" onChange={handleSearch} />
                             {/* Sidebar content here */}
                             <Filter className="pt-10" />
                         </ul>
