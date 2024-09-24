@@ -9,6 +9,18 @@ import XIcon from "../icons/XIcon";
 
 import { takeScreenShotFunc } from "../utils/helpers/screenshot.js";
 import { createFileName, useScreenshot } from "use-react-screenshot";
+import {
+  addText,
+  captureScreenShot,
+  handleAddImage,
+  loadFromJSON,
+  removeSelectedObject,
+  resetCanvas,
+  resizeCanvas,
+  saveAsImage,
+  saveAsJSON,
+  updateTextProps,
+} from "../utils/helpers/canvasTools.js";
 
 export default function Designer() {
   //--------------- use react screenshot ------------------------------
@@ -46,13 +58,10 @@ export default function Designer() {
   //--------------------------------------------------------------------------------------------
 
   const { id } = useParams();
-
   const [savedCanvas, setSavedCanvas] = useState(null);
-
   const canvasRef = useRef(null); // Reference to the canvas element
   const fabricCanvas = useRef(null); // Reference to the Fabric.js canvas
   const [selectedText, setSelectedText] = useState(null); // Track the currently selected text object
-
   const [textProps, setTextProps] = useState({
     fontSize: 24, // Initial font size
     fill: "#000000", // Initial text color (black)
@@ -81,45 +90,10 @@ export default function Designer() {
     },
   ];
 
-  // function to manage size of canva
-  const resizeCanvas = () => {
-    const canvas = fabricCanvas.current;
-    let width = 270;
-    let height = 350;
+  //screenshot capture
+  const handleCaptureScreenShot = () => captureScreenShot(fabricCanvas.current);
 
-    width =
-      window.innerWidth < 576
-        ? width * 0.58
-        : window.innerWidth < 768
-        ? width * 0.81
-        : window.innerWidth < 992
-        ? width * 0.88
-        : width; // Default for extra large screens
-
-    height =
-      window.innerWidth < 576
-        ? height * 0.51
-        : window.innerWidth < 768
-        ? 0.85 * height
-        : window.innerWidth < 992
-        ? height * 0.91
-        : height;
-
-    canvas.setWidth(width);
-    canvas.setHeight(height);
-    canvas.renderAll(); // Re-render the canvas to apply changes
-  };
-  const captureScreenShot = async () => {
-    fabricCanvas.current.discardActiveObject();
-    fabricCanvas.current.renderAll();
-    await takeScreenShotFunc(
-      "divToTakeScreenshot",
-      "MyImage",
-      "image/jpeg",
-      "#f5f5f5"
-    );
-  };
-
+  // useeffect
   useEffect(() => {
     const product = products.find((product) => product.id === parseInt(id));
     if (product) {
@@ -161,10 +135,10 @@ export default function Designer() {
     });
 
     // Run resizeCanvas when the component is mounted
-    resizeCanvas();
+    resizeCanvas(fabricCanvas.current);
 
     // Add event listener for window resizing
-    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("resize", () => resizeCanvas(fabricCanvas.current));
 
     // Function to add a new text object to the canvas
 
@@ -179,114 +153,40 @@ export default function Designer() {
     };
   }, [id]); // Only re-run this effect if textProps changes
 
-  const addText = () => {
-    const canvas = fabricCanvas.current;
-    const textbox = new fabric.Textbox("Enter text here", {
-      left: 100,
-      top: 100,
-      fontSize: textProps.fontSize, // Use the current font size from the state
-      fill: textProps.fill, // Use the current text color from the state
-      fontFamily: textProps.fontFamily, // Use the current font family from the state
-      fontWeight: textProps.fontWeight,
-      fontStyle: textProps.fontStyle,
-      editable: true, // Allow the user to edit the text
-    });
-    canvas.add(textbox); // Add the textbox to the canvas
-    canvas.setActiveObject(textbox); // Make the new textbox the active object
-    canvas.renderAll(); // Re-render the canvas to display the changes
+  // add text
+  const handleAddText = () => {
+    addText(fabricCanvas.current, textProps);
   };
 
   // Function to update the properties of the selected text
-  const updateTextProps = (prop, value) => {
-    setTextProps((prev) => ({
-      ...prev, // Keep the existing properties
-      [prop]: value, // Update the specific property that was changed
-    }));
-    console.log(textProps);
-    if (selectedText) {
-      selectedText.set(prop, value); // Update the specific property of the selected text
-      fabricCanvas.current.renderAll(); // Re-render the canvas immediately to apply the change
-
-      console.log("Text properties updated:", prop, value); // Debugging
-    } else {
-      console.warn("No text object selected"); // Debugging
-    }
+  const handleUpdateTextProps = (prop, value) => {
+    setTextProps((prev) => ({ ...prev, [prop]: value }));
+    updateTextProps(selectedText, prop, value, fabricCanvas.current);
   };
 
-  const saveAsImage = () => {
-    const canvas = fabricCanvas.current;
-    const dataURL = canvas.toDataURL({
-      format: "png",
-      quality: 1, // quality is a number between 0 and 1 for JPEGs, ignored for PNG
-    });
+  //save canva as image
+  const handleSaveAsImage = () => saveAsImage(fabricCanvas.current);
 
-    const link = document.createElement("a");
-    link.href = dataURL;
-    link.download = "canvas-image.png";
-    link.click();
-    console.log(dataURL);
-  };
-
-  const saveAsJSON = () => {
-    const canvas = fabricCanvas.current;
-    const canvasJSON = JSON.stringify(canvas.toJSON());
+  // save canva as json
+  const handleSaveAsJSON = () => {
+    const canvasJSON = saveAsJSON(fabricCanvas.current);
     setSavedCanvas(canvasJSON);
     console.log("Canvas JSON:", canvasJSON);
-    // You can send this JSON to your backend to save it
   };
 
-  const loadFromJSON = () => {
-    const canvas = fabricCanvas.current;
+  // load from json
+  const handleLoadFromJSON = () =>
+    loadFromJSON(fabricCanvas.current, savedCanvas);
 
-    // Load the canvas from the JSON string
-    canvas.loadFromJSON(savedCanvas, () => {
-      canvas.renderAll(); // Render the canvas after loading
-      console.log("Canvas loaded from JSON");
-    });
-  };
-
-  const resetCanvas = () => {
-    const canvas = fabricCanvas.current;
-
-    // Clear all objects from the canvas
-    canvas.clear();
-  };
+  //reset canva
+  const handleResetCanva = () => resetCanvas(fabricCanvas.current);
 
   // Function to handle adding an image to the canvas
-  const handleAddImage = (e) => {
-    const canvas = fabricCanvas.current;
-    let imgObj = e.target.files[0]; // Get the uploaded image file
-    let reader = new FileReader();
-    reader.readAsDataURL(imgObj); // Read the image file as a data URL
-    reader.onload = (e) => {
-      let imgElement = document.createElement("img");
-      imgElement.src = e.target.result; // Set the image source to the data URL
-      imgElement.onload = function () {
-        const image = new fabric.Image(imgElement, {
-          scaleX: 0.1, // Scale down the image for the canvas
-          scaleY: 0.1,
-        });
-        canvas.add(image); // Add the image to the canvas
-        canvas.centerObject(image); // Center the image on the canvas
-        canvas.setActiveObject(image); // Make the image the active object
-      };
-    };
-  };
+  const handleAddImageOnCanva = (e) => handleAddImage(e, fabricCanvas.current);
 
-  const removeSelectedObject = () => {
-    const canvas = fabricCanvas.current;
-    const activeObject = canvas.getActiveObject(); // Get the selected object
-    console.log(activeObject);
-
-    if (activeObject) {
-      // Check if the selected object is an image
-      canvas.remove(activeObject); // Remove the selected object
-      canvas.renderAll(); // Re-render the canvas to reflect the changes
-      // console.log("Image removed"); // Debugging
-    } else {
-      console.warn("No object is selected to remove");
-    }
-  };
+  //remove selected object
+  const handleRemoveSelectedObj = () =>
+    removeSelectedObject(fabricCanvas.current);
 
   return (
     <div className="flex flex-col lg:flex-row">
@@ -310,7 +210,7 @@ export default function Designer() {
                 className="hidden"
                 type="file"
                 accept="image/*"
-                onChange={handleAddImage} // Handle the image upload
+                onChange={handleAddImageOnCanva} // Handle the image upload
               />
 
               {/* Custom Button */}
@@ -330,7 +230,7 @@ export default function Designer() {
                 style={{ borderColor: "#4e7f62" }}
                 className=" bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 "
                 id="addTextBtn"
-                onClick={addText}
+                onClick={handleAddText}
               >
                 Add Text
               </button>
@@ -341,7 +241,7 @@ export default function Designer() {
             <button
               style={{ borderColor: "#4e7f62" }}
               className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 mb-5"
-              onClick={removeSelectedObject} // Handle image removal
+              onClick={handleRemoveSelectedObj} // Handle image removal
             >
               Remove Selected Object
             </button>
@@ -400,7 +300,7 @@ export default function Designer() {
                 type="color"
                 value={textProps.fill} // Bind the color picker to the current text color
                 onChange={(e) => {
-                  updateTextProps("fill", e.target.value);
+                  handleUpdateTextProps("fill", e.target.value);
                   console.log("Color changed to:", e.target.value); // Debugging
                   console.log(textProps);
                 }} // Update the fill color when changed
@@ -425,26 +325,11 @@ export default function Designer() {
                   if (parseInt(e.target.value) <= 0 || e.target.value === "") {
                     e.target.value = 1;
                   }
-                  updateTextProps("fontSize", parseInt(e.target.value));
+                  handleUpdateTextProps("fontSize", parseInt(e.target.value));
                   console.log("Font size changed to:", e.target.value); // Debugging
                   console.log(textProps);
                 }}
               />
-
-              {/* <input
-                className="w-44"
-                type="number"
-                value={textProps.fontSize} // Bind the input to the current font size
-                onChange={(e) => {
-                  if (parseInt(e.target.value) <= 0 || e.target.value === "") {
-                    e.target.value = 1;
-                  }
-                  updateTextProps("fontSize", parseInt(e.target.value));
-                  console.log("Font size changed to:", e.target.value); // Debugging
-                  console.log(textProps);
-                }} // Update the font size when changed
-                placeholder="Font Size"
-              /> */}
             </div>
           </div>
 
@@ -459,16 +344,11 @@ export default function Designer() {
                 className="select select-sm select-success w-full max-w-xs"
                 value={textProps.fontFamily} // Bind the select dropdown to the current font family
                 onChange={(e) => {
-                  updateTextProps("fontFamily", e.target.value);
+                  handleUpdateTextProps("fontFamily", e.target.value);
                   console.log("Font family changed to:", e.target.value); // Debugging
                   console.log(textProps);
                 }} // Update the font family when changed
               >
-                {/* Options for font family */}
-                {/* <option value="Arial">Arial</option>
-                <option value="Times New Roman">Times New Roman</option>
-                <option value="Courier New">Courier New</option>
-                <option value="Georgia">Georgia</option> */}
                 <option defaultValue value="arial">
                   Arial
                 </option>
@@ -492,7 +372,7 @@ export default function Designer() {
                 id="bold-button"
                 type="checkbox"
                 onChange={(e) => {
-                  updateTextProps(
+                  handleUpdateTextProps(
                     "fontWeight",
                     textProps.fontWeight === "" ? "bold" : ""
                   );
@@ -512,7 +392,7 @@ export default function Designer() {
                 type="checkbox"
                 value={textProps.italic}
                 onChange={() => {
-                  updateTextProps(
+                  handleUpdateTextProps(
                     "fontStyle",
                     textProps.fontStyle === "" ? "italic" : ""
                   );
@@ -529,24 +409,24 @@ export default function Designer() {
             <button
               style={{ borderColor: "#4e7f62" }}
               className="bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
-              onClick={saveAsImage}
+              onClick={handleSaveAsImage}
             >
               Save as Image
             </button>
-            <button onClick={loadFromJSON}>load from json</button>
-            <button onClick={resetCanvas}>reset canvas</button>
+            <button onClick={handleLoadFromJSON}>load from json</button>
+            <button onClick={handleResetCanva}>reset canvas</button>
 
             {/* Button to save canvas as JSON */}
             <button
               style={{ borderColor: "#4e7f62" }}
               className="bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
-              onClick={saveAsJSON}
+              onClick={handleSaveAsJSON}
             >
               Save as JSON
             </button>
           </div>
           <div className="p-5 flex justify-around">
-            <button className="btn btn-error" onClick={captureScreenShot}>
+            <button className="btn btn-error" onClick={handleCaptureScreenShot}>
               {" "}
               screenshot.js{" "}
             </button>
