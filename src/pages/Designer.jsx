@@ -466,11 +466,9 @@ export default function Designer() {
             width: "100%",
             height: "600px",
             backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
             borderColor: "#4e7f62",
           }}
-          className="flex flex-col justify-center items-center bg-center bg-contain bg-no-repeat bg-white relative rounded-lg border border-indigo-600 p-5 "
+          className="flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg border bg-cover xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 "
         >
           {/* Fabric.js Canvas */}
           <canvas
