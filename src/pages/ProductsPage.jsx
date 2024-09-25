@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 
 //react query
 import { useQuery } from '@tanstack/react-query';
-import { useQueryClient } from '@tanstack/react-query';
+// import { useQueryClient } from '@tanstack/react-query';
 
 //utils
-import { getAllProducts } from '../utils/api/productsapi'
+import { searchProducts } from '../utils/api/productsapi'
 import { useToggleFavorite } from '../utils/helpers/help';
 
 import Filter from "../components/Filter";
@@ -23,60 +23,55 @@ import NoData from './../components/NoData';
 
 
 export default function ProductsPage() {
-    const location = useLocation(); // To access current URL
-    const navigate = useNavigate();  // To update URL
-    const queryParams = new URLSearchParams(location.search); // Get query params
-    const initialSearch = queryParams.get("search") || ""; 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initialSearch = searchParams.get("search") || "";
     const [search, setSearch] = useState(initialSearch);
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 8;
+    const searchTimeout = useRef(null);
 
-
+    // Fetch products based on the search query
     const { isLoading, data, isError, error } = useQuery(
         {
             queryKey: ['products', search],
-            queryFn: () => getAllProducts(search),
+            queryFn: () => searchProducts(search),
             cacheTime: 50000,
+            enabled: search.length >= 3,
         }
     );
-    const queryClient = useQueryClient();
-    const cachedData = queryClient.getQueryData(['products']);
-
-    if (cachedData) {
-        console.log('Data is cached:', cachedData);
-    } else {
-        console.log('Data is not cached');
-    }
 
     const { favoriteProducts, toggleFavorite } = useToggleFavorite();
-
 
     const handleSearch = (event) => {
         const newSearch = event.target.value.toLowerCase();
         setSearch(newSearch);
-        navigate(`?search=${newSearch}`);
+
+        clearTimeout(searchTimeout.current);
+        searchTimeout.current = setTimeout(() => {
+            if (newSearch.length >= 3) { 
+                setSearchParams({ search: newSearch });
+            } else {
+                setSearchParams({});
+            }
+        }, 500);
     };
 
     useEffect(() => {
-        const searchParam = queryParams.get("search");
+        const searchParam = searchParams.get("search");
         if (searchParam && searchParam !== search) {
-          setSearch(searchParam); // Sync the search state with the URL query param
+            setSearch(searchParam); // Sync the search state with the URL query param
         }
-      }, [location.search]); 
-    
+    }, [searchParams]);
 
+    // Directly use the fetched products (filtered from API)
     const products = data ? data : [];
     console.log(products)
 
-
-    const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(search)
-    );
-
-    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+    // Pagination
+    const totalPages = Math.ceil(products.length / productsPerPage);
     const firstIndex = (currentPage - 1) * productsPerPage;
     const lastIndex = firstIndex + productsPerPage;
-    const currentProducts = filteredProducts.slice(firstIndex, lastIndex);
+    const currentProducts = products.slice(firstIndex, lastIndex);
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -92,7 +87,7 @@ export default function ProductsPage() {
 
     if (isLoading) {
         return (
-            <div className="flex justify-center">
+            <div className="flex justify-center py-20">
                 <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
                     {Array.from({ length: productsPerPage }).map((_, index) => (
                         <div key={index} className="card bg-base-100 w-80 shadow-xl">
@@ -137,7 +132,9 @@ export default function ProductsPage() {
                     <div className="drawer-side z-10 pt-20">
                         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+
                             <input type="text" placeholder="Search here .." value={search} className="input input-bordered rounded-3xl my-5 input-sm md:input-md w-full max-w-xs text-black" onChange={handleSearch} />
+
                             {/* Sidebar content here */}
                             <Filter className="pt-10" />
                         </ul>
