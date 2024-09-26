@@ -1,11 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // import Components
-import Navbar from './layouts/Navbar';
+import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
-
-
 
 //import pages
 
@@ -21,23 +19,22 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CustomizePage from "./pages/CustomizePage";
 import Designer from "./pages/Designer";
-import Error from './components/Error';
-
+import Error from "./components/Error";
+import CartPage from "./pages/CartPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000
-    }
-  }
+      staleTime: 60 * 1000,
+    },
+  },
 });
-
 
 function App() {
   return (
     <div className="relative">
       <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+        <ReactQueryDevtools initialIsOpen={false} />
         <AuthProvider>
           <BrowserRouter>
             <Navbar className="sticky top-0 z-50" />
@@ -63,7 +60,8 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-               <Route path="*" element={<Error />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="*" element={<Error />} />
             </Routes>
             <Footer />
           </BrowserRouter>
