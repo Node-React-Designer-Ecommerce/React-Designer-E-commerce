@@ -22,6 +22,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import CustomizePage from "./pages/CustomizePage";
 import Designer from "./pages/Designer";
 import Error from './components/Error';
+import ResetPassword from "./pages/ResetPassword";
+import ForgetPassword from "./pages/ForgetPassword";
 
 
 const queryClient = new QueryClient({
@@ -63,6 +65,8 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/forget-password" element={<ForgetPassword />} />
                <Route path="*" element={<Error />} />
             </Routes>
             <Footer />
