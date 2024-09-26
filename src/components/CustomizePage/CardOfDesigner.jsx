@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { getIsDesignableProduct } from "../../utils/api/productsapi";
+import Skelton from "../../layouts/Skelton";
 
 export default function CardOfDesigner() {
   // const products = [
@@ -33,7 +34,17 @@ export default function CardOfDesigner() {
   console.log(data);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Loading state
+    return (
+      <div className="flex justify-center py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="card bg-base-100 w-80 shadow-xl">
+              <Skelton />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -41,6 +52,7 @@ export default function CardOfDesigner() {
   }
 
   const products = data || []; // Ensure products is an array
+  console.log(products);
   return (
     <div className="mt-32">
       <div className="mb-5 font-bold text-4xl text-black text-center">
@@ -59,7 +71,7 @@ export default function CardOfDesigner() {
 
                   <p className="text-green-800">EGP {product.price}</p>
                   <Link
-                    to={`/designer/${product.id}`}
+                    to={`/designer/${product._id}`}
                     className="flex justify-between  w-44 bg-SecondaryColor text-white rounded cursor-pointer hover:bg-gray-700 transition duration-300 ease-in-out text-center p-2 text-center "
                   >
                     Custome your design
@@ -73,37 +85,3 @@ export default function CardOfDesigner() {
     </div>
   );
 }
-
-///////////////////////////////////////////////////////
-
-// import React, { useState, useEffect } from 'react';
-
-// const DynamicBackground = () => {
-//     const [backgroundImage, setBackgroundImage] = useState('');
-
-//     useEffect(() => {
-//         // Function to fetch the image URL from the API
-//         const fetchBackgroundImage = async () => {
-//             try {
-//                 const response = await fetch('https://api.example.com/background-image');
-//                 const data = await response.json();
-//                 const imageUrl = data.imageUrl;
-//                 setBackgroundImage(imageUrl);
-//             } catch (error) {
-//                 console.error('Error fetching background image:', error);
-//             }
-//         };
-
-//         // Call the function to fetch and set the background image
-//         fetchBackgroundImage();
-//     }, []);
-
-//     return (
-// <div
-//             className="w-full h-screen bg-cover bg-center"
-//             style={{ backgroundImage: `url(${backgroundImage})` }}
-// ></div>
-//     );
-// };
-
-// export default DynamicBackground;
