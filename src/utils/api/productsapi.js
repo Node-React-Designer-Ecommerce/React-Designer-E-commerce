@@ -1,15 +1,28 @@
+import axiosInstance from "./axiosInstance";
 
-import axiosInstance from './axiosInstance';
+// export const getAllProducts = async () => {
+//   return await axiosInstance
+//     .get("/products")
+//     .then((res) => res.data.data.products);
+// };
+// utils/api/productsapi.js
+
 
 export const getAllProducts = async () => {
-    return await axiosInstance.get("/products")
-    .then( res => res.data.data.products)
-  };
+    const response = await axiosInstance.get(`/products`);
+    return response.data.data.products;
+};
 
-export const searchProducts = async(searchTerm) => {
-  return await axiosInstance.get(`/products?search=${searchTerm}`)
-    .then(res => res.data.data.products)
 
+export const searchProducts = async (search) => {
+  return await axiosInstance
+    .get(`/products?search=${search}`)
+    .then((res) => res.data.data.products);
+};
+
+export const getProductsByPage = async (page, search = '') => {
+  const res = await axiosInstance.get(`/products?page=${page}&search=${search}`);
+  return res.data.data.products;
 };
 
 export const getProductById = (id) => {
