@@ -21,42 +21,10 @@ import {
   saveAsJSON,
   updateTextProps,
 } from "../utils/helpers/canvasTools.js";
+import { getIsDesignableProductById } from "../utils/api/productsapi.js";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Designer() {
-  //--------------- use react screenshot ------------------------------
-  // const ref = useRef(null)
-  // const [image, takeScreenshot] = useScreenshot()
-
-  // const getImage = () => {
-  //   console.log("image");
-  //   const screen = takeScreenshot(ref.current);
-  //   console.log(ref.current);
-  //   console.log(takeScreenshot);
-  // };
-  //--------------- use react screenshot ------------------------------
-
-  //--------------- use react screenshot ------------------------------
-  // const [image3, takeScreenShot] = useScreenshot({
-  //   type: "image/jpeg",
-  //   quality: 1.0
-  // });
-
-  // const download = (image3, { name = "img", extension = "jpg" } = {}) => {
-  //   const a = document.createElement("a");
-  //   a.href = image3;
-  //   a.download = createFileName(extension, name);
-  //   a.click();
-  // };
-
-  // const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
-  //--------------- use react screenshot ------------------------------
-
-  //---------------  screenshot.js ------------------------------
-
-  //---------------  screenshot.js ------------------------------
-
-  //--------------------------------------------------------------------------------------------
-
   const { id } = useParams();
   const [savedCanvas, setSavedCanvas] = useState(null);
   const canvasRef = useRef(null); // Reference to the canvas element
@@ -71,50 +39,37 @@ export default function Designer() {
     textBackgroundColor: "transparent", // Initial background color (transparent)
   });
   const [backgroundImage, setBackgroundImage] = useState(""); // State for background image
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [canvasWidth, setCanvasWidth] = useState(0); // State for canvas width
   const [canvasHeight, setCanvasHeight] = useState(0); // State for canvas height
 
-  const products = [
-    {
-      id: 1,
-      title: "Short Sleeve T-Shirt",
-      image: "T-SHIRTc.png",
-      price: "150",
-      width: 250,
-      height: 350,
-    },
-    {
-      id: 2,
-      title: "Hoodie",
-      image: "hoodiec.png",
-      price: "300",
-      width: 250,
-      height: 190,
-    },
-    {
-      id: 3,
-      title: "Long Sleeve T-Shirt",
-      image: "sleevet-shirtc.png",
-      price: "200",
-      width: 240,
-      height: 350,
-    },
-  ];
+  const {
+    data: product,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["product", id],
+    queryFn: () => getIsDesignableProductById(id),
+    // cacheTime: 50000,
+    enabled: !!id,
+  });
+
+  console.log(product);
 
   //screenshot capture
   const handleCaptureScreenShot = () => captureScreenShot(fabricCanvas.current);
 
   // useeffect
   useEffect(() => {
-    const product = products.find((product) => product.id === parseInt(id));
-    if (product) {
-      setBackgroundImage(`/public/${product.image}`); // Set the background image
-      setTitle(product.title);
+    // const product = products.find((product) => product.id === parseInt(id));
+    if (product && canvasRef.current) {
+      setBackgroundImage(product.image); // Set the background image
+      setName(product.name);
       setPrice(product.price);
-      setCanvasWidth(product.width); // Set canvas width from product
-      setCanvasHeight(product.height); // Set canvas height from product
+      setCanvasWidth(product.canvasWidth); // Set canvas width from product
+      setCanvasHeight(product.canvasHeight); // Set canvas height from product
     }
 
     // Initialize the Fabric.js canvas
@@ -170,7 +125,7 @@ export default function Designer() {
         addTextBtn.removeEventListener("click", addText);
       }
     };
-  }, [id, canvasHeight, canvasWidth]); // Only re-run this effect if textProps changes
+  }, [product, id, canvasHeight, canvasWidth]); // Only re-run this effect if textProps changes
 
   // add text
   const handleAddText = () => {
@@ -216,7 +171,7 @@ export default function Designer() {
           className="flex flex-col border border-indigo-600 rounded-lg p-5"
         >
           <div className="flex justify-between">
-            <div className="mb-5 font-bold text-3xl text-black">{title}</div>
+            <div className="mb-5 font-bold text-3xl text-black">{name}</div>
             <div className="mb-5 font-bold text-3xl text-green-800">
               EGP {price}
             </div>
