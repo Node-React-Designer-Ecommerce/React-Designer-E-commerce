@@ -36,7 +36,7 @@ export default function ProductsPage() {
             queryKey: ['products', currentPage, search],
             queryFn: () => getProductsByPage(currentPage, search),
             keepPreviousData: true,
-            enabled: search.length >= 3 || currentPage > 1,
+            enabled: search.length === 0 || search.length >= 3 || currentPage > 1,
             cacheTime: 0,
         }
     );
