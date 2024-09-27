@@ -21,7 +21,6 @@ import HeardFilledIcon from "../icons/HeardFilledIcon";
 import NoData from "../components/NoData";
 
 import axiosInstance from "../utils/api/axiosInstance";
-import Cookies from "js-cookie";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -55,9 +54,10 @@ export default function ProductDetails() {
 
   const addToCart = (productId) => {
     try {
-      const token = Cookies.get("token");
-      console.log("Token before request:", token); // Check if token is present
-      const response = axiosInstance.post("user/cart", { productId });
+      const response = axiosInstance.post("user/cart", {
+        productId,
+        quantity: 1,
+      });
       console.log(response.data.message);
     } catch (error) {
       console.log(error);

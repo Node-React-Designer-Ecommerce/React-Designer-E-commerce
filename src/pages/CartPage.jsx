@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { getProductsInCart } from "../utils/api/productsapi";
+import { getProductsInCart } from "../utils/api/cartApi";
 import { useQuery } from "@tanstack/react-query";
 
 export default function CartPage() {
