@@ -37,9 +37,3 @@ export const getIsDesignableProductById = async (id) => {
     throw error; // Rethrow error for handling in your component
   }
 };
-
-export const getProductsInCart = async () => {
-  return axiosInstance
-    .get(`/user/cart`)
-    .then((res) => res.data.data.data.product);
-};
