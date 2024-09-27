@@ -21,7 +21,6 @@ import HeardFilledIcon from "../icons/HeardFilledIcon";
 import NoData from "../components/NoData";
 
 import axiosInstance from "../utils/api/axiosInstance";
-import Cookies from "js-cookie";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -53,23 +52,12 @@ export default function ProductDetails() {
     return <NoData />;
   }
 
-  const addToCart = async (productId) => {
-    const token = Cookies.get("token");
-    console.log("Token before request:", token); // Check if token is present
-    if (!token) {
-      console.log("No token available");
-      return;
-    }
+  const addToCart = (productId) => {
     try {
-      const response = await axiosInstance.post(
-        "user/cart",
-        { productId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Add Bearer token here
-          },
-        }
-      );
+      const response = axiosInstance.post("user/cart", {
+        productId,
+        quantity: 1,
+      });
       console.log(response.data.message);
     } catch (error) {
       console.log("Error in request:", error.response?.data || error.message);

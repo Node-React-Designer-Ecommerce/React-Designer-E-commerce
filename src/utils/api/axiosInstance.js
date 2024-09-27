@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 // Request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("token");
+    let token = Cookies.get("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -26,9 +26,9 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      Cookies.remove("token");
-      Cookies.remove("isLoggedIn");
-      //window.location.href = "/login";
+      // Cookies.remove("token");
+      // Cookies.remove("isLoggedIn");
+      // window.location.href = "/login";
     }
     return Promise.reject(error);
   }
