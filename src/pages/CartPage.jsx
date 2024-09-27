@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom";
 import { getProductsInCart } from "../utils/api/cartApi";
 import { useQuery } from "@tanstack/react-query";
-import { getProductsInCart } from "../utils/api/cartApi";
 
 export default function CartPage() {
   const { data, isLoading, error } = useQuery({
