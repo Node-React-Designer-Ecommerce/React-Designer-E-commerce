@@ -1,6 +1,11 @@
+//import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getProductsInCart } from "../utils/api/productsapi";
+//import AuthContext from "../context/AuthContext";
+//import axiosInstance from "../utils/api/axiosInstance";
+//import axios from "axios";
+
 import { useQuery } from "@tanstack/react-query";
+import { getProductsInCart } from "../utils/api/cartApi";
 
 export default function CartPage() {
   const { data, isLoading, error } = useQuery({
@@ -17,6 +22,25 @@ export default function CartPage() {
   if (error) {
     return <div>Error: {error.message}</div>; // Display error message
   }
+  // const { user } = useContext(AuthContext); // Get the logged-in user from auth context
+  // const [cart, setCart] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchCart = async () => {
+  //     if (user) {
+  //       console.log(user);
+  //       try {
+  //         const response = await axios.get("/user/cart");
+  //         setCart(response.data.cartItems); // Assuming backend returns cart items
+  //         console.log(response.data.cartItems);
+  //       } catch (error) {
+  //         console.error("Error fetching cart", error);
+  //       }
+  //     }
+  //   };
+
+  //   fetchCart();
+  // }, [user]);
 
   return (
     <div className="mb-5">

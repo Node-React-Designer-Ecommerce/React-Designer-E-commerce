@@ -53,14 +53,26 @@ export default function ProductDetails() {
     return <NoData />;
   }
 
-  const addToCart = (productId) => {
+  const addToCart = async (productId) => {
+    const token = Cookies.get("token");
+    console.log("Token before request:", token); // Check if token is present
+    if (!token) {
+      console.log("No token available");
+      return;
+    }
     try {
-      const token = Cookies.get("token");
-      console.log("Token before request:", token); // Check if token is present
-      const response = axiosInstance.post("user/cart", { productId });
+      const response = await axiosInstance.post(
+        "user/cart",
+        { productId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add Bearer token here
+          },
+        }
+      );
       console.log(response.data.message);
     } catch (error) {
-      console.log(error);
+      console.log("Error in request:", error.response?.data || error.message);
     }
   };
 
