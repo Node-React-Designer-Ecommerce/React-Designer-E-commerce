@@ -1,6 +1,23 @@
 import { Link } from "react-router-dom";
+import { getProductsInCart } from "../utils/api/productsapi";
+import { useQuery } from "@tanstack/react-query";
 
 export default function CartPage() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["products in cart"],
+    queryFn: getProductsInCart,
+    cacheTime: 50000,
+  });
+  console.log(data);
+
+  if (isLoading) {
+    return <div>loading</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>; // Display error message
+  }
+
   return (
     <div className="mb-5">
       <div className="grid grid-cols-1 lg:grid-cols-3  gap-5">

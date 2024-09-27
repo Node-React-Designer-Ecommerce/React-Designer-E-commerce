@@ -1,14 +1,16 @@
 import axiosInstance from "./axiosInstance";
 
 export const getAllProducts = async () => {
-    const response = await axiosInstance.get(`/products`);
-    return response.data.data.products;
+  const response = await axiosInstance.get(`/products`);
+  return response.data.data.products;
 };
 
-export const getProductsByPage = async (page, search = '') => {
-  const res = await axiosInstance.get(`/products?page=${page}&search=${search}`);
+export const getProductsByPage = async (page, search = "") => {
+  const res = await axiosInstance.get(
+    `/products?page=${page}&search=${search}`
+  );
   return res.data.data.products;
-}
+};
 
 export const getProductById = (id) => {
   return axiosInstance
@@ -34,4 +36,10 @@ export const getIsDesignableProductById = async (id) => {
     console.error("Error fetching designable products:", error);
     throw error; // Rethrow error for handling in your component
   }
+};
+
+export const getProductsInCart = async () => {
+  return axiosInstance
+    .get(`/user/cart`)
+    .then((res) => res.data.data.data.product);
 };
