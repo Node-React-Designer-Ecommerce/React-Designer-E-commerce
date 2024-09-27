@@ -4,8 +4,7 @@ import html2canvas from "html2canvas-pro";
 export const takeScreenShotFunc = async (
   elementId, // ID of the HTML element to capture
   fileName, // Desired filename for the downloaded image
-  fileType = "image/png", // File type for the image (default is PNG)
-  backgroundColor = "#000000" // Background color for the screenshot
+  fileType = "image/png" // File type for the image (default is PNG)
 ) => {
   // Locate the element by its ID
   const element = document.getElementById(elementId);
@@ -24,7 +23,8 @@ export const takeScreenShotFunc = async (
   try {
     // Use html2canvas to capture the screenshot (returns a canvas object)
     const canvas = await html2canvas(element, {
-      backgroundColor: backgroundColor,
+      allowTaint: true,
+      useCORS: true,
     });
 
     // Convert the canvas to a data URL for the image file

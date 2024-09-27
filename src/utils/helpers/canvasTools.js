@@ -3,28 +3,8 @@ import { takeScreenShotFunc } from "./screenshot";
 
 //resize canva in responsive
 export const resizeCanvas = (fabricCanvas, canvasWidth, canvasHeight) => {
-  let width = canvasWidth;
-  let height = canvasHeight;
-  //1285 - > 1024
-  // 683 - > 0
-
-  // width =
-  //   window.innerWidth < 683
-  //     ? width * 0.58
-  //     : window.innerWidth < 1285 && window.innerWidth > 1024
-  //     ? width * (window.innerWidth / (1285 - window.innerWidth))
-  //     : width; // Default for extra large screens
-  // height =
-  //   window.innerWidth < 683
-  //     ? height * 0.51
-  //     : window.innerWidth < 1285 && window.innerWidth > 1024
-  //     ? 0.85 * (window.innerWidth / (1285 - window.innerWidth))
-  //     : window.innerWidth < 992
-  //     ? height * 0.91
-  //     : height;
-
-  fabricCanvas.current.setWidth(width);
-  fabricCanvas.current.setHeight(height);
+  fabricCanvas.current.setWidth(canvasWidth);
+  fabricCanvas.current.setHeight(canvasHeight);
   fabricCanvas.current.renderAll(); // Re-render the canvas to apply changes
 };
 //screenshot capture
@@ -68,18 +48,7 @@ export const updateTextProps = (selectedText, prop, value, fabricCanvas) => {
     console.warn("No text object selected"); // Debugging
   }
 };
-// save designer aas image
-export const saveAsImage = (fabricCanvas) => {
-  const dataURL = fabricCanvas.toDataURL({
-    format: "png",
-    quality: 1, // quality is a number between 0 and 1 for JPEGs, ignored for PNG
-  });
-  const link = document.createElement("a");
-  link.href = dataURL;
-  link.download = "canvas-image.png";
-  link.click();
-  console.log(dataURL);
-};
+
 // save designer as json
 export const saveAsJSON = (fabricCanvas) => {
   return JSON.stringify(fabricCanvas.toJSON());
