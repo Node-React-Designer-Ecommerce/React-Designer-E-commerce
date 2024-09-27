@@ -21,9 +21,11 @@ import HeardFilledIcon from "../icons/HeardFilledIcon";
 import NoData from "../components/NoData";
 
 import axiosInstance from "../utils/api/axiosInstance";
+import { useState } from "react";
 
 export default function ProductDetails() {
   const { id } = useParams();
+  const [selectedSize, setSelectedSize] = useState(""); // State for size
 
   const {
     data: product,
@@ -52,12 +54,18 @@ export default function ProductDetails() {
     return <NoData />;
   }
 
-  const addToCart = (productId) => {
+  const addToCart = async (productId) => {
+    if (!selectedSize) {
+      alert("please choose your size");
+      return;
+    }
+    const cartItem = {
+      productId: productId,
+      quantity: 1,
+      size: selectedSize,
+    };
     try {
-      const response = axiosInstance.post("user/cart", {
-        productId,
-        quantity: 1,
-      });
+      const response = await axiosInstance.post("user/cart", cartItem);
       console.log(response.data.message);
     } catch (error) {
       console.log("Error in request:", error.response?.data || error.message);
@@ -118,7 +126,7 @@ export default function ProductDetails() {
                   Check your size from here..
                 </p>
               </div>
-              <RadioComponent />
+              <RadioComponent setSize={setSelectedSize} />
             </div>
             <dialog
               id="my_modal_5"
