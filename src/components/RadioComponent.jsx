@@ -4,8 +4,6 @@ export default function RadioComponent({ setSize, stock }) {
     setSize(e.target.value); // Update the size in the parent component
   };
 
-  // Convert stock array to a Set for easier lookup
-  console.log(stock);
 
   return (
     <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">

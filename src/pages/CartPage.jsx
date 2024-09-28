@@ -1,131 +1,21 @@
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
-import {
-  getCart,
-  removeFromCart,
-  updateCartItem,
-  clearCart,
-} from "./../utils/api/cartApi";
-import { toast } from "react-toastify";
+import { useCart } from "../context/CartContext";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function CartPage() {
-  const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [totalQuantity, setTotalQuantity] = useState(0);
-  const [pendingUpdates, setPendingUpdates] = useState({});
-  const [isRemoving, setIsRemoving] = useState(null);
-  const [isClearing, setIsClearing] = useState(false);
-  const [loadingConfirm, setLoadingConfirm] = useState({});
+  const { totalQuantity, totalPrice } = useCart();
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await getCart();
-        setCart(response.data.cart);
-        calculateTotals(response.data.cart);
-      } catch (err) {
-        toast.error(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCart();
-  }, []);
-
-  const calculateTotals = (cartItems) => {
-    const totalQty = cartItems.reduce(
-      (sum, product) => sum + product.quantity,
-      0
-    );
-    const totalPrice = cartItems.reduce(
-      (sum, product) => sum + product.price,
-      0
-    );
-    setTotalQuantity(totalQty);
-    setTotalPrice(totalPrice);
-  };
-
-  const handleQuantityChange = (itemId, newQuantity) => {
-    const cartItem = cart.find((item) => item._id === itemId);
-    const sizeStock = cartItem.product.stock.find(
-      (s) => s.size === cartItem.size
-    );
-
-    if (newQuantity < 1) return;
-
-    if (newQuantity > sizeStock.quantity) {
-      toast.error(
-        `Not enough quantity of size ${cartItem.size} in stock. Available: ${sizeStock.quantity}`
-      );
-      return;
-    }
-
-    setPendingUpdates((prev) => ({
-      ...prev,
-      [itemId]: newQuantity,
-    }));
-
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item._id === itemId ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const confirmUpdateQuantity = async (itemId) => {
-    const newQuantity = pendingUpdates[itemId];
-
-    setLoadingConfirm((prev) => ({ ...prev, [itemId]: true }));
-
-    try {
-      await updateCartItem(itemId, {
-        size: cart.find((item) => item._id === itemId).size,
-        quantity: newQuantity,
-      });
-      const updatedCart = await getCart();
-      setCart(updatedCart.data.cart);
-      calculateTotals(updatedCart.data.cart);
-      setPendingUpdates((prev) => {
-        const { [itemId]: _, ...rest } = prev;
-        return rest;
-      });
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setLoadingConfirm((prev) => ({ ...prev, [itemId]: false }));
-    }
-  };
-
-  const handleRemoveFromCart = async (itemId) => {
-    setIsRemoving(itemId);
-    try {
-      await removeFromCart(itemId);
-      const updatedCart = cart.filter((item) => item._id !== itemId);
-      setCart(updatedCart);
-      calculateTotals(updatedCart);
-    } catch (err) {
-      toast.error("Error removing product");
-    } finally {
-      setIsRemoving(null);
-    }
-  };
-
-  const handleClearCart = async () => {
-    setIsClearing(true);
-    try {
-      await clearCart();
-      setCart([]);
-      setTotalPrice(0);
-      setTotalQuantity(0);
-    } catch (err) {
-      toast.error("Error clearing cart");
-    } finally {
-      setIsClearing(false);
-    }
-  };
+  const {
+    cart,
+    loading,
+    pendingUpdates,
+    isRemoving,
+    isClearing,
+    loadingConfirm,
+    handleQuantityChange,
+    confirmUpdateQuantity,
+    handleRemoveFromCart,
+    handleClearCart,
+  } = useCart();
 
   if (loading) {
     return (

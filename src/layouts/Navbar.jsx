@@ -1,8 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
+
+//contexts
 import AuthContext from "../context/AuthContext";
-// import { CartContext } from "../context/CartContext";
-import CustomLink from "./CustomLink"; // Import the custom link component
+import { useCart } from "../context/CartContext";
+
+// Import the custom link component
+import CustomLink from "./CustomLink"; 
 
 //icons
 import ExitIcon from "../icons/ExitIcon";
@@ -10,8 +14,8 @@ import CartIcon from "../icons/CartIcon";
 
 export default function Navbar() {
   const { isLoggedIn, logout } = useContext(AuthContext);
+  const { totalQuantity, totalPrice } = useCart();
   const navigate = useNavigate();
-  // const { totalPrice, totalQuantity } = useContext(CartContext);
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -35,7 +39,7 @@ export default function Navbar() {
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
             <div className="indicator">
               <CartIcon />
-              <span className="badge badge-sm indicator-item">8</span>
+              <span className="badge badge-sm indicator-item">{totalQuantity}</span>
             </div>
           </div>
           <div
@@ -43,8 +47,8 @@ export default function Navbar() {
             className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
           >
             <div className="card-body">
-              <span className="text-lg font-bold">8 Items</span>
-              <span className="text-SecondaryColor">Subtotal: $600</span>
+              <span className="text-lg font-bold">{totalQuantity} Items</span>
+              <span className="text-SecondaryColor">Subtotal: EGP {totalPrice}</span>
               <div className="card-actions">
                 <Link
                   to="/cart"

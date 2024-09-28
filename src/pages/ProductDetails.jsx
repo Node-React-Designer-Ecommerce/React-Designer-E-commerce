@@ -20,7 +20,7 @@ import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
 import NoData from "../components/NoData";
 
-import { addToCart } from "../utils/api/cartApi";
+import { useCart } from "../context/CartContext";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,6 +49,7 @@ export default function ProductDetails() {
   );
 
   const { favoriteProducts, toggleFavorite } = useToggleFavorite();
+  const { addToCart } = useCart();
 
   if (isLoading) {
     return (
@@ -67,7 +68,7 @@ export default function ProductDetails() {
 
   const addToCartHandler = async (productId) => {
     if (!selectedSize) {
-      toast.warn("please choose your size");
+      toast.warn("Please choose your size");
       return;
     }
     const cartItem = {
@@ -85,7 +86,7 @@ export default function ProductDetails() {
       }
       setIsAdding(false);
     } catch (error) {
-      toast.error(`${error.error.message}`);
+      toast.error(`${error.message}`);
     }
   };
 

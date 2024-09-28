@@ -69,12 +69,25 @@ function App() {
                 />
                 <Route path="/cart" element={<CartPage />} />
 
-                <Route path="*" element={<Error />} />
-                <Route path="/forget-password" element={<ForgetPassword />} />
+                <Route
+                  path="/forget-password"
+                  element={
+                    <ProtectedRoute isAuth={false}>
+                      <ForgetPassword />
+                    </ProtectedRoute>
+                  }
+                />
+
                 <Route
                   path="/reset-password/:token"
-                  element={<ResetPassword />}
+                  element={
+                    <ProtectedRoute isAuth={false}>
+                      <ResetPassword />
+                    </ProtectedRoute>
+                  }
                 />
+
+                <Route path="*" element={<Error />} />
               </Routes>
               <Footer />
             </BrowserRouter>
