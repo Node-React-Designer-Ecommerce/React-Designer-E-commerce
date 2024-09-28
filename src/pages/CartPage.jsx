@@ -1,3 +1,4 @@
+import EmptyCart from "../components/EmptyCart";
 import { useCart } from "../context/CartContext";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,10 +29,8 @@ export default function CartPage() {
   return (
     <div className="container mx-auto">
       {!cart || cart.length === 0 ? (
-        <div className="mt-20 text-center">
-          <h2 className="font-bold text-3xl text-black">Your Cart is Empty</h2>
-          <img className="mt-10" src="/emptyCartBG.png" alt="empty cart" />
-        </div>
+        <EmptyCart>
+        </EmptyCart>
       ) : (
         <div className="mb-5">
           <h1 className="mb-5 font-bold text-3xl text-black">Shopping Cart</h1>

@@ -21,14 +21,17 @@ import HeardFilledIcon from "../icons/HeardFilledIcon";
 import NoData from "../components/NoData";
 
 import { useCart } from "../context/CartContext";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthContext from "../context/AuthContext";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const [selectedSize, setSelectedSize] = useState(""); // State for size
   const [isAdding, setIsAdding] = useState(false);
+  const { isLoggedIn } = useContext(AuthContext);
+
 
   const {
     data: product,
@@ -110,7 +113,7 @@ export default function ProductDetails() {
           <div className="flex justify-between">
             <h1 className="text-3xl font-bold uppercase ">{product.name}</h1>
             <div
-              className="bg-gray-100 rounded-3xl w-12 h-12 flex justify-center items-center"
+              className="bg-gray-100 rounded-3xl w-12 h-12 flex justify-center items-center cursor-pointer"
               onClick={() => toggleFavorite(product._id)}
             >
               {favoriteProducts[product._id] ? (
@@ -172,7 +175,7 @@ export default function ProductDetails() {
             </dialog>
             <Delivery />
             <div className="flex justify-center lg:flex lg:justify-end p-5">
-              <button
+              {/* <button
                 onClick={() => addToCartHandler(product._id)}
                 className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14 "
                 disabled={isAdding}
@@ -182,7 +185,24 @@ export default function ProductDetails() {
                 ) : (
                   "ADD TO CART"
                 )}
-              </button>
+              </button> */}
+              {isLoggedIn ? (
+                <button
+                  onClick={() => addToCartHandler(product._id)}
+                  className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14 "
+                  disabled={isAdding}
+                >
+                  {isAdding ? (
+                    <span className="loading loading-ring loading-md"></span>
+                  ) : (
+                    "ADD TO CART"
+                  )}
+                </button>
+              ) : (
+                <p className="text-red-500 text-lg font-bold">
+                  You must log in to add to cart
+                </p>
+              )}
             </div>
           </div>
         </div>

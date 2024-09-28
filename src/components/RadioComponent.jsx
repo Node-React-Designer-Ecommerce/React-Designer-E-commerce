@@ -4,7 +4,6 @@ export default function RadioComponent({ setSize, stock }) {
     setSize(e.target.value); // Update the size in the parent component
   };
 
-
   return (
     <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
       <div>
@@ -17,7 +16,7 @@ export default function RadioComponent({ setSize, stock }) {
               type="radio"
               name="size"
               value={size}
-              className="radio"
+              className={`radio ${!stock.has(size) ? 'bg-red-900' : ''}`}
               onChange={handleSizeChange}
               disabled={!stock.has(size)} // Disable if size is not available
             />

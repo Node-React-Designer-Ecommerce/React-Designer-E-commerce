@@ -67,7 +67,14 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route path="/cart" element={<CartPage />} />
+                <Route
+                  path="/cart"
+                  element={
+                    <ProtectedRoute>
+                      <CartPage />
+                    </ProtectedRoute>
+                  }
+                />
 
                 <Route
                   path="/forget-password"

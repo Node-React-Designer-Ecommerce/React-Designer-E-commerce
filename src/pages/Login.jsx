@@ -185,13 +185,13 @@ export default function Login() {
             )}
           </button>
 
-          <p className="text-center">
+          <p className="text-center mt-2">
             {`Don't have an account?`}{" "}
             <Link to="/sign-up" className="font-bold text-SecondaryColor">
               Signup Now
             </Link>
           </p>
-          <p className="text-center">
+          <p className="text-center mt-1">
             {`Forgot your password?`}{" "}
             <Link
               to="/forget-password"

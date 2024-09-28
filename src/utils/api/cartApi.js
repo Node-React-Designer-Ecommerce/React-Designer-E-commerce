@@ -13,7 +13,7 @@ export const addToCart = async (data) => {
 // Get user's cart
 export const getCart = async () => {
   try {
-    const response = await axiosInstance.get("/cart/"); // Appending /cart
+    const response = await axiosInstance.get("/cart/");
     return response.data;
   } catch (error) {
     throw error.response.data;

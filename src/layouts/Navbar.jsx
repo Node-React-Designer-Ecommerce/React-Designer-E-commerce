@@ -6,7 +6,7 @@ import AuthContext from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 
 // Import the custom link component
-import CustomLink from "./CustomLink"; 
+import CustomLink from "./CustomLink";
 
 //icons
 import ExitIcon from "../icons/ExitIcon";
@@ -35,31 +35,33 @@ export default function Navbar() {
       </div>
 
       <div className="">
-        <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-            <div className="indicator">
-              <CartIcon />
-              <span className="badge badge-sm indicator-item">{totalQuantity}</span>
+        {isLoggedIn && (
+          <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+              <div className="indicator">
+                <CartIcon />
+                <span className="badge badge-sm indicator-item">{totalQuantity}</span>
+              </div>
             </div>
-          </div>
-          <div
-            tabIndex={0}
-            className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
-          >
-            <div className="card-body">
-              <span className="text-lg font-bold">{totalQuantity} Items</span>
-              <span className="text-SecondaryColor">Subtotal: EGP {totalPrice}</span>
-              <div className="card-actions">
-                <Link
-                  to="/cart"
-                  className="btn bg-SecondaryColor hover:bg-SecondaryColor btn-block text-cyan-50"
-                >
-                  View cart
-                </Link>
+            <div
+              tabIndex={0}
+              className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
+            >
+              <div className="card-body">
+                <span className="text-lg font-bold">{totalQuantity} Items</span>
+                <span className="text-SecondaryColor">Subtotal: EGP {totalPrice}</span>
+                <div className="card-actions">
+                  <Link
+                    to="/cart"
+                    className="btn bg-SecondaryColor hover:bg-SecondaryColor btn-block text-cyan-50"
+                  >
+                    View cart
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
