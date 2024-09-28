@@ -5,10 +5,7 @@ import { useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
 import SizeCharts from "../components/Charts/SizeCharts";
 import XIcon from "../icons/XIcon";
-//import "../styles/CanvaStyle.css";
 
-import { takeScreenShotFunc } from "../utils/helpers/screenshot.js";
-import { createFileName, useScreenshot } from "use-react-screenshot";
 import {
   addText,
   captureScreenShot,
@@ -17,7 +14,6 @@ import {
   removeSelectedObject,
   resetCanvas,
   resizeCanvas,
-  saveAsImage,
   saveAsJSON,
   updateTextProps,
 } from "../utils/helpers/canvasTools.js";
@@ -137,9 +133,6 @@ export default function Designer() {
     setTextProps((prev) => ({ ...prev, [prop]: value }));
     updateTextProps(selectedText, prop, value, fabricCanvas.current);
   };
-
-  //save canva as image
-  const handleSaveAsImage = () => saveAsImage(fabricCanvas.current);
 
   // save canva as json
   const handleSaveAsJSON = () => {
@@ -345,7 +338,7 @@ export default function Designer() {
               <input
                 id="bold-button"
                 type="checkbox"
-                onChange={(e) => {
+                onChange={() => {
                   handleUpdateTextProps(
                     "fontWeight",
                     textProps.fontWeight === "" ? "bold" : ""
@@ -380,13 +373,7 @@ export default function Designer() {
             <div className="inline-block bg-SecondaryColor text-white py-2 px-4 rounded cursor-pointer hover:bg-gray-700 transition duration-300 ease-in-out mt-5 w-44 text-center">
               Add to Cart
             </div>
-            <button
-              style={{ borderColor: "#4e7f62" }}
-              className="bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
-              onClick={handleSaveAsImage}
-            >
-              Save as Image
-            </button>
+
             <button onClick={handleLoadFromJSON}>load from json</button>
             <button onClick={handleResetCanva}>reset canvas</button>
 
@@ -404,8 +391,7 @@ export default function Designer() {
               {" "}
               screenshot.js{" "}
             </button>
-            {/* <button className="btn btn-success" onClick={getImage}>react screenshot  </button>
-            <button className="btn btn-secondary" onClick={downloadScreenshot}>download screenshot  </button> */}
+          
           </div>
         </div>
       </div>
@@ -413,7 +399,6 @@ export default function Designer() {
       {/* T-shirt Canvas */}
       {/* Display the captured screenshot if available */}
 
-      {/* <div ref={ref} className="w-full lg:w-3/4 flex justify-center items-center p-4"> */}
       <div className="w-full lg:w-3/4 flex justify-center items-center p-4">
         <div
           id="divToTakeScreenshot"

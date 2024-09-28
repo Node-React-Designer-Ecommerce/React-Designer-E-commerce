@@ -45,9 +45,12 @@ export default function Navbar() {
               <span className="text-lg font-bold">8 Items</span>
               <span className="text-SecondaryColor">Subtotal: $999</span>
               <div className="card-actions">
-                <button className="btn bg-SecondaryColor hover:bg-SecondaryColor btn-block text-cyan-50">
+                <Link
+                  to="/cart"
+                  className="btn bg-SecondaryColor hover:bg-SecondaryColor btn-block text-cyan-50"
+                >
                   View cart
-                </button>
+                </Link>
               </div>
             </div>
           </div>

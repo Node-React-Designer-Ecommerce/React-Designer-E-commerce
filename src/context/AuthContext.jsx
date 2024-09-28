@@ -1,27 +1,35 @@
 import { createContext, useState, useEffect } from "react";
-import PropTypes from 'prop-types';
-import Cookies from 'js-cookie';
+import PropTypes from "prop-types";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => {
-    const storedToken = Cookies.get('token');
-    return storedToken ? JSON.parse(storedToken) : null;
+    const storedToken = Cookies.get("token");
+    return storedToken || null; // No need to parse since it's stored as a string
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    const storedLoggedIn = Cookies.get('isLoggedIn');
+    const storedLoggedIn = Cookies.get("isLoggedIn");
     return storedLoggedIn ? JSON.parse(storedLoggedIn) : false;
   });
 
   useEffect(() => {
     if (token) {
-      Cookies.set('token', JSON.stringify(token), { expires: 7, secure: true, sameSite: 'strict' });
-      Cookies.set('isLoggedIn', JSON.stringify(true), { expires: 7, secure: true, sameSite: 'strict' });
+      Cookies.set("token", token, {
+        expires: 7,
+        secure: true,
+        sameSite: "strict",
+      }); // Store token directly
+      Cookies.set("isLoggedIn", JSON.stringify(true), {
+        expires: 7,
+        secure: true,
+        sameSite: "strict",
+      });
     } else {
-      Cookies.remove('token');
-      Cookies.remove('isLoggedIn');
+      Cookies.remove("token");
+      Cookies.remove("isLoggedIn");
     }
   }, [token]);
 

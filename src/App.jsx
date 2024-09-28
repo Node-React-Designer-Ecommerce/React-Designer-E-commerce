@@ -61,6 +61,7 @@ function App() {
                 }
               />
               <Route path="/cart" element={<CartPage />} />
+
               <Route path="*" element={<Error />} />
             </Routes>
             <Footer />
