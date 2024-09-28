@@ -1,87 +1,61 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-
-//react query
-import { useQuery } from "@tanstack/react-query";
-// import { useQueryClient } from '@tanstack/react-query';
-
-//utils
-import { getProductsByPage } from "../utils/api/productsapi";
-import { useToggleFavorite } from "../utils/helpers/help";
-
 import Filter from "../components/Filter";
 import Skelton from "../layouts/Skelton";
+import Paginationn from "../components/Paginationn";
 
 //icons
 import ArrowRight from "../icons/ArrowRight";
-// import ShoppingBag from "./../icons/ShoppingBag";
-import ArrowLeft from "../icons/ArrowLeft";
 import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
 import SearchIcon from "./../icons/SearchIcon";
 import NoData from "./../components/NoData";
+import { useProducts } from './../context/ProductsContext';
+import { useToggleFavorite } from "../utils/helpers/help";
 
 export default function ProductsPage() {
+  const { favoriteProducts, toggleFavorite } = useToggleFavorite();
+  const {
+    products,
+    currentPage,
+    totalPages,
+    search,
+    isLoading,
+    isError,
+    error,
+    handleSearch,
+    handlePageChange,
+  } = useProducts();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSearch = searchParams.get("search") || "";
-  const [search, setSearch] = useState(initialSearch);
+  const [localSearch, setLocalSearch] = useState(initialSearch);
   const searchTimeout = useRef(null);
-  const currentPage = Number(searchParams.get("page")) || 1;
-  const productsPerPage = 7;
 
-  const { isLoading, data, isError, error } = useQuery({
-    queryKey: ["products", currentPage, search],
-    queryFn: () => getProductsByPage(currentPage, search),
-    keepPreviousData: true,
-    enabled: search.length === 0 || search.length >= 3 || currentPage > 1,
-    cacheTime: 0,
-  });
-
-  const products = data || [];
-  console.log(products);
-  const handleSearch = (e) => {
+  const handleLocalSearch = (e) => {
     const newSearch = e.target.value.toLowerCase();
-    setSearch(newSearch);
+    setLocalSearch(newSearch);
 
     clearTimeout(searchTimeout.current);
     searchTimeout.current = setTimeout(() => {
-      if (newSearch.length >= 3) {
-        setSearchParams({ search: newSearch });
-      } else {
-        setSearchParams({});
-      }
+      handleSearch(newSearch);
+      setSearchParams({ search: newSearch, page: currentPage });
     }, 500);
   };
 
   useEffect(() => {
     const searchParam = searchParams.get("search");
     if (searchParam && searchParam !== search) {
-      setSearch(searchParam);
+      setLocalSearch(searchParam);
+      handleSearch(searchParam);
     }
-    // console.log(searchParams.get("search"));
   }, [searchParams]);
-
-  const { favoriteProducts, toggleFavorite } = useToggleFavorite();
-
-  const totalPages = Math.ceil(products.length / productsPerPage) || 1;
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setSearchParams({ page: currentPage + 1 });
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setSearchParams({ page: currentPage - 1 });
-    }
-  };
 
   if (isLoading) {
     return (
       <div className="flex justify-center py-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
-          {Array.from({ length: products }).map((_, index) => (
+          {Array.from({ length: 7 }).map((_, index) => (
             <div key={index} className="card bg-base-100 w-80 shadow-xl">
               <Skelton />
             </div>
@@ -99,6 +73,7 @@ export default function ProductsPage() {
       </div>
     );
   }
+
   return (
     <div className="w-full font-serif relative">
       <div className="relative flex flex-col lg:text-2xl items-center tracking-wide">
@@ -117,8 +92,8 @@ export default function ProductsPage() {
           <input
             type="text"
             placeholder="Search here .."
-            value={search}
-            onChange={handleSearch}
+            value={localSearch}
+            onChange={handleLocalSearch}
             className="input input-bordered rounded-3xl my-20 input-sm md:input-md w-full max-w-xs text-black"
           />
         </div>
@@ -193,9 +168,6 @@ export default function ProductsPage() {
                         >
                           See More <ArrowRight />
                         </Link>
-                        {/* <Link className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-3xl w-11 h-11 flex justify-center items-center cursor-pointer">
-                                                    <ShoppingBag />
-                                                </Link> */}
                       </div>
                     </div>
                   </div>
@@ -206,28 +178,12 @@ export default function ProductsPage() {
         </div>
       </div>
       {/* Pagination Controls */}
-      <div className="flex justify-center m-10 text-lg">
-        <button
-          onClick={handlePreviousPage}
-          className={`flex items-center ${
-            currentPage === 1
-              ? "text-gray-500 cursor-not-allowed"
-              : "text-black"
-          } text-gray px-4 py-2 rounded`}
-        >
-          <ArrowLeft /> Previous ..
-        </button>
-        <div className="px-5 text-2xl flex items-center">{currentPage}</div>
-        <button
-          onClick={handleNextPage}
-          className={`flex items-center ${
-            currentPage === totalPages
-              ? "text-gray-500 cursor-not-allowed"
-              : "text-black"
-          } text-gray px-4 py-2 rounded`}
-        >
-          .. Next <ArrowRight />
-        </button>
+      <div className="flex justify-center  m-10 text-lg">
+        <Paginationn
+          getPage={handlePageChange}
+          pageCount={totalPages}
+          currentPage={currentPage}
+        />
       </div>
     </div>
   );
