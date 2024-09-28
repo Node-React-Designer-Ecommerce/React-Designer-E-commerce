@@ -39,6 +39,7 @@ export default function Designer() {
   const [price, setPrice] = useState("");
   const [canvasWidth, setCanvasWidth] = useState(0); // State for canvas width
   const [canvasHeight, setCanvasHeight] = useState(0); // State for canvas height
+  const [selectedSize, setSelectedSize] = useState(""); // State for size
 
   const {
     data: product,
@@ -51,6 +52,13 @@ export default function Designer() {
     // cacheTime: 50000,
     enabled: !!id,
   });
+  const stockAvailable = new Set(
+    product?.stock?.map((el) => {
+      if (el.quantity > 0) {
+        return el.size;
+      }
+    })
+  );
 
   console.log(product);
 
@@ -226,7 +234,7 @@ export default function Designer() {
                 Sizes table
               </button>
             </div>
-            <RadioComponent />
+            <RadioComponent setSize={setSelectedSize} stock={stockAvailable} />
           </div>
           <dialog
             id="my_modal_5"
@@ -391,7 +399,6 @@ export default function Designer() {
               {" "}
               screenshot.js{" "}
             </button>
-          
           </div>
         </div>
       </div>
