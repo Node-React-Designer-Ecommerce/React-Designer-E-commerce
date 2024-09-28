@@ -21,6 +21,8 @@ import CustomizePage from "./pages/CustomizePage";
 import Designer from "./pages/Designer";
 import Error from "./components/Error";
 import CartPage from "./pages/CartPage";
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -63,6 +65,8 @@ function App() {
               <Route path="/cart" element={<CartPage />} />
 
               <Route path="*" element={<Error />} />
+              <Route path="/forget-password" element={<ForgetPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
             </Routes>
             <Footer />
           </BrowserRouter>

@@ -1,8 +1,9 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import { useForm } from "react-hook-form";
-import  {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import axios from "axios";
+// import methods from "password.js";
+import { sendResetPasswordEmail } from '../utils/api/password';
 
 
 //toast
@@ -18,7 +19,6 @@ export default function ForgetPassword() {
         register,
         handleSubmit,
         formState: { errors },
-        setError,
     } = useForm();
 
     const navigate = useNavigate();
@@ -28,29 +28,11 @@ export default function ForgetPassword() {
     const onSubmit = async (data) => {
         setIsLoading(true);
         try {
-             await axios.post(
-                "https://react-node-designer.glitch.me/api/v1/users/login",
-                data
-            );
+            await sendResetPasswordEmail(data.email);
             toast.success("Check your email");
             navigate("/login");
         } catch (error) {
-            if (error.response?.data?.message === "Invalid email") {
-                setError("email", {
-                    type: "manual",
-                    message: "Invalid email",
-                });
-                setError("password", {
-                    type: "manual",
-                    message: "Invalid email",
-                });
-            } else {
-                toast.error("Login failed");
-                setError("password", {
-                    type: "manual",
-                    message: "Invalid email or password",
-                });
-            }
+            toast.error(error.message || "Invalid email");
         } finally {
             setIsLoading(false);
         }
@@ -61,7 +43,7 @@ export default function ForgetPassword() {
             {/* Image Section */}
             <div className="md:order-1 flex justify-center items-center rounded-3xl bg-SecondaryColor">
                 <img
-                    src="/formcover.jpg"
+                    src="/forgot-password.avif"
                     alt="Sign Up"
                     className="w-4/5 h-4/5 object-cover rounded-3xl"
                 />
