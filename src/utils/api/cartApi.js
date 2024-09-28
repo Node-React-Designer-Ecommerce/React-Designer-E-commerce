@@ -41,14 +41,14 @@ export const updateCartItem = async (cartItemId, data) => {
 };
 
 // Set the user's cart (merge cart)
-export const setCart = async (cart) => {
-  try {
-    const response = await axiosInstance.post("/cart/set", { cart }); // Appending /cart/set
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
-  }
-};
+// export const setCart = async (cart) => {
+//   try {
+//     const response = await axiosInstance.post("/cart/set", { cart }); // Appending /cart/set
+//     return response.data;
+//   } catch (error) {
+//     throw error.response.data;
+//   }
+// };
 
 // Clear user's cart
 export const clearCart = async () => {

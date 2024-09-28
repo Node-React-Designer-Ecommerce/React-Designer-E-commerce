@@ -20,12 +20,15 @@ import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
 import NoData from "../components/NoData";
 
-import axiosInstance from "../utils/api/axiosInstance";
+import { addToCart } from "../utils/api/cartApi";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const [selectedSize, setSelectedSize] = useState(""); // State for size
+  const [isAdding, setIsAdding] = useState(false);
 
   const {
     data: product,
@@ -36,6 +39,14 @@ export default function ProductDetails() {
     queryFn: () => getProductById(id),
     cacheTime: 50000,
   });
+
+  const stockAvailable = new Set(
+    product?.stock?.map((el) => {
+      if (el.quantity > 0) {
+        return el.size;
+      }
+    })
+  );
 
   const { favoriteProducts, toggleFavorite } = useToggleFavorite();
 
@@ -54,21 +65,27 @@ export default function ProductDetails() {
     return <NoData />;
   }
 
-  const addToCart = async (productId) => {
+  const addToCartHandler = async (productId) => {
     if (!selectedSize) {
-      alert("please choose your size");
+      toast.warn("please choose your size");
       return;
     }
     const cartItem = {
-      productId: productId,
+      productId,
       quantity: 1,
       size: selectedSize,
     };
     try {
-      const response = await axiosInstance.post("cart/", cartItem);
-      console.log(response.data.message);
+      setIsAdding(true);
+      const response = await addToCart(cartItem);
+      if (response.status === "Not-Modified") {
+        toast.warn(response.message);
+      } else if (response.status === "success") {
+        toast.success("Item added to cart successfully");
+      }
+      setIsAdding(false);
     } catch (error) {
-      console.log("Error in request:", error.response?.data || error.message);
+      toast.error(`${error.error.message}`);
     }
   };
 
@@ -126,7 +143,10 @@ export default function ProductDetails() {
                   Check your size from here..
                 </p>
               </div>
-              <RadioComponent setSize={setSelectedSize} />
+              <RadioComponent
+                setSize={setSelectedSize}
+                stock={stockAvailable}
+              />
             </div>
             <dialog
               id="my_modal_5"
@@ -152,10 +172,15 @@ export default function ProductDetails() {
             <Delivery />
             <div className="flex justify-center lg:flex lg:justify-end p-5">
               <button
-                onClick={() => addToCart(product._id)}
-                className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-2xl text-white py-2 px-14 "
+                onClick={() => addToCartHandler(product._id)}
+                className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14 "
+                disabled={isAdding}
               >
-                ADD TO CART
+                {isAdding ? (
+                  <span className="loading loading-ring loading-md"></span>
+                ) : (
+                  "ADD TO CART"
+                )}
               </button>
             </div>
           </div>

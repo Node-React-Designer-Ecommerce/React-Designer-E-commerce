@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+// import { CartContext } from "../context/CartContext";
 import CustomLink from "./CustomLink"; // Import the custom link component
 
 //icons
@@ -10,7 +11,7 @@ import CartIcon from "../icons/CartIcon";
 export default function Navbar() {
   const { isLoggedIn, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  // const { totalPrice, totalQuantity } = useContext(CartContext);
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -43,7 +44,7 @@ export default function Navbar() {
           >
             <div className="card-body">
               <span className="text-lg font-bold">8 Items</span>
-              <span className="text-SecondaryColor">Subtotal: $999</span>
+              <span className="text-SecondaryColor">Subtotal: $600</span>
               <div className="card-actions">
                 <Link
                   to="/cart"

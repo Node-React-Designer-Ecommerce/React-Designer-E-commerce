@@ -23,6 +23,7 @@ import Error from "./components/Error";
 import CartPage from "./pages/CartPage";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
+import { CartProvider } from "./context/CartContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,43 +38,48 @@ function App() {
     <div className="relative">
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <AuthProvider>
-          <BrowserRouter>
-            <Navbar className="sticky top-0 z-50" />
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/customize" element={<CustomizePage />} />
-              <Route path="/Designer/:id" element={<Designer />} />
-              <Route path="/product-details/:id" element={<ProductDetails />} />
-              <Route
-                path="/sign-up"
-                element={
-                  <ProtectedRoute isAuth={false}>
-                    <Registration />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  <ProtectedRoute isAuth={false}>
-                    <Login />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/cart" element={<CartPage />} />
+        <CartProvider>
+          <AuthProvider>
+            <BrowserRouter>
+              <Navbar className="sticky top-0 z-50" />
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/customize" element={<CustomizePage />} />
+                <Route path="/Designer/:id" element={<Designer />} />
+                <Route
+                  path="/product-details/:id"
+                  element={<ProductDetails />}
+                />
+                <Route
+                  path="/sign-up"
+                  element={
+                    <ProtectedRoute isAuth={false}>
+                      <Registration />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/login"
+                  element={
+                    <ProtectedRoute isAuth={false}>
+                      <Login />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/cart" element={<CartPage />} />
 
-              <Route path="*" element={<Error />} />
-              <Route path="/forget-password" element={<ForgetPassword />} />
-              <Route
-                path="/reset-password/:token"
-                element={<ResetPassword />}
-              />
-            </Routes>
-            <Footer />
-          </BrowserRouter>
-        </AuthProvider>
+                <Route path="*" element={<Error />} />
+                <Route path="/forget-password" element={<ForgetPassword />} />
+                <Route
+                  path="/reset-password/:token"
+                  element={<ResetPassword />}
+                />
+              </Routes>
+              <Footer />
+            </BrowserRouter>
+          </AuthProvider>
+        </CartProvider>
       </QueryClientProvider>
     </div>
   );

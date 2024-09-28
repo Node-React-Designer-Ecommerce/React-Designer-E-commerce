@@ -1,73 +1,31 @@
-export default function RadioComponent({ setSize }) {
+/* eslint-disable react/prop-types */
+export default function RadioComponent({ setSize, stock }) {
   const handleSizeChange = (e) => {
     setSize(e.target.value); // Update the size in the parent component
   };
+
+  // Convert stock array to a Set for easier lookup
+  console.log(stock);
+
   return (
-    <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-cente">
+    <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
       <div>
         <label className="font-bold">Size</label>
       </div>
       <div className="flex flex-wrap gap-2 text-[12px] font-medium">
-        <label className="flex items-center gap-1">
-          <input
-            type="radio"
-            name="size"
-            value="XS"
-            className="radio"
-            onChange={handleSizeChange}
-          />
-          XS
-        </label>
-        <label className="flex items-center gap-1  ">
-          <input
-            type="radio"
-            name="size"
-            value="S"
-            className="radio"
-            onChange={handleSizeChange}
-          />
-          S
-        </label>
-        <label className="flex items-center gap-1">
-          <input
-            type="radio"
-            name="size"
-            value="M"
-            className="radio "
-            onChange={handleSizeChange}
-          />
-          M
-        </label>
-        <label className="flex items-center gap-1">
-          <input
-            type="radio"
-            name="size"
-            value="L"
-            className="radio "
-            onChange={handleSizeChange}
-          />
-          L
-        </label>
-        <label className="flex items-center gap-1">
-          <input
-            type="radio"
-            name="size"
-            value="XL"
-            className="radio"
-            onChange={handleSizeChange}
-          />
-          XL
-        </label>
-        <label className="flex items-center gap-1">
-          <input
-            type="radio"
-            name="size"
-            value="XXL"
-            className="radio"
-            onChange={handleSizeChange}
-          />
-          XXL
-        </label>
+        {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
+          <label className="flex items-center gap-1" key={size}>
+            <input
+              type="radio"
+              name="size"
+              value={size}
+              className="radio"
+              onChange={handleSizeChange}
+              disabled={!stock.has(size)} // Disable if size is not available
+            />
+            {size}
+          </label>
+        ))}
       </div>
     </div>
   );

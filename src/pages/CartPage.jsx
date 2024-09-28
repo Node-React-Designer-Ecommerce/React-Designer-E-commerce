@@ -149,26 +149,26 @@ export default function CartPage() {
             <div className="col-span-2">
               {cart.map((product) => (
                 <div
-                  key={product._id}
+                  key={product?._id}
                   className="bg-white shadow-lg rounded-lg p-5 mb-5"
                 >
                   <div className="flex items-center">
                     <img
                       className="w-24 h-24 rounded"
-                      src={product.product.image}
-                      alt={product.product.name}
+                      src={product?.product?.image}
+                      alt={product?.product?.name}
                     />
                     <div className="ml-5 flex-grow">
                       <h2 className="font-bold text-lg">
-                        {product.product.name}
+                        {product?.product?.name}
                       </h2>
-                      <p className="text-gray-500">Size: {product.size}</p>
+                      <p className="text-gray-500">Size: {product?.size}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-xl font-bold">
-                        EGP {product.product.price * product.quantity}
+                        EGP {product?.product?.price * product?.quantity}
                       </p>
-                      <p className="text-gray-500">Qty: {product.quantity}</p>
+                      <p className="text-gray-500">Qty: {product?.quantity}</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-3">
@@ -176,44 +176,44 @@ export default function CartPage() {
                       <button
                         onClick={() =>
                           handleQuantityChange(
-                            product._id,
-                            product.quantity - 1
+                            product?._id,
+                            product?.quantity - 1
                           )
                         }
                         className="btn btn-outline btn-neutral"
-                        disabled={product.quantity <= 1}
+                        disabled={product?.quantity <= 1}
                       >
                         -1
                       </button>
                       <span className="mx-3">
-                        {pendingUpdates[product._id] !== undefined
-                          ? pendingUpdates[product._id]
-                          : product.quantity}
+                        {pendingUpdates[product?._id] !== undefined
+                          ? pendingUpdates[product?._id]
+                          : product?.quantity}
                       </span>
                       <button
                         onClick={() =>
                           handleQuantityChange(
-                            product._id,
-                            product.quantity + 1
+                            product?._id,
+                            product?.quantity + 1
                           )
                         }
                         className="btn btn-outline btn-neutral"
                         disabled={
-                          pendingUpdates[product._id] >=
-                          product.product.stock.find(
-                            (s) => s.size === product.size
-                          ).quantity
+                          pendingUpdates[product?._id] >=
+                          product?.product?.stock?.find(
+                            (s) => s?.size === product?.size
+                          )?.quantity
                         }
                       >
                         +1
                       </button>
-                      {pendingUpdates[product._id] !== undefined && (
+                      {pendingUpdates[product?._id] !== undefined && (
                         <button
-                          onClick={() => confirmUpdateQuantity(product._id)}
+                          onClick={() => confirmUpdateQuantity(product?._id)}
                           className="bg-slate-50 hover:bg-green-900 hover:text-white btn text-SecondaryColor border border-SecondaryColor ml-3"
-                          disabled={loadingConfirm[product._id]}
+                          disabled={loadingConfirm[product?._id]}
                         >
-                          {loadingConfirm[product._id] ? (
+                          {loadingConfirm[product?._id] ? (
                             <span className="loading loading-ring loading-md"></span>
                           ) : (
                             "Confirm"
@@ -222,11 +222,11 @@ export default function CartPage() {
                       )}
                     </div>
                     <button
-                      onClick={() => handleRemoveFromCart(product._id)}
+                      onClick={() => handleRemoveFromCart(product?._id)}
                       className="btn btn-outline btn-danger"
-                      disabled={isRemoving === product._id}
+                      disabled={isRemoving === product?._id}
                     >
-                      {isRemoving === product._id ? (
+                      {isRemoving === product?._id ? (
                         <span className="loading loading-ring loading-md"></span>
                       ) : (
                         "Remove"
