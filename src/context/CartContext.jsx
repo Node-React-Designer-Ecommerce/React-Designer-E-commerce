@@ -1,12 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-
-//toasts
 import { toast } from "react-toastify";
-
-//prop types
 import PropTypes from 'prop-types';
-
-
 import {
   getCart,
   removeFromCart,

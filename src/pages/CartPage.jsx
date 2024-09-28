@@ -145,7 +145,7 @@ export default function CartPage() {
                 </div>
                 <button
                   onClick={handleClearCart}
-                  className="bg-slate-50 hover:bg-green-900 hover:text-white text-SecondaryColor border border-SecondaryColor transition duration-300 ease-in-out rounded-lg py-2 px-14 mt-16 w-full  "
+                  className="bg-slate-50 hover:bg-red-600 hover:text-white text-red-500 border border-red-500 transition duration-300 ease-in-out rounded-lg py-2 px-14 mt-16 w-full  "
                   disabled={isClearing}
                 >
                   {isClearing ? (
