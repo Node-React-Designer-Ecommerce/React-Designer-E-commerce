@@ -14,7 +14,6 @@ import Skelton from './Skelton';
 import HeardFilledIcon from '../icons/HeardFilledIcon';
 import ArrowRight from "../icons/ArrowRight";
 import HeartIcon from '../icons/HeartIcon';
-import ShoppingBag from '../icons/ShoppingBag';
 
 
 function LandingProductItem() {
@@ -68,9 +67,6 @@ function LandingProductItem() {
                   <div className="flex justify-between pt-4 w-full">
                     <Link to={`/product-details/${product._id}`} className="flex items-center">
                       See More <ArrowRight />
-                    </Link>
-                    <Link className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-3xl w-11 h-11 flex justify-center items-center cursor-pointer">
-                      <ShoppingBag />
                     </Link>
                   </div>
                 </div>

@@ -1,5 +1,10 @@
-import EmptyCart from "../components/EmptyCart";
+//contexts
 import { useCart } from "../context/CartContext";
+
+//empty cart
+import EmptyCart from "../components/EmptyCart";
+
+//toasts
 import "react-toastify/dist/ReactToastify.css";
 
 export default function CartPage() {
