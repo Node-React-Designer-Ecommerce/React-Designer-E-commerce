@@ -65,7 +65,7 @@ export default function ProductDetails() {
       size: selectedSize,
     };
     try {
-      const response = await axiosInstance.post("user/cart", cartItem);
+      const response = await axiosInstance.post("cart/", cartItem);
       console.log(response.data.message);
     } catch (error) {
       console.log("Error in request:", error.response?.data || error.message);
