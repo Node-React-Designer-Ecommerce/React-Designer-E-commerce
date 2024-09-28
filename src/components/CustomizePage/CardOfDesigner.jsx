@@ -62,7 +62,10 @@ export default function CardOfDesigner() {
         <div className="flex justify-center">
           <div className="grid grid-cols-1 xl:grid-cols-3  md:grid-cols-2 gap-5">
             {products.map((product) => (
-              <div key={product.id} className="card bg-base-100 w-80 shadow-xl">
+              <div
+                key={product._id}
+                className="card bg-base-100 w-80 shadow-xl"
+              >
                 <figure className="px-5 relative pt-10">
                   <img src={product.image} alt="Shoes" className="rounded-xl" />
                 </figure>
