@@ -50,7 +50,7 @@ function LandingProductItem() {
       <div className="w-11/12 gap-5 relative flex justify-center">
         <div className=" md:pt-16 pt-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-            {products.slice(0, 3).map((product) => (
+            {products.slice(3, 6).map((product) => (
               <div key={product._id} className="card bg-base-100 w-80 shadow-xl">
                 <figure className="px-5 relative pt-10">
                   <div
