@@ -7,8 +7,13 @@ import EmptyCart from "../components/EmptyCart";
 //toasts
 import "react-toastify/dist/ReactToastify.css";
 
+//order Api
+import { createOrder } from "./../utils/api/orderApi";
+import { useState } from "react";
 export default function CartPage() {
   const { totalQuantity, totalPrice } = useCart();
+  const [isOpen, setIsOpen] = useState(false);
+  const [iframeSrc, setIframeSrc] = useState("");
 
   const {
     cart,
@@ -23,6 +28,22 @@ export default function CartPage() {
     handleClearCart,
   } = useCart();
 
+  const checkout = async () => {
+    const paymentMethod = "Online";
+    const order = await createOrder(paymentMethod); // Assuming createOrder is defined elsewhere
+    const hash = order.data.kashierOrderHash;
+    const orderId = order.data.order._id;
+    const totalPrice = order.data.order.totalPrice;
+
+    console.log(hash, "--222--", orderId);
+
+    // Set the iframe source
+    const src = `https://checkout.kashier.io/?merchantId=MID-28559-7&orderId=${orderId}&amount=${totalPrice}&currency=EGP&hash=${hash}&mode=test&metaData={"metaData":"myData"}&merchantRedirect=http://localhost:5173/cart&allowedMethods=card,wallet&failureRedirect=false&redirectMethod=get&brandColor=%2314532d&display=en&serverWebhook=https://react-node-designer.glitch.me/api/v1/orders/kashier`;
+
+    setIframeSrc(src); // Set the iframe source in state
+    setIsOpen(true);
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -30,9 +51,44 @@ export default function CartPage() {
       </div>
     );
   }
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
+  // Close modal when clicking outside
+  const handleClickOutside = (e) => {
+    if (e.target.id === "modal-overlay") {
+      handleCloseModal();
+    }
+  };
 
   return (
     <div className="container mx-auto">
+      {isOpen && (
+        <div
+          id="modal-overlay"
+          className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50"
+          onClick={handleClickOutside}
+        >
+          <div className="relative min-w-96 max-w-3xl h-full max-h-[90%] bg-white rounded-lg shadow-lg overflow-hidden">
+            <button
+              className="absolute top-2 right-2 bg-gray-100 text-black rounded-full p-2"
+              onClick={handleCloseModal}
+            >
+              ✕
+            </button>
+
+            <iframe
+              src={iframeSrc}
+              className="w-full h-full"
+              style={{
+                border: "none",
+                overflow: "hidden",
+              }}
+            />
+          </div>
+        </div>
+      )}
       {!cart || cart.length === 0 ? (
         <EmptyCart></EmptyCart>
       ) : (
@@ -169,7 +225,10 @@ export default function CartPage() {
                     "Clear Cart"
                   )}
                 </button>
-                <button className="bg-SecondaryColor hover:bg-green-900 transition duration-300 ease-in-out rounded-lg text-white px-14 py-2 mt-2 w-full  ">
+                <button
+                  className="bg-SecondaryColor hover:bg-green-900 transition duration-300 ease-in-out rounded-lg text-white px-14 py-2 mt-2 w-full  "
+                  onClick={checkout}
+                >
                   Checkout
                 </button>
               </div>

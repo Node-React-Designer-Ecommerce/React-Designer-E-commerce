@@ -3,6 +3,7 @@ import { takeScreenShotFunc } from "./screenshot";
 
 //resize canva in responsive
 export const resizeCanvas = (fabricCanvas, canvasWidth, canvasHeight) => {
+  if (!fabricCanvas) return;
   fabricCanvas.current.setWidth(canvasWidth);
   fabricCanvas.current.setHeight(canvasHeight);
   fabricCanvas.current.renderAll(); // Re-render the canvas to apply changes
