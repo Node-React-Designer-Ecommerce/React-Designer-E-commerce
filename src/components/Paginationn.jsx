@@ -11,8 +11,8 @@ const Paginationn = ({ getPage, pageCount, currentPage }) => {
       breakLabel="..."
       nextLabel="next >"
       onPageChange={handlePageClick}
-      marginPagesDisplayed={1}
-      pageRangeDisplayed={1}
+      marginPagesDisplayed={4}
+      pageRangeDisplayed={4}
       pageCount={pageCount}
       previousLabel="< previous"
       containerClassName={"pagination flex gap-4 justify-content-center p-3"}

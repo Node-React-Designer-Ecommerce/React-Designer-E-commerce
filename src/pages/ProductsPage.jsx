@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Filter from "../components/Filter";
 import Skelton from "../layouts/Skelton";
@@ -35,7 +35,6 @@ export default function ProductsPage() {
   const handleLocalSearch = (e) => {
     const newSearch = e.target.value.toLowerCase();
     setLocalSearch(newSearch);
-
     clearTimeout(searchTimeout.current);
     searchTimeout.current = setTimeout(() => {
       handleSearch(newSearch);
@@ -51,35 +50,92 @@ export default function ProductsPage() {
     }
   }, [searchParams]);
 
-  if (isLoading) {
+  const memoizedProductsSection = useMemo(() => {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-3  md:grid-cols-2 gap-8">
+            {Array.from({ length: 7 }).map((_, index) => (
+              <div key={index} className="card bg-base-100 w-80 shadow-xl">
+                <Skelton />
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (isError) {
+      return (
+        <div className="">
+          <NoData />
+          <h2 className="text-center text-red-600">Error: {error.message}</h2>;
+        </div>
+      );
+    }
+
     return (
-      <div className="flex justify-center py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
-          {Array.from({ length: 7 }).map((_, index) => (
-            <div key={index} className="card bg-base-100 w-80 shadow-xl">
-              <Skelton />
+      <div className="flex justify-center p-3 mx-5">
+        <div className="w-11/12 gap-5 relative flex justify-center">
+          <div className=" md:pt-16 pt-2">
+            <div className="grid grid-cols-1 lg:grid-cols-3  md:grid-cols-2 gap-8">
+              {/* No Data Found Message */}
+              {products.length === 0 ? (
+                <div className="w-full flex justify-center items-center col-span-3">
+                  <NoData />
+                </div>
+              ) : (
+                products.map((product) => (
+                  <div
+                    key={product._id}
+                    className="card bg-base-100 w-80 shadow-xl"
+                  >
+                    <figure className=" relative pt-5">
+                      <div
+                        className="bg-white rounded-3xl w-11 absolute top-7 start-7 h-11 flex justify-center items-center cursor-pointer"
+                        onClick={() => toggleFavorite(product._id)}
+                      >
+                        {favoriteProducts[product._id] ? (
+                          <HeardFilledIcon />
+                        ) : (
+                          <HeartIcon />
+                        )}
+                      </div>
+                      <img
+                        src={product.image}
+                        alt="Shoes"
+                        className="rounded-xl h-[330px] w-full object-fit"
+                      />
+                    </figure>
+                    <div className="card-body py-3 items-center text-center">
+                      <h2 className="card-title uppercase">{product.name}</h2>
+                      <p className="text-gray-600">{product.description}</p>
+                      <p className="text-green-800">${product.price}</p>
+                      <div className="flex justify-between pt-1 w-full">
+                        <Link
+                          to={`/product-details/${product._id}`}
+                          className="flex items-center"
+                        >
+                          See More <ArrowRight />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     );
-  }
-
-  if (isError) {
-    return (
-      <div className="">
-        <NoData />
-        <h2 className="text-center text-red-600">Error: {error.message}</h2>;
-      </div>
-    );
-  }
+  }, [products, isLoading, isError, error, favoriteProducts]);
 
   return (
     <div className="w-full font-serif relative ">
       <div className="relative flex flex-col lg:text-2xl items-center tracking-wide">
         <img
           src="products-page.jpg"
-          alt=""
+          alt="product page header image"
           className="h-96 w-full object-cover"
         />
         <div className="absolute top-40 lg:top-16 lg:right-40">
@@ -125,58 +181,7 @@ export default function ProductsPage() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center p-3 mx-5">
-        <div className="w-11/12 gap-5 relative flex justify-center">
-          <div className=" md:pt-16 pt-2">
-            <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
-              {/* No Data Found Message */}
-              {products.length === 0 ? (
-                <div className="flex items-center justify-center text-5xl text-gray-500 ">
-                  <p className="">No Data Found .. </p>
-                </div>
-              ) : (
-                products.map((product) => (
-                  <div
-                    key={product._id}
-                    className="card bg-base-100 w-80 shadow-xl"
-                  >
-                    <figure className=" relative pt-5">
-                      <div
-                        className="bg-white rounded-3xl w-11 absolute top-7 start-7 h-11 flex justify-center items-center cursor-pointer"
-                        onClick={() => toggleFavorite(product._id)}
-                      >
-                        {favoriteProducts[product._id] ? (
-                          <HeardFilledIcon />
-                        ) : (
-                          <HeartIcon />
-                        )}
-                      </div>
-                      <img
-                        src={product.image}
-                        alt="Shoes"
-                        className="rounded-xl h-[330px] w-full object-fit"
-                      />
-                    </figure>
-                    <div className="card-body py-3 items-center text-center">
-                      <h2 className="card-title uppercase">{product.name}</h2>
-                      <p className="text-gray-600">{product.description}</p>
-                      <p className="text-green-800">${product.price}</p>
-                      <div className="flex justify-between pt-1 w-full">
-                        <Link
-                          to={`/product-details/${product._id}`}
-                          className="flex items-center"
-                        >
-                          See More <ArrowRight />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      {memoizedProductsSection}
       {/* Pagination Controls */}
       <div className="flex justify-center  m-10 text-lg">
         <Paginationn

@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import {getProductsByPage} from "../utils/api/productsapi";
-
+import { getProductsByPage } from "../utils/api/productsapi";
 import PropTypes from "prop-types";
+
 const ProductsContext = createContext();
 
 export const useProducts = () => useContext(ProductsContext);
@@ -42,6 +42,19 @@ export const ProductsProvider = ({ children }) => {
     fetchProducts(currentPage, search);
   }, [currentPage, search]);
 
+  useEffect(() => {
+    const pageParam = Number(searchParams.get("page")) || 1;
+    const searchParam = searchParams.get("search") || "";
+
+    if (pageParam !== currentPage) {
+      setCurrentPage(pageParam);
+    }
+
+    if (searchParam !== search) {
+      setSearch(searchParam);
+    }
+  }, [searchParams]);
+
   const handleSearch = (word) => {
     setSearch(word);
     setCurrentPage(1); // Reset to first page when searching
@@ -73,5 +86,5 @@ export const ProductsProvider = ({ children }) => {
 };
 
 ProductsProvider.propTypes = {
-    children: PropTypes.node.isRequired,
-  };
+  children: PropTypes.node.isRequired,
+};
