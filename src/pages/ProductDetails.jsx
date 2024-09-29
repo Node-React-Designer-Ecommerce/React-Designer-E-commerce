@@ -32,7 +32,6 @@ export default function ProductDetails() {
   const [isAdding, setIsAdding] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
 
-
   const {
     data: product,
     isLoading,
@@ -124,12 +123,7 @@ export default function ProductDetails() {
             </div>
           </div>
           <Rating />
-          <div className="py-3 flex justify-between">
-            <p className="text-black ">
-              <span className="font-bold">Only In Stock:</span>{" "}
-              {product.quantity}
-            </p>
-          </div>
+
           <p className="text-green-800 text-xl font-bold">${product.price}</p>
           <p className="py-4">{product.description}</p>
           <div>

@@ -10,7 +10,7 @@ import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
 import SearchIcon from "./../icons/SearchIcon";
 import NoData from "./../components/NoData";
-import { useProducts } from './../context/ProductsContext';
+import { useProducts } from "./../context/ProductsContext";
 import { useToggleFavorite } from "../utils/helpers/help";
 
 export default function ProductsPage() {
@@ -75,7 +75,7 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="w-full font-serif relative">
+    <div className="w-full font-serif relative ">
       <div className="relative flex flex-col lg:text-2xl items-center tracking-wide">
         <img
           src="products-page.jpg"
@@ -125,7 +125,7 @@ export default function ProductsPage() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center p-3">
+      <div className="flex justify-center p-3 mx-5">
         <div className="w-11/12 gap-5 relative flex justify-center">
           <div className=" md:pt-16 pt-2">
             <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">

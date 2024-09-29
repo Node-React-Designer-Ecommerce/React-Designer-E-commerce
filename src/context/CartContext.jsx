@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import {
   getCart,
   removeFromCart,
@@ -40,14 +40,14 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   const calculateTotals = (cartItems) => {
+    console.log(cartItems);
     const totalQty = cartItems.reduce(
       (sum, product) => sum + product.quantity,
       0
     );
-    const totalPrice = cartItems.reduce(
-      (sum, product) => sum + product.price * product.quantity,
-      0
-    );
+    const totalPrice = cartItems.reduce((sum, product) => {
+      return sum + product.price;
+    }, 0);
     setTotalQuantity(totalQty);
     setTotalPrice(totalPrice);
   };

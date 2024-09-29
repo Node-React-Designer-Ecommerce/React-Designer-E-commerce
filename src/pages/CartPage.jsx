@@ -34,10 +34,9 @@ export default function CartPage() {
   return (
     <div className="container mx-auto">
       {!cart || cart.length === 0 ? (
-        <EmptyCart>
-        </EmptyCart>
+        <EmptyCart></EmptyCart>
       ) : (
-        <div className="mb-5">
+        <div className="m-5">
           <h1 className="mb-5 font-bold text-3xl text-black">Shopping Cart</h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <div className="col-span-2">
@@ -58,11 +57,27 @@ export default function CartPage() {
                       </h2>
                       <p className="text-gray-500">Size: {product?.size}</p>
                     </div>
-                    <div className="text-right">
-                      <p className="text-xl font-bold">
-                        EGP {product?.product?.price * product?.quantity}
-                      </p>
-                      <p className="text-gray-500">Qty: {product?.quantity}</p>
+                    <div className="text-left">
+                      <div className="flex ">
+                        <p className="text-lg font-bold">Price : </p>
+                        <p className="text-lg ms-2 ">
+                          <span className="text-gray-400 text-base">EGP</span>{" "}
+                          {product?.product?.price}
+                        </p>
+                      </div>
+
+                      <div className="flex justify-between">
+                        <p className="text-lg font-bold">Total Price : </p>
+                        <p className="text-lg ms-3 ">
+                          <span className="text-gray-400 text-base">EGP</span>{" "}
+                          {product?.product?.price * product?.quantity}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-base font-bold">
+                          Qty: {product?.quantity}
+                        </p>
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-3">
