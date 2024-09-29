@@ -78,7 +78,7 @@ export default function ProductsPage() {
       <div className="flex justify-center p-3 mx-5">
         <div className="w-11/12 gap-5 relative flex justify-center">
           <div className=" md:pt-16 pt-2">
-            <div className="grid grid-cols-1 lg:grid-cols-3  md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3  md:grid-cols-2 gap-20">
               {/* No Data Found Message */}
               {products.length === 0 ? (
                 <div className="w-full flex justify-center items-center col-span-3">
@@ -92,7 +92,7 @@ export default function ProductsPage() {
                   >
                     <figure className=" relative pt-5">
                       <div
-                        className="bg-white rounded-3xl w-11 absolute top-7 start-7 h-11 flex justify-center items-center cursor-pointer"
+                        className="bg-white rounded-3xl w-11 absolute top-7 start-3 h-11 flex justify-center items-center cursor-pointer"
                         onClick={() => toggleFavorite(product._id)}
                       >
                         {favoriteProducts[product._id] ? (
@@ -104,14 +104,14 @@ export default function ProductsPage() {
                       <img
                         src={product.image}
                         alt="Shoes"
-                        className="rounded-xl h-[330px] w-full object-fit"
+                        className="rounded-xl h-[349px] w-full object-fit"
                       />
                     </figure>
                     <div className="card-body py-3 items-center text-center">
                       <h2 className="card-title uppercase">{product.name}</h2>
                       <p className="text-gray-600">{product.description}</p>
                       <p className="text-green-800">${product.price}</p>
-                      <div className="flex justify-between pt-1 w-full">
+                      <div className="flex justify-center pt-1 w-full">
                         <Link
                           to={`/product-details/${product._id}`}
                           className="flex items-center"
@@ -133,25 +133,29 @@ export default function ProductsPage() {
   return (
     <div className="w-full font-serif relative ">
       <div className="relative flex flex-col lg:text-2xl items-center tracking-wide">
+        <div className="w-full sticky top-0 z-20">
+
+        <div className="bg-slate-700 opacity-25 w-full h-96 absolute"></div>
         <img
           src="products-page.jpg"
           alt="product page header image"
-          className="h-96 w-full object-cover"
+          className="h-96 w-full object-cover "
         />
-        <div className="absolute top-40 lg:top-16 lg:right-40">
-          <p className="font-bold  text-gray-500">Featured Products</p>
-          <p className="font-bold uppercase">BestSeller Products</p>
-          <p className="lg:text-lg text-gray-500">
+        <div className="absolute right-7 top-28 sm:right-16 lg:top-16 lg:right-40 leading-loose">
+          <p className="font-bold  text-white sm:text-gray-700">Featured Products</p>
+          <p className="font-bold text-white sm:text-black uppercase">BestSeller Products</p>
+          <p className="lg:text-lg text-white sm:text-gray-700">
             Simplicity is the keynote of all true elegance
           </p>
           {/* Search */}
           <input
             type="text"
-            placeholder="Search here .."
+            placeholder="    Search here .."
             value={localSearch}
             onChange={handleLocalSearch}
             className="input input-bordered rounded-3xl my-20 input-sm md:input-md w-full max-w-xs text-black"
           />
+        </div>
         </div>
       </div>
       <div className="sticky  top-28 z-50 mt-3 hidden">

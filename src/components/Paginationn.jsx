@@ -14,7 +14,7 @@ const Paginationn = ({ getPage, pageCount, currentPage }) => {
       marginPagesDisplayed={4}
       pageRangeDisplayed={4}
       pageCount={pageCount}
-      previousLabel="< previous"
+      previousLabel={"< previous"}
       containerClassName={"pagination flex gap-4 justify-content-center p-3"}
       pageClassName={"page-item"}
       pageLinkClassName={"page-link"}
