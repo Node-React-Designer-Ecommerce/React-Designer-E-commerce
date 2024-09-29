@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import { fabric } from "fabric";
 import { useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
@@ -19,9 +19,18 @@ import {
 } from "../utils/helpers/canvasTools.js";
 import { getIsDesignableProductById } from "../utils/api/productsapi.js";
 import { useQuery } from "@tanstack/react-query";
+import { saveCanvasToBackend } from "../utils/api/designerApi.js";
+import AuthContext from "../context/AuthContext.jsx";
+import { toast } from "react-toastify";
 
 export default function Designer() {
   const { id } = useParams();
+  console.log(id);
+
+  const { userId } = useContext(AuthContext); // Access userId from AuthContext
+  console.log("Auth Context Value:", useContext(AuthContext));
+
+  console.log(userId);
   const [savedCanvas, setSavedCanvas] = useState(null);
   const canvasRef = useRef(null); // Reference to the canvas element
   const fabricCanvas = useRef(null); // Reference to the Fabric.js canvas
@@ -40,6 +49,7 @@ export default function Designer() {
   const [canvasWidth, setCanvasWidth] = useState(0); // State for canvas width
   const [canvasHeight, setCanvasHeight] = useState(0); // State for canvas height
   const [selectedSize, setSelectedSize] = useState(""); // State for size
+  const [isEditing, setIsEditing] = useState(false); // Track if in edit mode
 
   const {
     data: product,
@@ -143,15 +153,41 @@ export default function Designer() {
   };
 
   // save canva as json
-  const handleSaveAsJSON = () => {
-    const canvasJSON = saveAsJSON(fabricCanvas.current);
-    setSavedCanvas(canvasJSON);
-    console.log("Canvas JSON:", canvasJSON);
-  };
+  const handleSaveAsJSON = async () => {
+    try {
+      const canvasJSON = saveAsJSON(fabricCanvas.current);
+      setSavedCanvas(canvasJSON);
+      console.log("Canvas JSON:", canvasJSON);
 
+      // Prepare the data to be sent to the API
+      const designData = {
+        productId: id, // Replace with actual product ID
+        userId: userId, // Replace with actual user ID if applicable
+        canvas: canvasJSON,
+        totalPrice: 500, // Define this function to calculate total price
+        isGamed: false, // or true, based on your logic
+      };
+
+      // Make the API call to save the design
+      const saveResponse = await saveCanvasToBackend(designData);
+      toast.success("Your Design saved successfully ");
+      console.log("Canvas saved successfully:", saveResponse);
+    } catch (error) {
+      console.error("Error saving canvas:", error);
+    }
+    setIsEditing(true);
+  };
   // load from json
   const handleLoadFromJSON = () =>
     loadFromJSON(fabricCanvas.current, savedCanvas);
+
+  const handleButtonClick = async () => {
+    if (isEditing) {
+      await handleLoadFromJSON(); // Load JSON if in edit mode
+    } else {
+      await handleSaveAsJSON(); // Save as JSON if not in edit mode
+    }
+  };
 
   //reset canva
   const handleResetCanva = () => resetCanvas(fabricCanvas.current);
@@ -389,9 +425,9 @@ export default function Designer() {
             <button
               style={{ borderColor: "#4e7f62" }}
               className="bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
-              onClick={handleSaveAsJSON}
+              onClick={handleButtonClick}
             >
-              Save as JSON
+              {isEditing ? "Edit" : "Confirm"} {/* Toggle button text */}
             </button>
           </div>
           <div className="p-5 flex justify-around">
