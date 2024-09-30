@@ -49,37 +49,3 @@ export const takeScreenShotFunc = async (
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////// code using formdata//////////////////////////////////////////////
-// export const takeScreenShotFunc = async (elementId, fileName) => {
-//   const element = document.getElementById(elementId);
-//   if (!element) {
-//     console.error(`Element with id ${elementId} not found`);
-//     return null;
-//   }
-
-//   try {
-//     // Capture the screenshot
-//     const canvas = await html2canvas(element, {
-//       allowTaint: true,
-//       useCORS: true,
-//     });
-
-//     // Compress the image
-//     const compressedImage = canvas.toDataURL("image/jpeg", 0.7); // 0.7 is the quality
-
-//     // Convert the compressed image to a blob
-//     const blob = await (await fetch(compressedImage)).blob();
-
-//     // Create FormData and append the image
-//     const formData = new FormData();
-//     formData.append("image", blob, fileName);
-
-//     return formData; // Return the FormData object
-//   } catch (err) {
-//     console.error("Error in taking screenshot:", err);
-//     return null;
-//   }
-// };
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
