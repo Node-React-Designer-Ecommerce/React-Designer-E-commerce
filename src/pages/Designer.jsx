@@ -26,12 +26,7 @@ import { uploadToImageKit } from "../utils/api/imagekit.js";
 
 export default function Designer() {
   const { id } = useParams();
-  console.log(id);
-
-  const { userId } = useContext(AuthContext); // Access userId from AuthContext
-  console.log("Auth Context Value:", useContext(AuthContext));
-
-  console.log(userId);
+  const { userId } = useContext(AuthContext);
   const [savedCanvas, setSavedCanvas] = useState(null);
   const canvasRef = useRef(null); // Reference to the canvas element
   const fabricCanvas = useRef(null); // Reference to the Fabric.js canvas
@@ -162,79 +157,79 @@ export default function Designer() {
   };
   ///////////////////////////////// original code //////////////////////////////////////////////////////////
   // save canva as json
-  // const handleSaveAsJSON = async () => {
-  //   try {
-  //     const canvasJSON = saveAsJSON(fabricCanvas.current);
-  //     setSavedCanvas(canvasJSON);
-  //     console.log("Canvas JSON:", canvasJSON);
-  //     // Get the image data
-  //     const imageOfDesign = await handleCaptureScreenShot();
-  //     //
-  //     console.log("screenshot", imageOfDesign);
-
-  //     // Prepare the data to be sent to the API
-  //     const designData = {
-  //       productId: id,
-  //       userId: userId,
-  //       canvas: canvasJSON,
-  //       image: imageOfDesign,
-  //       totalPrice: 500,
-  //       isGamed: false,
-  //     };
-
-  //     // Make the API call to save the design
-  //     const saveResponse = await saveCanvasToBackend(designData);
-  //     toast.success("Your Design saved successfully ");
-  //     console.log("Canvas saved successfully:", saveResponse);
-  //     setIsEditing(true);
-  //   } catch (error) {
-  //     console.error("Error saving canvas:", error);
-  //   }
-  // };
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  ////////////////////////////////////////// handle image with imagekit///////////////////////////////////////
-
   const handleSaveAsJSON = async () => {
     try {
-      // Save the canvas JSON representation
       const canvasJSON = saveAsJSON(fabricCanvas.current);
       setSavedCanvas(canvasJSON);
       console.log("Canvas JSON:", canvasJSON);
+      // Get the image data
+      const imageOfDesign = await handleCaptureScreenShot();
+      //
+      console.log("screenshot", imageOfDesign);
 
-      // Capture the screenshot and receive the FormData containing the image
-      const formData = await handleCaptureScreenShot();
-
-      if (!formData) {
-        throw new Error("Failed to capture screenshot");
-      }
-
-      // Make the API call to upload the image to ImageKit (or other services)
-      const imagekitResponse = await uploadToImageKit(formData); // You'll need an API handler to upload FormData to ImageKit
-      const imageURL = imagekitResponse.url; // Extract the URL returned by ImageKit
-
-      console.log("ImageKit URL:", imageURL);
-
-      // Prepare the design data with the uploaded image URL
+      // Prepare the data to be sent to the API
       const designData = {
         productId: id,
         userId: userId,
         canvas: canvasJSON,
-        image: imageURL, // Use the ImageKit URL here
+        image: imageOfDesign,
         totalPrice: 500,
         isGamed: false,
       };
 
-      // Make the API call to save the design with the image URL
+      // Make the API call to save the design
       const saveResponse = await saveCanvasToBackend(designData);
-      toast.success("Your Design saved successfully");
+      toast.success("Your Design saved successfully ");
       console.log("Canvas saved successfully:", saveResponse);
       setIsEditing(true);
     } catch (error) {
       console.error("Error saving canvas:", error);
-      toast.error("Error saving the design");
     }
   };
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////// handle image with imagekit///////////////////////////////////////
+
+  // const handleSaveAsJSON = async () => {
+  //   try {
+  //     // Save the canvas JSON representation
+  //     const canvasJSON = saveAsJSON(fabricCanvas.current);
+  //     setSavedCanvas(canvasJSON);
+  //     console.log("Canvas JSON:", canvasJSON);
+
+  //     // Capture the screenshot and receive the FormData containing the image
+  //     const formData = await handleCaptureScreenShot();
+
+  //     if (!formData) {
+  //       throw new Error("Failed to capture screenshot");
+  //     }
+
+  //     // Make the API call to upload the image to ImageKit (or other services)
+  //     const imagekitResponse = await uploadToImageKit(formData); // You'll need an API handler to upload FormData to ImageKit
+  //     const imageURL = imagekitResponse.url; // Extract the URL returned by ImageKit
+
+  //     console.log("ImageKit URL:", imageURL);
+
+  //     // Prepare the design data with the uploaded image URL
+  //     const designData = {
+  //       productId: id,
+  //       userId: userId,
+  //       canvas: canvasJSON,
+  //       image: imageURL, // Use the ImageKit URL here
+  //       totalPrice: 500,
+  //       isGamed: false,
+  //     };
+
+  //     // Make the API call to save the design with the image URL
+  //     const saveResponse = await saveCanvasToBackend(designData);
+  //     toast.success("Your Design saved successfully");
+  //     console.log("Canvas saved successfully:", saveResponse);
+  //     setIsEditing(true);
+  //   } catch (error) {
+  //     console.error("Error saving canvas:", error);
+  //     toast.error("Error saving the design");
+  //   }
+  // };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // load from json
