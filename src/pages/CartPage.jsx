@@ -38,7 +38,7 @@ export default function CartPage() {
     console.log(hash, "--222--", orderId);
 
     // Set the iframe source
-    const src = `https://checkout.kashier.io/?merchantId=MID-28559-7&orderId=${orderId}&amount=${totalPrice}&currency=EGP&hash=${hash}&mode=test&metaData={"metaData":"myData"}&merchantRedirect=http://localhost:5173/cart&allowedMethods=card,wallet&failureRedirect=false&redirectMethod=get&brandColor=%2314532d&display=en&serverWebhook=https://react-node-designer.glitch.me/api/v1/orders/kashier`;
+    const src = `https://checkout.kashier.io/?merchantId=MID-28559-7&orderId=${orderId}&amount=${totalPrice}&currency=EGP&hash=${hash}&mode=test&metaData={"metaData":"myData"}&merchantRedirect=http://localhost:5173/success-payment&allowedMethods=card,wallet&failureRedirect=false&redirectMethod=get&brandColor=%2314532d&display=en&serverWebhook=https://react-node-designer.glitch.me/api/v1/orders/kashier`;
 
     setIframeSrc(src); // Set the iframe source in state
     setIsOpen(true);

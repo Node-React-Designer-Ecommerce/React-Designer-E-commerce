@@ -22,6 +22,7 @@ import ResetPassword from "./pages/ResetPassword";
 import { CartProvider } from "./context/CartContext";
 import { ProductsProvider } from "./context/ProductsContext";
 import { FavoriteProductsProvider } from "./context/FavoriteProductsContext";
+import SuccessPayment from "./pages/SuccessPayment";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,59 +42,77 @@ function App() {
             <BrowserRouter>
               <ProductsProvider>
                 <FavoriteProductsProvider>
-                  <Navbar className="sticky top-0 z-50" />
+                  {/* Conditionally render Navbar and Footer */}
                   <Routes>
-                    <Route path="/" element={<Landing />} />
-                    <Route path="/products" element={<ProductsPage />} />
-                    <Route path="/customize" element={<CustomizePage />} />
-                    <Route path="/Designer/:id" element={<Designer />} />
                     <Route
-                      path="/product-details/:id"
-                      element={<ProductDetails />}
-                    />
-                    <Route
-                      path="/sign-up"
-                      element={
-                        <ProtectedRoute isAuth={false}>
-                          <Registration />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/login"
-                      element={
-                        <ProtectedRoute isAuth={false}>
-                          <Login />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/cart"
+                      path="/success-payment"
                       element={
                         <ProtectedRoute>
-                          <CartPage />
+                          <SuccessPayment />
                         </ProtectedRoute>
                       }
                     />
                     <Route
-                      path="/forget-password"
+                      path="*"
                       element={
-                        <ProtectedRoute isAuth={false}>
-                          <ForgetPassword />
-                        </ProtectedRoute>
+                        <>
+                          <Navbar className="sticky top-0 z-50" />
+                          <Routes>
+                            <Route path="/" element={<Landing />} />
+                            <Route path="/products" element={<ProductsPage />} />
+                            <Route path="/customize" element={<CustomizePage />} />
+                            <Route path="/Designer/:id" element={<Designer />} />
+                            <Route
+                              path="/product-details/:id"
+                              element={<ProductDetails />}
+                            />
+                            <Route
+                              path="/sign-up"
+                              element={
+                                <ProtectedRoute isAuth={false}>
+                                  <Registration />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/login"
+                              element={
+                                <ProtectedRoute isAuth={false}>
+                                  <Login />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/cart"
+                              element={
+                                <ProtectedRoute>
+                                  <CartPage />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/forget-password"
+                              element={
+                                <ProtectedRoute isAuth={false}>
+                                  <ForgetPassword />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/reset-password/:token"
+                              element={
+                                <ProtectedRoute isAuth={false}>
+                                  <ResetPassword />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route path="*" element={<Error />} />
+                          </Routes>
+                          <Footer />
+                        </>
                       }
                     />
-                    <Route
-                      path="/reset-password/:token"
-                      element={
-                        <ProtectedRoute isAuth={false}>
-                          <ResetPassword />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route path="*" element={<Error />} />
                   </Routes>
-                  <Footer />
                 </FavoriteProductsProvider>
               </ProductsProvider>
             </BrowserRouter>
