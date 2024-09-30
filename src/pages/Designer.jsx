@@ -22,6 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { saveCanvasToBackend } from "../utils/api/designerApi.js";
 import AuthContext from "../context/AuthContext.jsx";
 import { toast } from "react-toastify";
+import { uploadToImageKit } from "../utils/api/imagekit.js";
 
 export default function Designer() {
   const { id } = useParams();
@@ -73,7 +74,15 @@ export default function Designer() {
   console.log(product);
 
   //screenshot capture
-  const handleCaptureScreenShot = () => captureScreenShot(fabricCanvas.current);
+  const handleCaptureScreenShot = async () => {
+    try {
+      const imageOfDesign = await captureScreenShot(fabricCanvas.current);
+      return imageOfDesign; // Return the image data
+    } catch (error) {
+      console.log("screenshoterror", error);
+      return null;
+    }
+  };
 
   // useeffect
   useEffect(() => {
@@ -151,32 +160,83 @@ export default function Designer() {
     setTextProps((prev) => ({ ...prev, [prop]: value }));
     updateTextProps(selectedText, prop, value, fabricCanvas.current);
   };
-
+  ///////////////////////////////// original code //////////////////////////////////////////////////////////
   // save canva as json
+  // const handleSaveAsJSON = async () => {
+  //   try {
+  //     const canvasJSON = saveAsJSON(fabricCanvas.current);
+  //     setSavedCanvas(canvasJSON);
+  //     console.log("Canvas JSON:", canvasJSON);
+  //     // Get the image data
+  //     const imageOfDesign = await handleCaptureScreenShot();
+  //     //
+  //     console.log("screenshot", imageOfDesign);
+
+  //     // Prepare the data to be sent to the API
+  //     const designData = {
+  //       productId: id,
+  //       userId: userId,
+  //       canvas: canvasJSON,
+  //       image: imageOfDesign,
+  //       totalPrice: 500,
+  //       isGamed: false,
+  //     };
+
+  //     // Make the API call to save the design
+  //     const saveResponse = await saveCanvasToBackend(designData);
+  //     toast.success("Your Design saved successfully ");
+  //     console.log("Canvas saved successfully:", saveResponse);
+  //     setIsEditing(true);
+  //   } catch (error) {
+  //     console.error("Error saving canvas:", error);
+  //   }
+  // };
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////// handle image with imagekit///////////////////////////////////////
+
   const handleSaveAsJSON = async () => {
     try {
+      // Save the canvas JSON representation
       const canvasJSON = saveAsJSON(fabricCanvas.current);
       setSavedCanvas(canvasJSON);
       console.log("Canvas JSON:", canvasJSON);
 
-      // Prepare the data to be sent to the API
+      // Capture the screenshot and receive the FormData containing the image
+      const formData = await handleCaptureScreenShot();
+
+      if (!formData) {
+        throw new Error("Failed to capture screenshot");
+      }
+
+      // Make the API call to upload the image to ImageKit (or other services)
+      const imagekitResponse = await uploadToImageKit(formData); // You'll need an API handler to upload FormData to ImageKit
+      const imageURL = imagekitResponse.url; // Extract the URL returned by ImageKit
+
+      console.log("ImageKit URL:", imageURL);
+
+      // Prepare the design data with the uploaded image URL
       const designData = {
-        productId: id, // Replace with actual product ID
-        userId: userId, // Replace with actual user ID if applicable
+        productId: id,
+        userId: userId,
         canvas: canvasJSON,
-        totalPrice: 500, // Define this function to calculate total price
-        isGamed: false, // or true, based on your logic
+        image: imageURL, // Use the ImageKit URL here
+        totalPrice: 500,
+        isGamed: false,
       };
 
-      // Make the API call to save the design
+      // Make the API call to save the design with the image URL
       const saveResponse = await saveCanvasToBackend(designData);
-      toast.success("Your Design saved successfully ");
+      toast.success("Your Design saved successfully");
       console.log("Canvas saved successfully:", saveResponse);
+      setIsEditing(true);
     } catch (error) {
       console.error("Error saving canvas:", error);
+      toast.error("Error saving the design");
     }
-    setIsEditing(true);
   };
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   // load from json
   const handleLoadFromJSON = () =>
     loadFromJSON(fabricCanvas.current, savedCanvas);
@@ -418,7 +478,7 @@ export default function Designer() {
               Add to Cart
             </div>
 
-            <button onClick={handleLoadFromJSON}>load from json</button>
+            {/**<button onClick={handleLoadFromJSON}>load from json</button> */}
             <button onClick={handleResetCanva}>reset canvas</button>
 
             {/* Button to save canvas as JSON */}
@@ -427,15 +487,16 @@ export default function Designer() {
               className="bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
               onClick={handleButtonClick}
             >
-              {isEditing ? "Edit" : "Confirm"} {/* Toggle button text */}
+              {isEditing ? "Edit" : "Save Design"}
             </button>
           </div>
-          <div className="p-5 flex justify-around">
+          {/*<div className="p-5 flex justify-around">
+
             <button className="btn btn-error" onClick={handleCaptureScreenShot}>
               {" "}
               screenshot.js{" "}
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 

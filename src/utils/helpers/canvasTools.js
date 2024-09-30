@@ -8,17 +8,47 @@ export const resizeCanvas = (fabricCanvas, canvasWidth, canvasHeight) => {
   fabricCanvas.current.setHeight(canvasHeight);
   fabricCanvas.current.renderAll(); // Re-render the canvas to apply changes
 };
+//////////////////////////////////////////////////original code/////////////////////////////
 //screenshot capture
+// export const captureScreenShot = async (fabricCanvas) => {
+//   fabricCanvas.discardActiveObject();
+//   fabricCanvas.renderAll();
+//   const imageOfDesign = await takeScreenShotFunc(
+//     "divToTakeScreenshot",
+//     "MyImage",
+//     "image/jpeg",
+//     "#f5f5f5"
+//   );
+//   console.log(imageOfDesign);
+//   if (imageOfDesign) {
+//     return imageOfDesign;
+//   } else {
+//     throw new Error("Screenshot capture failed");
+//   }
+// };
+/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////// uploadform data//////////////////////////////////
+
 export const captureScreenShot = async (fabricCanvas) => {
+  // Discard any active objects on the canvas and render
   fabricCanvas.discardActiveObject();
   fabricCanvas.renderAll();
-  await takeScreenShotFunc(
-    "divToTakeScreenshot",
-    "MyImage",
-    "image/jpeg",
-    "#f5f5f5"
+
+  // Capture the screenshot and return a compressed image in FormData
+  const formData = await takeScreenShotFunc(
+    "divToTakeScreenshot", // The ID of the div to screenshot
+    "MyImage.jpeg" // The desired file name
   );
+
+  // Check if the FormData (containing the image) was successfully created
+  if (formData) {
+    console.log("Screenshot captured successfully:", formData);
+    return formData; // Return the FormData containing the image
+  } else {
+    throw new Error("Screenshot capture failed");
+  }
 };
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // add text on canva
 export const addText = (fabricCanvas, textProps) => {
