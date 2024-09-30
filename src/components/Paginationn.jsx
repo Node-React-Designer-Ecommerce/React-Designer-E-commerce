@@ -11,15 +11,15 @@ const Paginationn = ({ getPage, pageCount, currentPage }) => {
       breakLabel="..."
       nextLabel="next >"
       onPageChange={handlePageClick}
-      marginPagesDisplayed={4}
-      pageRangeDisplayed={4}
+      marginPagesDisplayed={1}
+      pageRangeDisplayed={1}
       pageCount={pageCount}
       previousLabel={"< previous"}
       containerClassName={"pagination flex gap-4 justify-content-center p-3"}
-      pageClassName={"page-item"}
+      pageClassName={"page-item btn btn-success text-white"}
       pageLinkClassName={"page-link"}
-      previousClassName={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-      nextClassName={`page-item ${currentPage === pageCount ? "disabled" : ""}`}
+      previousClassName={`page-item btn ${currentPage === 1 ? " hidden" : ""}`}
+      nextClassName={`page-item btn ${currentPage === pageCount ? "hidden" : ""}`}
       previousLinkClassName={"page-link"}
       nextLinkClassName={"page-link"}
       breakClassName={"page-item"}

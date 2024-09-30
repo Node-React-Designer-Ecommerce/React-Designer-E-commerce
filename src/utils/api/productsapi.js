@@ -7,11 +7,21 @@ export const getAllProducts = async () => {
   return response.data.data.products;
 };
 
+// export const getProductsByPage = async (page, search = "") => {
+//   const res = await axiosInstance.get(
+//     `/products?page=${page}&search=${search}`
+//   );
+//   return res.data.data.products;
+// };
+
 export const getProductsByPage = async (page, search = "") => {
   const res = await axiosInstance.get(
     `/products?page=${page}&search=${search}`
   );
-  return res.data.data.products;
+  return {
+    products: res.data.data.products,
+    pagination: res.data.data.pagination,
+  };
 };
 
 export const getProductById = (id) => {

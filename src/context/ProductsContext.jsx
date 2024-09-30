@@ -26,10 +26,9 @@ export const ProductsProvider = ({ children }) => {
     setError(null);
 
     try {
-      const data = await getProductsByPage(page, search);
-      setProducts(data);
-      const totalPages = Math.ceil(data.length / 7) || 1;
-      setTotalPages(totalPages);
+      const response = await getProductsByPage(page, search);
+      setProducts(response.products);
+      setTotalPages(response.pagination.totalPages); // Use the totalPages from the response
     } catch (err) {
       setIsError(true);
       setError(err);
