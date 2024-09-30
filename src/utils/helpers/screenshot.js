@@ -1,10 +1,11 @@
 import html2canvas from "html2canvas-pro";
+/////////////////////////////////////////////////////////original code/////////////////////////////////////////////////
 
-// Function to take a screenshot of an element and download it as an image file
+/// Function to take a screenshot of an element and download it as an image file
 export const takeScreenShotFunc = async (
   elementId, // ID of the HTML element to capture
   fileName, // Desired filename for the downloaded image
-  fileType = "image/png" // File type for the image (default is PNG)
+  fileType = "image/jpeg" // File type for the image (default is PNG)
 ) => {
   // Locate the element by its ID
   const element = document.getElementById(elementId);
@@ -17,7 +18,7 @@ export const takeScreenShotFunc = async (
   // Check if the element exists
   if (!element) {
     console.error(`Element with id ${elementId} not found`);
-    return;
+    return null;
   }
 
   try {
@@ -28,7 +29,7 @@ export const takeScreenShotFunc = async (
     });
 
     // Convert the canvas to a data URL for the image file
-    const image = canvas.toDataURL(fileType);
+    const image = canvas.toDataURL(fileType, 0.7);
     console.log("Image is:", image); // Optional: Log the image URL for debugging
 
     // Create a temporary link element to trigger the download
@@ -39,8 +40,12 @@ export const takeScreenShotFunc = async (
     allCanvas.forEach((el) => {
       el.style.border = "1px dashed gray";
     });
+    return image;
   } catch (err) {
     // Handle any errors that occur during the screenshot process
     console.error("Error in taking screenshot:", err);
+    return null;
   }
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////

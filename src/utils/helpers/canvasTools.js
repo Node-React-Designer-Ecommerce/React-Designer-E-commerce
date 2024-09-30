@@ -8,17 +8,25 @@ export const resizeCanvas = (fabricCanvas, canvasWidth, canvasHeight) => {
   fabricCanvas.current.setHeight(canvasHeight);
   fabricCanvas.current.renderAll(); // Re-render the canvas to apply changes
 };
+//////////////////////////////////////////////////original code/////////////////////////////
 //screenshot capture
 export const captureScreenShot = async (fabricCanvas) => {
   fabricCanvas.discardActiveObject();
   fabricCanvas.renderAll();
-  await takeScreenShotFunc(
+  const imageOfDesign = await takeScreenShotFunc(
     "divToTakeScreenshot",
     "MyImage",
     "image/jpeg",
     "#f5f5f5"
   );
+  console.log(imageOfDesign);
+  if (imageOfDesign) {
+    return imageOfDesign;
+  } else {
+    throw new Error("Screenshot capture failed");
+  }
 };
+/////////////////////////////////////////////////////////////////////////////////
 
 // add text on canva
 export const addText = (fabricCanvas, textProps) => {

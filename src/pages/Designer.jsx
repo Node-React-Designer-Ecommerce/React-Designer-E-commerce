@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import { fabric } from "fabric";
 import { useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
@@ -19,9 +19,14 @@ import {
 } from "../utils/helpers/canvasTools.js";
 import { getIsDesignableProductById } from "../utils/api/productsapi.js";
 import { useQuery } from "@tanstack/react-query";
+import { saveCanvasToBackend } from "../utils/api/designerApi.js";
+import AuthContext from "../context/AuthContext.jsx";
+import { toast } from "react-toastify";
+import { uploadToImageKit } from "../utils/api/imagekit.js";
 
 export default function Designer() {
   const { id } = useParams();
+  const { userId } = useContext(AuthContext);
   const [savedCanvas, setSavedCanvas] = useState(null);
   const canvasRef = useRef(null); // Reference to the canvas element
   const fabricCanvas = useRef(null); // Reference to the Fabric.js canvas
@@ -40,6 +45,7 @@ export default function Designer() {
   const [canvasWidth, setCanvasWidth] = useState(0); // State for canvas width
   const [canvasHeight, setCanvasHeight] = useState(0); // State for canvas height
   const [selectedSize, setSelectedSize] = useState(""); // State for size
+  const [isEditing, setIsEditing] = useState(false); // Track if in edit mode
 
   const {
     data: product,
@@ -63,7 +69,15 @@ export default function Designer() {
   console.log(product);
 
   //screenshot capture
-  const handleCaptureScreenShot = () => captureScreenShot(fabricCanvas.current);
+  const handleCaptureScreenShot = async () => {
+    try {
+      const imageOfDesign = await captureScreenShot(fabricCanvas.current);
+      return imageOfDesign; // Return the image data
+    } catch (error) {
+      console.log("screenshoterror", error);
+      return null;
+    }
+  };
 
   // useeffect
   useEffect(() => {
@@ -141,17 +155,95 @@ export default function Designer() {
     setTextProps((prev) => ({ ...prev, [prop]: value }));
     updateTextProps(selectedText, prop, value, fabricCanvas.current);
   };
-
+  ///////////////////////////////// original code //////////////////////////////////////////////////////////
   // save canva as json
-  const handleSaveAsJSON = () => {
-    const canvasJSON = saveAsJSON(fabricCanvas.current);
-    setSavedCanvas(canvasJSON);
-    console.log("Canvas JSON:", canvasJSON);
+  // const handleSaveAsJSON = async () => {
+  //   try {
+  //     const canvasJSON = saveAsJSON(fabricCanvas.current);
+  //     setSavedCanvas(canvasJSON);
+  //     console.log("Canvas JSON:", canvasJSON);
+  //     // Get the image data
+  //     const imageOfDesign = await handleCaptureScreenShot();
+  //     //
+  //     console.log("screenshot", imageOfDesign);
+
+  //     // Prepare the data to be sent to the API
+  //     const designData = {
+  //       productId: id,
+  //       userId: userId,
+  //       canvas: canvasJSON,
+  //       image: imageOfDesign,
+  //       totalPrice: 500,
+  //       isGamed: false,
+  //     };
+
+  //     // Make the API call to save the design
+  //     const saveResponse = await saveCanvasToBackend(designData);
+  //     toast.success("Your Design saved successfully ");
+  //     console.log("Canvas saved successfully:", saveResponse);
+  //     setIsEditing(true);
+  //   } catch (error) {
+  //     console.error("Error saving canvas:", error);
+  //   }
+  // };
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////// handle image with imagekit///////////////////////////////////////
+
+  const handleSaveAsJSON = async () => {
+    try {
+      const canvasJSON = saveAsJSON(fabricCanvas.current);
+      setSavedCanvas(canvasJSON);
+      console.log("Canvas JSON:", canvasJSON);
+
+      // Get the image data
+      const imageOfDesign = await handleCaptureScreenShot();
+      console.log("screenshot", imageOfDesign);
+
+      // Convert base64 to blob
+      const base64Response = await fetch(imageOfDesign);
+      const blob = await base64Response.blob();
+
+      // Create a File object
+      const imageFile = new File([blob], "design.jpg", { type: "image/jpeg" });
+      console.log(imageFile.name);
+
+      // Create FormData object
+      const formData = new FormData();
+      formData.append("productId", id);
+      formData.append("userId", userId);
+      formData.append("canvas", JSON.stringify(canvasJSON));
+      formData.append("image", imageFile);
+      formData.append("totalPrice", "500");
+      formData.append("isGamed", "false");
+
+      console.log("FormData contents:");
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
+      // Make the API call to save the design
+      const saveResponse = await saveCanvasToBackend(formData);
+      toast.success("Your Design saved successfully");
+      console.log("Canvas saved successfully:", saveResponse);
+      setIsEditing(true);
+    } catch (error) {
+      console.error("Error saving canvas:", error);
+    }
   };
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // load from json
   const handleLoadFromJSON = () =>
     loadFromJSON(fabricCanvas.current, savedCanvas);
+
+  const handleButtonClick = async () => {
+    if (isEditing) {
+      await handleLoadFromJSON(); // Load JSON if in edit mode
+    } else {
+      await handleSaveAsJSON(); // Save as JSON if not in edit mode
+    }
+  };
 
   //reset canva
   const handleResetCanva = () => resetCanvas(fabricCanvas.current);
@@ -382,24 +474,25 @@ export default function Designer() {
               Add to Cart
             </div>
 
-            <button onClick={handleLoadFromJSON}>load from json</button>
+            {/**<button onClick={handleLoadFromJSON}>load from json</button> */}
             <button onClick={handleResetCanva}>reset canvas</button>
 
             {/* Button to save canvas as JSON */}
             <button
               style={{ borderColor: "#4e7f62" }}
               className="bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
-              onClick={handleSaveAsJSON}
+              onClick={handleButtonClick}
             >
-              Save as JSON
+              {isEditing ? "Edit" : "Save Design"}
             </button>
           </div>
-          <div className="p-5 flex justify-around">
+          {/*<div className="p-5 flex justify-around">
+
             <button className="btn btn-error" onClick={handleCaptureScreenShot}>
               {" "}
               screenshot.js{" "}
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 
