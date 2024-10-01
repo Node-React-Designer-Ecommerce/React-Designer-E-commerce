@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 //chart table
 import SizeCharts from "../components/Charts/SizeCharts";
@@ -31,6 +31,11 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState(""); // State for size
   const [isAdding, setIsAdding] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const navigateToLogin = () => {
+    navigate(`/login?redirect=product-details/${id}`);
+  };
 
   const {
     data: product,
@@ -193,9 +198,12 @@ export default function ProductDetails() {
                   )}
                 </button>
               ) : (
-                <p className="text-red-500 text-lg font-bold">
-                  You must log in to add to cart
-                </p>
+                <button
+                  onClick={navigateToLogin}
+                  className="bg-red-500 hover:bg-red-600 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14"
+                >
+                  Login to Add to Cart
+                </button>
               )}
             </div>
           </div>

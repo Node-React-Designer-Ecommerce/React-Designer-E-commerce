@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
@@ -26,8 +26,13 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const redirect = queryParams.get("redirect");
+
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -38,7 +43,11 @@ export default function Login() {
       );
       toast.success("Logged In Successfully");
       login(res.data.data.token);
-      navigate("/");
+      if (redirect) {
+        navigate(`/${redirect}`);
+      } else {
+        navigate("/"); // Redirect to home page if no redirect parameter
+      }
     } catch (error) {
       if (error.response?.data?.message === "Invalid email or password") {
         setError("email", {
@@ -100,9 +109,8 @@ export default function Login() {
                 })}
                 type="email"
                 id="email"
-                className={`mt-1 block w-full px-3 py-2 border-b ${
-                  errors.email ? "border-b-red-500" : "border-b-gray-300"
-                } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
+                className={`mt-1 block w-full px-3 py-2 border-b ${errors.email ? "border-b-red-500" : "border-b-gray-300"
+                  } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
                 placeholder="Enter email"
               />
               {errors.email && <ErrorIcon />}
@@ -136,9 +144,8 @@ export default function Login() {
                 })}
                 type={showPassword ? "text" : "password"}
                 id="password"
-                className={`mt-1 block w-full px-3 py-2 border-b ${
-                  errors.password ? "border-b-red-500" : "border-b-gray-300"
-                } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
+                className={`mt-1 block w-full px-3 py-2 border-b ${errors.password ? "border-b-red-500" : "border-b-gray-300"
+                  } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
                 placeholder="Password"
               />
               {showPassword ? (
