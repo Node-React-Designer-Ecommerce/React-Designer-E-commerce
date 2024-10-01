@@ -23,6 +23,8 @@ import { CartProvider } from "./context/CartContext";
 import { ProductsProvider } from "./context/ProductsContext";
 import { FavoriteProductsProvider } from "./context/FavoriteProductsContext";
 import SuccessPayment from "./pages/SuccessPayment";
+import UserProfile from "./pages/UserProfile";
+import { UserProvider } from "./context/UserContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,87 +39,97 @@ function App() {
     <div className="relative">
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <CartProvider>
-          <AuthProvider>
-            <BrowserRouter>
-              <ProductsProvider>
-                <FavoriteProductsProvider>
-                  {/* Conditionally render Navbar and Footer */}
-                  <Routes>
-                    <Route
-                      path="/success-payment"
-                      element={
-                        <ProtectedRoute>
-                          <SuccessPayment />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="*"
-                      element={
-                        <>
-                          <Navbar className="sticky top-0 z-50" />
-                          <Routes>
-                            <Route path="/" element={<Landing />} />
-                            <Route path="/products" element={<ProductsPage />} />
-                            <Route path="/customize" element={<CustomizePage />} />
-                            <Route path="/Designer/:id" element={<Designer />} />
-                            <Route
-                              path="/product-details/:id"
-                              element={<ProductDetails />}
-                            />
-                            <Route
-                              path="/sign-up"
-                              element={
-                                <ProtectedRoute isAuth={false}>
-                                  <Registration />
-                                </ProtectedRoute>
-                              }
-                            />
-                            <Route
-                              path="/login"
-                              element={
-                                <ProtectedRoute isAuth={false}>
-                                  <Login />
-                                </ProtectedRoute>
-                              }
-                            />
-                            <Route
-                              path="/cart"
-                              element={
-                                <ProtectedRoute>
-                                  <CartPage />
-                                </ProtectedRoute>
-                              }
-                            />
-                            <Route
-                              path="/forget-password"
-                              element={
-                                <ProtectedRoute isAuth={false}>
-                                  <ForgetPassword />
-                                </ProtectedRoute>
-                              }
-                            />
-                            <Route
-                              path="/reset-password/:token"
-                              element={
-                                <ProtectedRoute isAuth={false}>
-                                  <ResetPassword />
-                                </ProtectedRoute>
-                              }
-                            />
-                            <Route path="*" element={<Error />} />
-                          </Routes>
-                          <Footer />
-                        </>
-                      }
-                    />
-                  </Routes>
-                </FavoriteProductsProvider>
-              </ProductsProvider>
-            </BrowserRouter>
-          </AuthProvider>
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <UserProvider>
+              <BrowserRouter>
+
+                <ProductsProvider>
+                  <FavoriteProductsProvider>
+                    {/* Conditionally render Navbar and Footer */}
+                    <Routes>
+                      <Route
+                        path="/success-payment"
+                        element={
+                          <ProtectedRoute>
+                            <SuccessPayment />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="*"
+                        element={
+                          <>
+                            <Navbar className="sticky top-0 z-50" />
+                            <Routes>
+                              <Route path="/" element={<Landing />} />
+                              <Route path="/products" element={<ProductsPage />} />
+                              <Route path="/customize" element={<CustomizePage />} />
+                              <Route path="/Designer/:id" element={<Designer />} />
+                              <Route
+                                path="/product-details/:id"
+                                element={<ProductDetails />}
+                              />
+                              <Route
+                                path="/sign-up"
+                                element={
+                                  <ProtectedRoute isAuth={false}>
+                                    <Registration />
+                                  </ProtectedRoute>
+                                }
+                              />
+                              <Route
+                                path="/login"
+                                element={
+                                  <ProtectedRoute isAuth={false}>
+                                    <Login />
+                                  </ProtectedRoute>
+                                }
+                              />
+                              <Route
+                                path="/user-profile"
+                                element={
+                                  <UserProfile />
+                                }
+                              />
+                              <Route
+                                path="/cart"
+                                element={
+                                  <ProtectedRoute>
+                                    <CartPage />
+                                  </ProtectedRoute>
+                                }
+                              />
+                              <Route
+                                path="/forget-password"
+                                element={
+                                  <ProtectedRoute isAuth={false}>
+                                    <ForgetPassword />
+                                  </ProtectedRoute>
+                                }
+                              />
+                              <Route
+                                path="/reset-password/:token"
+                                element={
+                                  <ProtectedRoute isAuth={false}>
+                                    <ResetPassword />
+                                  </ProtectedRoute>
+                                }
+                              />
+                              <Route path="*" element={<Error />} />
+                            </Routes>
+                            <Footer />
+                          </>
+                        }
+                      />
+                    </Routes>
+                  </FavoriteProductsProvider>
+                </ProductsProvider>
+              </BrowserRouter>
+            </UserProvider>
+
+          </CartProvider>
+        </AuthProvider>
       </QueryClientProvider>
     </div>
   );

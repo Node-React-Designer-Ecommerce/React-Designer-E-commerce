@@ -4,6 +4,7 @@ import { useContext } from "react";
 //contexts
 import AuthContext from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import UserContext from "../context/UserContext";
 
 // Import the custom link component
 import CustomLink from "./CustomLink";
@@ -14,12 +15,18 @@ import CartIcon from "../icons/CartIcon";
 
 export default function Navbar() {
   const { isLoggedIn, logout } = useContext(AuthContext);
+  const { userProfile, isLoading } = useContext(UserContext);
   const { totalQuantity, totalPrice } = useCart();
   const navigate = useNavigate();
+
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="navbar bg-base-100 sticky top-0 z-50 border bottom-1 flex justify-between">
@@ -68,17 +75,30 @@ export default function Navbar() {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              />
+            <div className=" rounded-2xl">
+              <div className="avatar online placeholder w-10">
+                <div className="bg-white text-SecondaryColor border border-SecondaryColor w-16 rounded-full">
+                  <span className="text-xl">
+                    {userProfile ? userProfile.name.charAt(0).toUpperCase() : "U"}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-slate-50 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
+            <li className="">
+              {isLoggedIn && (
+                <Link
+                  to="/user-profile"
+                  className="px-5 py-1 text-SecondaryColor text-xl  hover:transition-all"
+                >
+                  Profile
+                </Link>
+              )}
+            </li>
             <li className="">
               {!isLoggedIn && (
                 <Link
