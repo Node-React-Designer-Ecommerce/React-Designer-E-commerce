@@ -26,9 +26,7 @@ export default function ProfileCard() {
           </div>
         )}
         <div className="mt-9">
-          <h4 className="text-xl font-semibold">{userProfile.fullName}</h4>
-          <p className="text-gray-500">{userProfile.email}</p>
-          <p className="text-gray-500">{userProfile.address}</p>
+          <h4 className="text-md font-semibold">{userProfile.email}</h4>
         </div>
       </div>
     </div>

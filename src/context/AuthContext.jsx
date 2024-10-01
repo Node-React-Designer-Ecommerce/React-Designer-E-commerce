@@ -1,7 +1,9 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import axiosInstance from "../utils/api/axiosInstance";
+import { fetchUserProfile } from "../utils/api/userProfileApi";
+import UserContext from "./UserContext";
 
 const AuthContext = createContext();
 
@@ -15,7 +17,11 @@ export const AuthProvider = ({ children }) => {
     const storedLoggedIn = Cookies.get("isLoggedIn");
     return storedLoggedIn ? JSON.parse(storedLoggedIn) : false;
   });
+
   const [userId, setUserId] = useState(null);
+
+  const { setUserProfile } = useContext(UserContext);
+
   useEffect(() => {
     if (token) {
       Cookies.set("token", token, {
@@ -37,6 +43,7 @@ export const AuthProvider = ({ children }) => {
           });
 
           setUserId(response?.data?.data?.user?._id);
+          fetchUserProfileData();
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -49,14 +56,25 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  const fetchUserProfileData = async () => {
+    try {
+      const profileData = await fetchUserProfile();
+      setUserProfile(profileData);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
   const login = (token) => {
     setToken(token);
     setIsLoggedIn(true);
+    fetchUserProfileData();
   };
 
   const logout = () => {
     setToken(null);
     setIsLoggedIn(false);
+    setUserProfile(null);
   };
 
   return (

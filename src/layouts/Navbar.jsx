@@ -75,11 +75,11 @@ export default function Navbar() {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className=" rounded-2xl">
-              <div className="avatar online placeholder w-10">
+            <div className="rounded-2xl">
+              <div className={`avatar ${userProfile ? 'online' : ''} placeholder w-10`}>
                 <div className="bg-white text-SecondaryColor border border-SecondaryColor w-16 rounded-full">
                   <span className="text-xl">
-                    {userProfile ? userProfile.name.charAt(0).toUpperCase() : "U"}
+                    {userProfile ? userProfile.name.charAt(0).toUpperCase() : <img src="/usernotfound.jpg" alt="User Not Found" />}
                   </span>
                 </div>
               </div>

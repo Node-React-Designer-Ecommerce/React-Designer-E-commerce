@@ -39,9 +39,9 @@ function App() {
     <div className="relative">
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <AuthProvider>
-          <CartProvider>
-            <UserProvider>
+        <UserProvider>
+          <AuthProvider>
+            <CartProvider>
               <BrowserRouter>
 
                 <ProductsProvider>
@@ -89,7 +89,10 @@ function App() {
                               <Route
                                 path="/user-profile"
                                 element={
-                                  <UserProfile />
+                                  <ProtectedRoute>
+                                    <UserProfile />
+                                  </ProtectedRoute>
+
                                 }
                               />
                               <Route
@@ -126,10 +129,10 @@ function App() {
                   </FavoriteProductsProvider>
                 </ProductsProvider>
               </BrowserRouter>
-            </UserProvider>
 
-          </CartProvider>
-        </AuthProvider>
+            </CartProvider>
+          </AuthProvider>
+        </UserProvider>
       </QueryClientProvider>
     </div>
   );

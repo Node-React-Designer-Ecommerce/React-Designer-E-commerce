@@ -14,10 +14,12 @@ export const fetchUserProfile = async () => {
 
 export const updateUserProfile = async (updatedData) => {
   try {
-    console.log('Updating User Profile...', updatedData); // Debugging
-    const response = await axiosInstance.patch('/users/update', updatedData); // Update endpoint
-    console.log('Updated User Profile:', response.data.data.user); // Debugging
-    return response.data.data.user;
+    // Fetch the user profile to get the id
+    const userProfile = await fetchUserProfile();
+    const userId = userProfile._id;
+    const response = await axiosInstance.patch(`/users/${userId}`, updatedData);
+    console.log('Updated User Profile:', response.data);
+
   } catch (error) {
     console.error('Error updating user profile:', error); // Debugging
     console.error('Server Response:', error.response ? error.response.data : 'No response data'); // Debugging
