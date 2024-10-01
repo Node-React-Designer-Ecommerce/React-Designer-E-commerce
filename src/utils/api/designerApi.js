@@ -2,7 +2,7 @@ import axiosInstance from "./axiosInstance";
 
 export const saveCanvasToBackend = async (formData) => {
   try {
-    const response = await axiosInstance.post("/designs", { body: formData });
+    const response = await axiosInstance.post("/designs", formData);
 
     // Check if the response is as expected
     if (response && response.data) {
