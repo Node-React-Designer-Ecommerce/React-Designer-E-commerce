@@ -1,26 +1,17 @@
 import { Link } from "react-router-dom";
-
- //react query
 import { useQuery } from "@tanstack/react-query";
-
-
- //utils
-import { getAllProducts } from '../utils/api/productsapi'
-
-//hooks
+import { getAllProducts } from '../utils/api/productsapi';
 import { useToggleFavorite } from "../hooks/useToggleFavorite";
-
- //skelton
 import Skelton from './Skelton';
-
- //icons
 import HeardFilledIcon from '../icons/HeardFilledIcon';
 import ArrowRight from "../icons/ArrowRight";
 import HeartIcon from '../icons/HeartIcon';
-
-
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 function LandingProductItem() {
+  const { isLoggedIn } = useContext(AuthContext);
+
   const { isLoading, data } = useQuery(
     {
       queryKey: ['products'],
@@ -54,12 +45,14 @@ function LandingProductItem() {
             {products.slice(0, 3).map((product) => (
               <div key={product._id} className="card bg-base-100 w-80 shadow-xl">
                 <figure className="px-5 relative pt-10">
-                  <div
-                    className="bg-white rounded-3xl w-11 absolute top-12 start-7 h-11 flex justify-center items-center cursor-pointer"
-                    onClick={() => toggleFavorite(product._id)}
-                  >
-                    {favoriteProducts[product._id] ? <HeardFilledIcon /> : <HeartIcon />}
-                  </div>
+                  {isLoggedIn && (
+                    <div
+                      className="bg-white rounded-3xl w-11 absolute top-12 start-7 h-11 flex justify-center items-center cursor-pointer"
+                      onClick={() => toggleFavorite(product._id)}
+                    >
+                      {favoriteProducts && favoriteProducts[product._id] ? <HeardFilledIcon /> : <HeartIcon />}
+                    </div>
+                  )}
                   <img src={product.image} alt="#" className="rounded-xl" />
                 </figure>
                 <div className="card-body items-center text-center">

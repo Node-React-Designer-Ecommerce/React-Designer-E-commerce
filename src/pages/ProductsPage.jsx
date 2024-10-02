@@ -1,22 +1,19 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useContext } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Filter from "../components/Filter";
 import Skelton from "../layouts/Skelton";
 import Paginationn from "../components/Paginationn";
-
-//icons
 import ArrowRight from "../icons/ArrowRight";
 import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
 import SearchIcon from "./../icons/SearchIcon";
 import NoData from "./../components/NoData";
 import { useProducts } from "./../context/ProductsContext";
-
-//hooks
 import { useToggleFavorite } from "../hooks/useToggleFavorite";
-
+import AuthContext from "../context/AuthContext";
 
 export default function ProductsPage() {
+  const { isLoggedIn } = useContext(AuthContext);
   const { favoriteProducts, toggleFavorite } = useToggleFavorite();
   const {
     products,
@@ -94,16 +91,18 @@ export default function ProductsPage() {
                     className="card bg-base-100 w-80 shadow-xl"
                   >
                     <figure className=" relative pt-5">
-                      <div
-                        className="bg-white rounded-3xl w-11 absolute top-7 start-3 h-11 flex justify-center items-center cursor-pointer"
-                        onClick={() => toggleFavorite(product._id)}
-                      >
-                        {favoriteProducts[product._id] ? (
-                          <HeardFilledIcon />
-                        ) : (
-                          <HeartIcon />
-                        )}
-                      </div>
+                      {isLoggedIn && (
+                        <div
+                          className="bg-white rounded-3xl w-11 absolute top-7 start-3 h-11 flex justify-center items-center cursor-pointer"
+                          onClick={() => toggleFavorite(product._id)}
+                        >
+                          {favoriteProducts && favoriteProducts[product._id] ? (
+                            <HeardFilledIcon />
+                          ) : (
+                            <HeartIcon />
+                          )}
+                        </div>
+                      )}
                       <img
                         src={product.image}
                         alt="Shoes"
@@ -137,28 +136,27 @@ export default function ProductsPage() {
     <div className="w-full font-serif relative ">
       <div className="relative flex flex-col lg:text-2xl items-center tracking-wide">
         <div className="w-full sticky top-0 z-20">
-
-        <div className="bg-slate-700 opacity-25 w-full h-96 absolute"></div>
-        <img
-          src="products-page.jpg"
-          alt="product page header image"
-          className="h-96 w-full object-cover "
-        />
-        <div className="absolute right-7 top-28 sm:right-16 lg:top-16 lg:right-40 leading-loose">
-          <p className="font-bold  text-white sm:text-gray-700">Featured Products</p>
-          <p className="font-bold text-white sm:text-black uppercase">BestSeller Products</p>
-          <p className="lg:text-lg text-white sm:text-gray-700">
-            Simplicity is the keynote of all true elegance
-          </p>
-          {/* Search */}
-          <input
-            type="text"
-            placeholder="    Search here .."
-            value={localSearch}
-            onChange={handleLocalSearch}
-            className="input input-bordered rounded-3xl my-20 input-sm md:input-md w-full max-w-xs text-black"
+          <div className="bg-slate-700 opacity-25 w-full h-96 absolute"></div>
+          <img
+            src="products-page.jpg"
+            alt="product page header image"
+            className="h-96 w-full object-cover "
           />
-        </div>
+          <div className="absolute right-7 top-28 sm:right-16 lg:top-16 lg:right-40 leading-loose">
+            <p className="font-bold  text-white sm:text-gray-700">Featured Products</p>
+            <p className="font-bold text-white sm:text-black uppercase">BestSeller Products</p>
+            <p className="lg:text-lg text-white sm:text-gray-700">
+              Simplicity is the keynote of all true elegance
+            </p>
+            {/* Search */}
+            <input
+              type="text"
+              placeholder="    Search here .."
+              value={localSearch}
+              onChange={handleLocalSearch}
+              className="input input-bordered rounded-3xl my-20 input-sm md:input-md w-full max-w-xs text-black"
+            />
+          </div>
         </div>
       </div>
       <div className="sticky  top-28 z-50 mt-3 hidden">

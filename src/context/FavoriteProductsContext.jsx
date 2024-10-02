@@ -23,10 +23,10 @@ export const FavoriteProductsProvider = ({ children }) => {
           }, {});
           setFavoriteProducts(favoriteMap);
         } else {
-          console.error("Invalid favorite products data:", favorites);
+          // console.error("Invalid favorite products data:", favorites);
         }
       } catch (error) {
-        console.error("Error fetching favorite products:", error);
+        // console.error("Error fetching favorite products:", error);
       } finally {
         setIsLoading(false);
       }

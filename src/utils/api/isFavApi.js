@@ -20,7 +20,7 @@ export const addToFavorites = async (productId) => {
 
 export const removeFromFavorites = async (productId) => {
   try {
-    const response = await axiosInstance.delete(`/favorite/${productId}`);
+    const response = await axiosInstance.post(`/favorite/${productId}`);
     return response.data;
   } catch (error) {
     throw error.response.data;

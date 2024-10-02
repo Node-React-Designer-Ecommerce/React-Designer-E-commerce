@@ -1,27 +1,16 @@
 import { useNavigate, useParams } from "react-router";
-
-//chart table
 import SizeCharts from "../components/Charts/SizeCharts";
 import Delivery from "../components/Charts/Delivery";
 import Rating from "../components/Rating";
 import RadioComponent from "../components/RadioComponent";
-
-//hooks
 import { useToggleFavorite } from "../hooks/useToggleFavorite";
-
-
 import { getProductById } from "../utils/api/productsapi";
-
-//react query
 import { useQuery } from "@tanstack/react-query";
-
-//icons
 import ArrowLeft from "./../icons/ArrowLeft";
 import XIcon from "../icons/XIcon";
 import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
 import NoData from "../components/NoData";
-
 import { useCart } from "../context/CartContext";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
@@ -120,16 +109,18 @@ export default function ProductDetails() {
         <div className="w-full p-5">
           <div className="flex justify-between">
             <h1 className="text-3xl font-bold uppercase ">{product.name}</h1>
-            <div
-              className="bg-gray-100 rounded-3xl w-12 h-12 flex justify-center items-center cursor-pointer"
-              onClick={() => toggleFavorite(product._id)}
-            >
-              {favoriteProducts[product._id] ? (
-                <HeardFilledIcon />
-              ) : (
-                <HeartIcon />
-              )}
-            </div>
+            {isLoggedIn && (
+              <div
+                className="bg-gray-100 rounded-3xl w-12 h-12 flex justify-center items-center cursor-pointer"
+                onClick={() => toggleFavorite(product._id)}
+              >
+                {favoriteProducts && favoriteProducts[product._id] ? (
+                  <HeardFilledIcon />
+                ) : (
+                  <HeartIcon />
+                )}
+              </div>
+            )}
           </div>
           <Rating />
 
@@ -178,17 +169,6 @@ export default function ProductDetails() {
             </dialog>
             <Delivery />
             <div className="flex justify-center lg:flex lg:justify-end p-5">
-              {/* <button
-                onClick={() => addToCartHandler(product._id)}
-                className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14 "
-                disabled={isAdding}
-              >
-                {isAdding ? (
-                  <span className="loading loading-ring loading-md"></span>
-                ) : (
-                  "ADD TO CART"
-                )}
-              </button> */}
               {isLoggedIn ? (
                 <button
                   onClick={() => addToCartHandler(product._id)}

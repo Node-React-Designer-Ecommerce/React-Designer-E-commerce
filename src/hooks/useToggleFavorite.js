@@ -16,6 +16,7 @@ export const useToggleFavorite = () => {
           return acc;
         }, {});
         setFavoriteProducts(favoriteMap);
+        localStorage.setItem('favoriteProducts', JSON.stringify(favoriteMap));
       } catch (error) {
         console.error("Error fetching favorite products:", error);
       } finally {
@@ -23,7 +24,12 @@ export const useToggleFavorite = () => {
       }
     };
 
-    fetchFavoriteProducts();
+    const storedFavorites = localStorage.getItem('favoriteProducts');
+    if (storedFavorites) {
+      setFavoriteProducts(JSON.parse(storedFavorites));
+    } else {
+      fetchFavoriteProducts();
+    }
   }, []);
 
   const toggleFavorite = async (productId) => {
@@ -34,10 +40,12 @@ export const useToggleFavorite = () => {
       } else {
         await addToFavorites(productId);
       }
-      setFavoriteProducts((prevFavorites) => ({
-        ...prevFavorites,
-        [productId]: !prevFavorites[productId],
-      }));
+      const newFavorites = {
+        ...favoriteProducts,
+        [productId]: !favoriteProducts[productId],
+      };
+      setFavoriteProducts(newFavorites);
+      localStorage.setItem('favoriteProducts', JSON.stringify(newFavorites));
     } catch (error) {
       console.error("Error toggling favorite product:", error);
     } finally {

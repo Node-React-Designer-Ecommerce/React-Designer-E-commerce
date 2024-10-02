@@ -20,12 +20,12 @@ const UserProfile = () => {
                     <div className="col-span-2">
                         <ProfileInformation />
 
-                        {/* Project Status Cards */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <ProfileOrders />
-                            <ProfileFav />
-                        </div>
                     </div>
+                </div>
+                {/* Profile Orders and Favorites */}
+                <div className="flex flex-col gap-3">
+                    <ProfileOrders />
+                    <ProfileFav />
                 </div>
             </div>
         </div>
