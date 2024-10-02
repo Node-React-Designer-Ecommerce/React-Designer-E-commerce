@@ -104,7 +104,12 @@ export default function CartPage() {
                   <div className="flex items-center">
                     <img
                       className="w-24 h-24 rounded"
-                      src={product?.product?.image}
+                      // src={product?.product?.image}
+                      src={
+                        product?.type === "Product"
+                          ? product?.product?.image
+                          : product?.design?.image
+                      }
                       alt={product?.product?.name}
                     />
                     <div className="ml-5 flex-grow">

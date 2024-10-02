@@ -82,6 +82,7 @@ export default function ProductDetails() {
       productId,
       quantity: 1,
       size: selectedSize,
+      type: "Product",
     };
     try {
       setIsAdding(true);
@@ -93,6 +94,7 @@ export default function ProductDetails() {
       }
       setIsAdding(false);
     } catch (error) {
+      setIsAdding(false);
       toast.error(`${error.message}`);
     }
   };

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useRef, useEffect, useState, useContext } from "react";
 import { fabric } from "fabric";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
 import SizeCharts from "../components/Charts/SizeCharts";
 import XIcon from "../icons/XIcon";
@@ -23,8 +23,11 @@ import { saveCanvasToBackend } from "../utils/api/designerApi.js";
 import AuthContext from "../context/AuthContext.jsx";
 import { toast } from "react-toastify";
 import { uploadToImageKit } from "../utils/api/imagekit.js";
+import { useCart } from "../context/CartContext.jsx";
 
 export default function Designer() {
+  const { addToCart } = useCart();
+
   const { id } = useParams();
   const { userId } = useContext(AuthContext);
   const [savedCanvas, setSavedCanvas] = useState(null);
@@ -46,6 +49,13 @@ export default function Designer() {
   const [canvasHeight, setCanvasHeight] = useState(0); // State for canvas height
   const [selectedSize, setSelectedSize] = useState(""); // State for size
   const [isEditing, setIsEditing] = useState(false); // Track if in edit mode
+  const [isAdding, setIsAdding] = useState(false);
+  const navigate = useNavigate();
+  const { isLoggedIn } = useContext(AuthContext);
+
+  const navigateToLogin = () => {
+    navigate(`/login?redirect=product-details/${id}`);
+  };
 
   const {
     data: product,
@@ -227,6 +237,7 @@ export default function Designer() {
       toast.success("Your Design saved successfully");
       console.log("Canvas saved successfully:", saveResponse);
       setIsEditing(true);
+      return saveResponse;
     } catch (error) {
       console.error("Error saving canvas:", error);
     }
@@ -254,6 +265,36 @@ export default function Designer() {
   //remove selected object
   const handleRemoveSelectedObj = () =>
     removeSelectedObject(fabricCanvas.current);
+
+  const handleAddToCart = async () => {
+    if (!selectedSize) {
+      toast.warn("Please choose your size");
+      return;
+    }
+
+    const res = await handleSaveAsJSON();
+    console.log(res.data.design._id);
+
+    const cartItem = {
+      designId: res.data.design._id,
+      quantity: 1,
+      size: selectedSize,
+      type: "Design",
+    };
+    try {
+      // setIsAdding(true);
+      const response = await addToCart(cartItem);
+      if (response.status === "Not-Modified") {
+        toast.warn(response.message);
+      } else if (response.status === "success") {
+        toast.success("Item added to cart successfully");
+      }
+      setIsAdding(false);
+    } catch (error) {
+      setIsAdding(false);
+      toast.error(`${error.message}`);
+    }
+  };
 
   return (
     <div className="flex flex-col lg:flex-row">
@@ -470,9 +511,26 @@ export default function Designer() {
           </div>
 
           <div className="flex justify-end">
-            <div className="inline-block bg-SecondaryColor text-white py-2 px-4 rounded cursor-pointer hover:bg-gray-700 transition duration-300 ease-in-out mt-5 w-44 text-center">
-              Add to Cart
-            </div>
+            {isLoggedIn ? (
+              <button
+                onClick={handleAddToCart}
+                className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-2xl  text-white btn "
+                disabled={isAdding}
+              >
+                {isAdding ? (
+                  <span className="loading loading-ring loading-md"></span>
+                ) : (
+                  "ADD TO CART"
+                )}
+              </button>
+            ) : (
+              <button
+                onClick={navigateToLogin}
+                className="bg-red-500 hover:bg-red-600 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14"
+              >
+                Login to Add to Cart
+              </button>
+            )}
 
             {/**<button onClick={handleLoadFromJSON}>load from json</button> */}
             <button onClick={handleResetCanva}>reset canvas</button>
