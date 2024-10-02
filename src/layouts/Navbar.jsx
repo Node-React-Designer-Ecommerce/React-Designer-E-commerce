@@ -93,12 +93,12 @@ export default function Navbar() {
           >
             <li className="">
               {isLoggedIn && (
-                <a
-                  href="/user-profile"
+                <Link
+                  to="/user-profile"
                   className="px-5 py-1 text-SecondaryColor text-xl  hover:transition-all"
                 >
                   Profile
-                </a>
+                </Link>
               )}
             </li>
             <li className="">
