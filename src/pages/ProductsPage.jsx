@@ -11,7 +11,10 @@ import HeardFilledIcon from "../icons/HeardFilledIcon";
 import SearchIcon from "./../icons/SearchIcon";
 import NoData from "./../components/NoData";
 import { useProducts } from "./../context/ProductsContext";
-import { useToggleFavorite } from "../utils/helpers/help";
+
+//hooks
+import { useToggleFavorite } from "../hooks/useToggleFavorite";
+
 
 export default function ProductsPage() {
   const { favoriteProducts, toggleFavorite } = useToggleFavorite();

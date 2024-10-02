@@ -1,23 +1,26 @@
 import { Link } from "react-router-dom";
 
-//react query
+ //react query
 import { useQuery } from "@tanstack/react-query";
 
-//utils
-import { getAllProducts } from '../utils/api/productsapi'
-import { useToggleFavorite } from '../utils/helpers/help';
 
-//skelton
+ //utils
+import { getAllProducts } from '../utils/api/productsapi'
+
+//hooks
+import { useToggleFavorite } from "../hooks/useToggleFavorite";
+
+ //skelton
 import Skelton from './Skelton';
 
-//icons
+ //icons
 import HeardFilledIcon from '../icons/HeardFilledIcon';
 import ArrowRight from "../icons/ArrowRight";
 import HeartIcon from '../icons/HeartIcon';
 
 
+
 function LandingProductItem() {
-  // const { products, loading, toggleFavorite, favoriteProducts } = useProducts();
   const { isLoading, data } = useQuery(
     {
       queryKey: ['products'],
@@ -27,7 +30,6 @@ function LandingProductItem() {
   );
 
   const products = data ? data : [];
-
   const { favoriteProducts, toggleFavorite } = useToggleFavorite();
 
   if (isLoading) {

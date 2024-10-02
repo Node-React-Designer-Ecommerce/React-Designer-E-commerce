@@ -6,8 +6,10 @@ import Delivery from "../components/Charts/Delivery";
 import Rating from "../components/Rating";
 import RadioComponent from "../components/RadioComponent";
 
-//utils
-import { useToggleFavorite } from "../utils/helpers/help";
+//hooks
+import { useToggleFavorite } from "../hooks/useToggleFavorite";
+
+
 import { getProductById } from "../utils/api/productsapi";
 
 //react query

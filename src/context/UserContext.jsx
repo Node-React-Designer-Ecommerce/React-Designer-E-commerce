@@ -1,5 +1,5 @@
-import  { createContext, useState, useEffect } from 'react';
-import { fetchUserProfile, updateUserProfile } from './../utils/api/userProfileApi';
+import { createContext, useState, useEffect } from 'react';
+import { fetchUserProfile, updateUserProfile, fetchUserOrders } from './../utils/api/userProfileApi';
 
 //prop types
 import PropTypes from 'prop-types';
@@ -8,6 +8,7 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userProfile, setUserProfile] = useState(null);
+  const [userOrders, setUserOrders] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState(null);
@@ -27,7 +28,22 @@ export const UserProvider = ({ children }) => {
       }
     };
 
+    const getUserOrders = async () => {
+      try {
+        console.log('Fetching User Orders...'); // Debugging
+        const OrdersData = await fetchUserOrders();
+        console.log('Fetched User  Orders:', OrdersData); // Debugging
+        setUserOrders(OrdersData);
+      } catch (error) {
+        console.error('Error fetching user Orders:', error); // Debugging
+        setError(`Error fetching user Orders: ${error.message}`);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     getUserProfile();
+    getUserOrders();
   }, []);
 
   const handleEditProfile = () => {
@@ -49,7 +65,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ userProfile, isLoading, isEditing, error, handleEditProfile, handleSaveProfile, setUserProfile }}>
+    <UserContext.Provider value={{ userProfile, userOrders, isLoading, isEditing, error, handleEditProfile, handleSaveProfile, setUserProfile }}>
       {children}
     </UserContext.Provider>
   );

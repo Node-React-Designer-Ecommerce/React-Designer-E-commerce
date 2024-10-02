@@ -26,3 +26,16 @@ export const updateUserProfile = async (updatedData) => {
     throw error;
   }
 };
+
+
+export const fetchUserOrders = async () => {
+  try {
+    console.log('Fetching User Profile...'); // Debugging
+    const response = await axiosInstance.get('/orders/me');
+    console.log('Fetched User Profile:', response.data); // Debugging
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user profile:', error); // Debugging
+    throw error;
+  }
+};

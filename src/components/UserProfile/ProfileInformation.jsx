@@ -8,6 +8,7 @@ export default function ProfileInformation() {
         name: userProfile?.name || '',
         address: userProfile?.address || '',
     });
+    const [isSaving, setIsSaving] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -18,12 +19,15 @@ export default function ProfileInformation() {
     };
 
     const handleSaveClick = async () => {
+        setIsSaving(true);
         try {
             await handleSaveProfile(editedProfile);
-            window.location.reload(); // Reload the page after saving the profile
+            window.location.reload();
         } catch (error) {
             console.error('Error saving profile:', error);
-            toast.error('Error updating profile. Please try again.'); // Display error toast
+            toast.error('Error updating profile. Please try again.');
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -78,8 +82,16 @@ export default function ProfileInformation() {
                     <div className="col-span-3">
                         <div className="flex justify-end">
                             {isEditing ? (
-                                <button className="btn bg-SecondaryColor text-white hover:bg-success" onClick={handleSaveClick}>
-                                    Save Changes
+                                <button
+                                    className="btn bg-SecondaryColor text-white hover:bg-success"
+                                    onClick={handleSaveClick}
+                                    disabled={isSaving}
+                                >
+                                    {isSaving ? (
+                                        <span className="loading loading-ring loading-md"></span>
+                                    ) : (
+                                        "Save Changes"
+                                    )}
                                 </button>
                             ) : (
                                 <button className="btn bg-SecondaryColor text-white hover:bg-success" onClick={handleEditProfile}>

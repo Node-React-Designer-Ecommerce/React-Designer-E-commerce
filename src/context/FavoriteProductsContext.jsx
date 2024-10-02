@@ -1,17 +1,57 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { getFavoriteProducts, addToFavorites, removeFromFavorites } from "../utils/api/isFavApi";
+
 const FavoriteProductsContext = createContext();
 
 export const useFavoriteProducts = () => useContext(FavoriteProductsContext);
 
 export const FavoriteProductsProvider = ({ children }) => {
   const [favoriteProducts, setFavoriteProducts] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-  const toggleFavorite = (productId) => {
-    setFavoriteProducts((prev) => ({
-      ...prev,
-      [productId]: !prev[productId],
-    }));
+  useEffect(() => {
+    const fetchFavoriteProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getFavoriteProducts();
+        const favorites = response.data.favProducts; // Corrected key
+        if (Array.isArray(favorites)) {
+          const favoriteMap = favorites.reduce((acc, productId) => {
+            acc[productId] = true;
+            return acc;
+          }, {});
+          setFavoriteProducts(favoriteMap);
+        } else {
+          console.error("Invalid favorite products data:", favorites);
+        }
+      } catch (error) {
+        console.error("Error fetching favorite products:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFavoriteProducts();
+  }, []);
+
+  const toggleFavorite = async (productId) => {
+    try {
+      setIsLoading(true);
+      if (favoriteProducts[productId]) {
+        await removeFromFavorites(productId);
+      } else {
+        await addToFavorites(productId);
+      }
+      setFavoriteProducts((prev) => ({
+        ...prev,
+        [productId]: !prev[productId],
+      }));
+    } catch (error) {
+      console.error("Error toggling favorite product:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -19,6 +59,7 @@ export const FavoriteProductsProvider = ({ children }) => {
       value={{
         favoriteProducts,
         toggleFavorite,
+        isLoading,
       }}
     >
       {children}
@@ -27,5 +68,7 @@ export const FavoriteProductsProvider = ({ children }) => {
 };
 
 FavoriteProductsProvider.propTypes = {
-    children: PropTypes.node.isRequired,
-  };
+  children: PropTypes.node.isRequired,
+};
+
+export default FavoriteProductsContext;
