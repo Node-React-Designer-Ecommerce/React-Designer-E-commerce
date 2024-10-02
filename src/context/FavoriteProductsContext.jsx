@@ -15,18 +15,14 @@ export const FavoriteProductsProvider = ({ children }) => {
       try {
         setIsLoading(true);
         const response = await getFavoriteProducts();
-        const favorites = response.data.favProducts; // Corrected key
-        if (Array.isArray(favorites)) {
-          const favoriteMap = favorites.reduce((acc, productId) => {
-            acc[productId] = true;
-            return acc;
-          }, {});
-          setFavoriteProducts(favoriteMap);
-        } else {
-          // console.error("Invalid favorite products data:", favorites);
-        }
+        const favorites = response.data.favProducts;
+        const favoriteMap = favorites.reduce((acc, product) => {
+          acc[product._id] = true;
+          return acc;
+        }, {});
+        setFavoriteProducts(favoriteMap);
       } catch (error) {
-        // console.error("Error fetching favorite products:", error);
+        console.error("Error fetching favorite products:", error);
       } finally {
         setIsLoading(false);
       }
@@ -43,10 +39,11 @@ export const FavoriteProductsProvider = ({ children }) => {
       } else {
         await addToFavorites(productId);
       }
-      setFavoriteProducts((prev) => ({
-        ...prev,
-        [productId]: !prev[productId],
-      }));
+      const newFavorites = {
+        ...favoriteProducts,
+        [productId]: !favoriteProducts[productId],
+      };
+      setFavoriteProducts(newFavorites);
     } catch (error) {
       console.error("Error toggling favorite product:", error);
     } finally {
