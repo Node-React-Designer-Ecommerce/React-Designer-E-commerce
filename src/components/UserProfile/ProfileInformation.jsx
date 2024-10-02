@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import UserContext from '../../context/UserContext';
+import Skelton from './../../layouts/Skelton';
 
 export default function ProfileInformation() {
     const { userProfile, isEditing, error, handleEditProfile, handleSaveProfile } = useContext(UserContext);
@@ -32,7 +33,7 @@ export default function ProfileInformation() {
     };
 
     if (!userProfile) {
-        return <div>Loading...</div>;
+        return <Skelton />;
     }
 
     return (

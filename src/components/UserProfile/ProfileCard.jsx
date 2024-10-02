@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import UserContext from "../../context/UserContext";
+import Skelton from "../../layouts/Skelton";
 
 export default function ProfileCard() {
   const { userProfile } = useContext(UserContext);
 
   if (!userProfile) {
-    return <div>Loading...</div>;
+    return <Skelton />;
+
   }
 
   return (

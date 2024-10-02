@@ -8,7 +8,7 @@ export default function ProfileOrders() {
         <div className="col-span-3">
             <div className="card h-full bg-SecondaryColor text-white shadow-md rounded-lg p-4">
                 <div className="card-body">
-                    <h6 className="flex items-center mb-3">
+                    <h6 className="flex items-center mb-3 text-xl font-bold">
                         My Orders
                     </h6>
                     {userOrders && userOrders.length > 0 ? (
@@ -35,7 +35,9 @@ export default function ProfileOrders() {
                             </table>
                         </div>
                     ) : (
-                        <p>No orders found.</p>
+                        <div className="flex justify-center">
+                            <img src="/noorder3.png" className="w-1/4" alt="" />
+                        </div>
                     )}
                 </div>
             </div>
