@@ -7,7 +7,6 @@ export default function ProfileCard() {
 
   if (!userProfile) {
     return <Skelton />;
-
   }
 
   return (

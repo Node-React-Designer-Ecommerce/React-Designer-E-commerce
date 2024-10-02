@@ -1,8 +1,14 @@
 import { useContext } from "react";
 import UserContext from "../../context/UserContext";
+import Skelton from "../../layouts/Skelton";
 
 export default function ProfileOrders() {
     const { userOrders } = useContext(UserContext);
+
+    if (!userOrders) {
+        return <Skelton />;
+    }
+
 
     return (
         <div className="col-span-3">

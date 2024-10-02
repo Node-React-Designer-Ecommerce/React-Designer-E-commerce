@@ -1,9 +1,14 @@
 import { useContext } from "react";
 import UserContext from "../../context/UserContext";
 import { Link } from "react-router-dom";
+import Skelton from "../../layouts/Skelton";
 
 export default function ProfileFav() {
     const { favoriteProducts } = useContext(UserContext);
+
+    if (!favoriteProducts) {
+        return <Skelton />;
+    }
 
     return (
         <div className="col-span-2">
