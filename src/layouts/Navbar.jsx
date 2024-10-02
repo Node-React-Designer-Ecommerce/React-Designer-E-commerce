@@ -24,10 +24,6 @@ export default function Navbar() {
     navigate("/login");
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="navbar bg-base-100 sticky top-0 z-50 border bottom-1 flex justify-between">
       <div className="">
@@ -79,7 +75,13 @@ export default function Navbar() {
               <div className={`avatar ${userProfile ? 'online' : ''} placeholder w-10`}>
                 <div className="bg-white text-SecondaryColor border border-SecondaryColor w-16 rounded-full">
                   <span className="text-xl">
-                    {userProfile ? userProfile.name.charAt(0).toUpperCase() : <img src="/usernotfound.jpg" alt="User Not Found" />}
+                    {isLoading ? (
+                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-SecondaryColor"></div>
+                    ) : userProfile ? (
+                      userProfile.name.charAt(0).toUpperCase()
+                    ) : (
+                      <img src="/usernotfound.jpg" alt="User Not Found" />
+                    )}
                   </span>
                 </div>
               </div>
