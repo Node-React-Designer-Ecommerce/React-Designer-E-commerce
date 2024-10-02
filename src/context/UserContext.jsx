@@ -1,10 +1,12 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import { fetchUserProfile, updateUserProfile, fetchUserOrders, fetchFavoriteProducts } from './../utils/api/userProfileApi';
 import PropTypes from 'prop-types';
+import AuthContext from './AuthContext';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
+  const { isLoggedIn, userProfile: authUserProfile } = useContext(AuthContext);
   const [userProfile, setUserProfile] = useState(null);
   const [userOrders, setUserOrders] = useState(null);
   const [favoriteProducts, setFavoriteProducts] = useState(null);
@@ -30,8 +32,14 @@ export const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (isLoggedIn) {
+      fetchData();
+    } else {
+      setUserProfile(null);
+      setUserOrders(null);
+      setFavoriteProducts(null);
+    }
+  }, [isLoggedIn]);
 
   const handleEditProfile = () => {
     setIsEditing(true);

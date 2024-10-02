@@ -14,7 +14,7 @@ import ExitIcon from "../icons/ExitIcon";
 import CartIcon from "../icons/CartIcon";
 
 export default function Navbar() {
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn, logout, userProfile: authUserProfile } = useContext(AuthContext);
   const { userProfile, isLoading } = useContext(UserContext);
   const { totalQuantity, totalPrice } = useCart();
   const navigate = useNavigate();

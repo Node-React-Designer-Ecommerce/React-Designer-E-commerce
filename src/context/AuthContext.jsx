@@ -15,7 +15,10 @@ export const AuthProvider = ({ children }) => {
     const storedLoggedIn = Cookies.get("isLoggedIn");
     return storedLoggedIn ? JSON.parse(storedLoggedIn) : false;
   });
+
   const [userId, setUserId] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
+
   useEffect(() => {
     if (token) {
       Cookies.set("token", token, {
@@ -37,6 +40,7 @@ export const AuthProvider = ({ children }) => {
           });
 
           setUserId(response?.data?.data?.user?._id);
+          setUserProfile(response?.data?.data?.user);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -46,6 +50,8 @@ export const AuthProvider = ({ children }) => {
     } else {
       Cookies.remove("token");
       Cookies.remove("isLoggedIn");
+      setUserId(null);
+      setUserProfile(null);
     }
   }, [token]);
 
@@ -60,7 +66,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, isLoggedIn, userId, login, logout }}>
+    <AuthContext.Provider value={{ token, isLoggedIn, userId, userProfile, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
