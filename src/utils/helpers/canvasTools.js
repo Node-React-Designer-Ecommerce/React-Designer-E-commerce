@@ -123,7 +123,7 @@ export const calculateTotalPrice = (basePrice, canvas) => {
   canvas.getObjects().forEach((obj) => {
     if (obj.type === "image") {
       totalPrice += IMAGE_PRICE;
-    } else if (obj.type === "text") {
+    } else if (obj.type === "textbox") {
       totalPrice += TEXT_PRICE;
     }
   });
