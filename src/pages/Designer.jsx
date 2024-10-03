@@ -22,7 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { saveCanvasToBackend } from "../utils/api/designerApi.js";
 import AuthContext from "../context/AuthContext.jsx";
 import { toast } from "react-toastify";
-import { uploadToImageKit } from "../utils/api/imagekit.js";
+
 import { useCart } from "../context/CartContext.jsx";
 
 export default function Designer() {
