@@ -1,5 +1,5 @@
-import { Link, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Link, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function CustomLink({ to, children }) {
   const location = useLocation();
@@ -9,15 +9,15 @@ function CustomLink({ to, children }) {
     <div className="relative group">
       <Link
         to={to}
-        className={`px-5 py-1 text-SecondaryColor font-bold text-xl hover:transition-all ${
-          isActive ? 'active' : ''
+        className={`px-5 py-1 text-purpleColor font-bold text-xl hover:transition-all ${
+          isActive ? "active" : ""
         }`}
       >
         {children}
       </Link>
       <div
-        className={`bg-green-700 w-full h-[3px] rounded-xl transform transition-transform duration-500 ${
-          isActive ? 'scale-x-100' : 'scale-x-0'
+        className={`bg-mintColor w-full h-[3px] rounded-xl transform transition-transform duration-500 ${
+          isActive ? "scale-x-100" : "scale-x-0"
         }`}
       ></div>
     </div>

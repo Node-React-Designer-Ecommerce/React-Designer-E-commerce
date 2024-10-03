@@ -1,9 +1,16 @@
+import { Link } from "react-router-dom";
+
 function Footer() {
   return (
     <footer className="bg-gray-100 text-center sm:text-start  text-gray-700 p-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-900">صـــــــمم</h2>
+          <div className="ms-10">
+            <Link to="/" className="">
+              <img src="/logo2.png" width={90} alt="logo" />
+            </Link>
+          </div>
+
           <div className="flex space-x-4 mt-4">
             <a href="#" className="text-gray-500 hover:text-gray-900">
               <i className="fab fa-facebook"></i>
@@ -106,7 +113,6 @@ function Footer() {
             <button className="btn rounded-none bg-SecondaryColor text-white hover:text-black w-full">
               Subscribe
             </button>
-
           </form>
         </div>
       </div>
