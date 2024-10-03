@@ -351,7 +351,7 @@ export default function Designer() {
               className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 mb-5"
               onClick={handleRemoveSelectedObj} // Handle image removal
             >
-              Remove Selected Object
+              Remove Selected Element
             </button>
           </div>
           {/*chart */}
@@ -514,7 +514,7 @@ export default function Designer() {
             {isLoggedIn ? (
               <button
                 onClick={handleAddToCart}
-                className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-2xl  text-white btn "
+                className="py-2 px-4 rounded cursor-pointer bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out  text-white btn  mt-5 w-44 me-10 "
                 disabled={isAdding}
               >
                 {isAdding ? (
@@ -532,16 +532,16 @@ export default function Designer() {
               </button>
             )}
 
-            {/**<button onClick={handleLoadFromJSON}>load from json</button> */}
-            <button onClick={handleResetCanva}>reset canvas</button>
+            {/**<button onClick={handleLoadFromJSON}>load from json</button> 
+            <button onClick={handleResetCanva}>reset canvas</button>*/}
 
             {/* Button to save canvas as JSON */}
             <button
               style={{ borderColor: "#4e7f62" }}
-              className="bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
+              className=" bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
               onClick={handleButtonClick}
             >
-              {isEditing ? "Edit" : "Save Design"}
+              {isEditing ? "Saved" : "Save Design"}
             </button>
           </div>
           {/*<div className="p-5 flex justify-around">
