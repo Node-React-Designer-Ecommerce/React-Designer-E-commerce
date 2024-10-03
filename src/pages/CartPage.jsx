@@ -61,6 +61,7 @@ export default function CartPage() {
       handleCloseModal();
     }
   };
+  console.log(cart);
 
   return (
     <div className="container mx-auto">
@@ -123,7 +124,10 @@ export default function CartPage() {
                         <p className="text-lg font-bold">Price : </p>
                         <p className="text-lg ms-2 ">
                           <span className="text-gray-400 text-base">EGP</span>{" "}
-                          {product?.product?.price}
+                          {/*product?.product?.price*/}
+                          {product?.type === "Product"
+                            ? product?.product?.price
+                            : product?.design?.totalPrice}
                         </p>
                       </div>
 
@@ -131,7 +135,10 @@ export default function CartPage() {
                         <p className="text-lg font-bold">Total Price : </p>
                         <p className="text-lg ms-3 ">
                           <span className="text-gray-400 text-base">EGP</span>{" "}
-                          {product?.product?.price * product?.quantity}
+                          {/*product?.product?.price * product?.quantity*/}
+                          {product?.type === "Product"
+                            ? product?.product?.price * product?.quantity
+                            : product?.design?.totalPrice * product?.quantity}
                         </p>
                       </div>
                       <div>

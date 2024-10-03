@@ -8,6 +8,7 @@ import XIcon from "../icons/XIcon";
 
 import {
   addText,
+  calculateTotalPrice,
   captureScreenShot,
   handleAddImage,
   loadFromJSON,
@@ -165,40 +166,6 @@ export default function Designer() {
     setTextProps((prev) => ({ ...prev, [prop]: value }));
     updateTextProps(selectedText, prop, value, fabricCanvas.current);
   };
-  ///////////////////////////////// original code //////////////////////////////////////////////////////////
-  // save canva as json
-  // const handleSaveAsJSON = async () => {
-  //   try {
-  //     const canvasJSON = saveAsJSON(fabricCanvas.current);
-  //     setSavedCanvas(canvasJSON);
-  //     console.log("Canvas JSON:", canvasJSON);
-  //     // Get the image data
-  //     const imageOfDesign = await handleCaptureScreenShot();
-  //     //
-  //     console.log("screenshot", imageOfDesign);
-
-  //     // Prepare the data to be sent to the API
-  //     const designData = {
-  //       productId: id,
-  //       userId: userId,
-  //       canvas: canvasJSON,
-  //       image: imageOfDesign,
-  //       totalPrice: 500,
-  //       isGamed: false,
-  //     };
-
-  //     // Make the API call to save the design
-  //     const saveResponse = await saveCanvasToBackend(designData);
-  //     toast.success("Your Design saved successfully ");
-  //     console.log("Canvas saved successfully:", saveResponse);
-  //     setIsEditing(true);
-  //   } catch (error) {
-  //     console.error("Error saving canvas:", error);
-  //   }
-  // };
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  ////////////////////////////////////////// handle image with imagekit///////////////////////////////////////
 
   const handleSaveAsJSON = async () => {
     try {
@@ -209,6 +176,9 @@ export default function Designer() {
       // Get the image data
       const imageOfDesign = await handleCaptureScreenShot();
       console.log("screenshot", imageOfDesign);
+
+      const basePrice = product.price; // Assuming you have a product object with a price
+      const totalPrice = calculateTotalPrice(basePrice, fabricCanvas.current);
 
       // Convert base64 to blob
       const base64Response = await fetch(imageOfDesign);
@@ -224,7 +194,7 @@ export default function Designer() {
       formData.append("userId", userId);
       formData.append("canvas", JSON.stringify(canvasJSON));
       formData.append("image", imageFile);
-      formData.append("totalPrice", "500");
+      formData.append("totalPrice", totalPrice.toString());
       formData.append("isGamed", "false");
 
       console.log("FormData contents:");

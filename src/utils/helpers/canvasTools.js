@@ -114,3 +114,19 @@ export const removeSelectedObject = (fabricCanvas) => {
     console.warn("No object is selected to remove");
   }
 };
+
+export const calculateTotalPrice = (basePrice, canvas) => {
+  let totalPrice = basePrice;
+  const IMAGE_PRICE = 100; // Price per image
+  const TEXT_PRICE = 50; // Price per text element
+
+  canvas.getObjects().forEach((obj) => {
+    if (obj.type === "image") {
+      totalPrice += IMAGE_PRICE;
+    } else if (obj.type === "text") {
+      totalPrice += TEXT_PRICE;
+    }
+  });
+
+  return totalPrice;
+};
