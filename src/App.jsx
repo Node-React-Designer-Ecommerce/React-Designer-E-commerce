@@ -25,7 +25,6 @@ import { FavoriteProductsProvider } from "./context/FavoriteProductsContext";
 import SuccessPayment from "./pages/SuccessPayment";
 import UserProfile from "./pages/UserProfile";
 import { UserProvider } from "./context/UserContext";
-//jijjnik
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,6 +43,7 @@ function App() {
           <UserProvider>
             <CartProvider>
               <BrowserRouter>
+
                 <ProductsProvider>
                   <FavoriteProductsProvider>
                     {/* Conditionally render Navbar and Footer */}
@@ -63,18 +63,9 @@ function App() {
                             <Navbar className="sticky top-0 z-50" />
                             <Routes>
                               <Route path="/" element={<Landing />} />
-                              <Route
-                                path="/products"
-                                element={<ProductsPage />}
-                              />
-                              <Route
-                                path="/customize"
-                                element={<CustomizePage />}
-                              />
-                              <Route
-                                path="/Designer/:id"
-                                element={<Designer />}
-                              />
+                              <Route path="/products" element={<ProductsPage />} />
+                              <Route path="/customize" element={<CustomizePage />} />
+                              <Route path="/Designer/:id" element={<Designer />} />
                               <Route
                                 path="/product-details/:id"
                                 element={<ProductDetails />}
@@ -101,6 +92,7 @@ function App() {
                                   <ProtectedRoute>
                                     <UserProfile />
                                   </ProtectedRoute>
+
                                 }
                               />
                               <Route
@@ -137,6 +129,7 @@ function App() {
                   </FavoriteProductsProvider>
                 </ProductsProvider>
               </BrowserRouter>
+
             </CartProvider>
           </UserProvider>
         </AuthProvider>
