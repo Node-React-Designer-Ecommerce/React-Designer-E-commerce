@@ -26,14 +26,15 @@ export default function Navbar() {
 
   return (
     <div className="navbar bg-base-100 sticky top-0 z-50 border bottom-1 flex justify-between">
-      <div className="">
+      <div className="ms-10">
         <Link to="/" className="">
-          <img src="/logo.jpeg" width={80} alt="logo" />
+          <img src="/logo2.png" width={90} alt="logo" />
         </Link>
       </div>
 
       <div className="flex space-x-4">
-        <CustomLink to="/products">products</CustomLink>
+        <CustomLink to="/">Home</CustomLink>
+        <CustomLink to="/products">Products</CustomLink>
         <CustomLink to="/customize">Customize</CustomLink>
       </div>
 
