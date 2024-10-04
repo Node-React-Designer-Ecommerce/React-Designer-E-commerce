@@ -1,11 +1,11 @@
 export default function HowItWorks() {
   return (
-    <div className="p-16 bg-lightBackGround">
+    <div className="p-8 sm:p-16  bg-lightBackGround">
       <div>
-        <div className="mb-5 font-bold text-4xl text-purpleColor text-center">
+        <div className="mb-5 font-bold text-3xl sm:text-4xl text-purpleColor text-center">
           How it works?
         </div>
-        <div className="mb-5 text-2xl text-black text-center">
+        <div className="mb-5 text-lg sm:text-2xl text-black text-center">
           It’s that simple to create and shop your perfect T-shirt!
         </div>
         <div
@@ -15,7 +15,7 @@ export default function HowItWorks() {
           }}
           className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ms-20 "
         >
-          <div className=" w-80 card card-side bg-base-100 shadow-xl  max-w-md  flex flex-col ">
+          <div className=" w-80  card card-side bg-base-100 shadow-xl    flex flex-col ">
             <div className="mx-auto bg-purpleColor text-white text-4xl p-3 mt-3 rounded">
               1
             </div>
@@ -27,7 +27,7 @@ export default function HowItWorks() {
             </div>
           </div>
 
-          <div className="card card-side bg-base-100 shadow-xl w-80 max-w-md  flex flex-col ">
+          <div className="w-80  card card-side bg-base-100 shadow-xl   flex flex-col ">
             <div className="mx-auto bg-purpleColor text-white text-4xl p-3 mt-3 rounded">
               2
             </div>
@@ -39,7 +39,7 @@ export default function HowItWorks() {
               </p>
             </div>
           </div>
-          <div className="card card-side bg-base-100 shadow-xl w-80 max-w-md  flex flex-col ">
+          <div className="w-80  card card-side bg-base-100 shadow-xl   flex flex-col ">
             <div className="mx-auto bg-purpleColor text-white text-4xl p-3 mt-3 rounded">
               3
             </div>
