@@ -44,7 +44,7 @@ export default function CardOfDesigner() {
             {products.map((product) => (
               <div
                 key={product._id}
-                className="card bg-base-100 w-80 shadow-xl rounded-lg"
+                className="card bg-base-100 w-80 shadow-xl  rounded-lg"
               >
                 <figure className="px-5 relative pt-10">
                   <img src={product.image} alt="Shoes" className="rounded-xl" />
@@ -52,10 +52,12 @@ export default function CardOfDesigner() {
                 <div className="card-body items-center text-center">
                   <h2 className="card-title uppercase">{product.name}</h2>
 
-                  <p className="text-green-800">EGP {product.price}</p>
+                  <p className="text-purpleColor text-xl">
+                    EGP {product.price}
+                  </p>
                   <Link
                     to={`/designer/${product._id}`}
-                    className="flex justify-between  w-44 bg-mintColor text-white rounded cursor-pointer hover:bg-gray-700 transition duration-300 ease-in-out text-center p-2 ps-3 text-center "
+                    className="flex justify-between  w-44 bg-mintColor text-white rounded cursor-pointer hover:bg-purpleColor transition duration-300 ease-in-out text-center p-2 ps-3 text-center "
                   >
                     Custome your design
                   </Link>

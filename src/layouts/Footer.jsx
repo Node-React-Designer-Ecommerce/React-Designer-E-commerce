@@ -108,9 +108,9 @@ function Footer() {
             <input
               type="email"
               placeholder="Your Email"
-              className="input rounded-none input-bordered w-full mb-4"
+              className="input rounded input-bordered w-full mb-4"
             />
-            <button className="btn rounded-none bg-SecondaryColor text-white hover:text-black w-full">
+            <button className="btn rounded bg-mintColor text-white hover:text-black w-full">
               Subscribe
             </button>
           </form>
