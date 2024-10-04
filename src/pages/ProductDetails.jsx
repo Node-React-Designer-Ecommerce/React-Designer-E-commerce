@@ -124,7 +124,7 @@ export default function ProductDetails() {
           </div>
           <Rating />
 
-          <p className="text-green-800 text-xl font-bold">${product.price}</p>
+          <p className="text-mintColor text-2xl font-bold">${product.price}</p>
           <p className="py-4">{product.description}</p>
           <div>
             <div className="flex justify-between">
@@ -135,11 +135,8 @@ export default function ProductDetails() {
                     document.getElementById("my_modal_5").showModal()
                   }
                 >
-                  Size Charts
+                  Find your size
                 </button>
-                <p className="text-[13px] flex items-center text-gray-500">
-                  Check your size from here..
-                </p>
               </div>
               <RadioComponent
                 setSize={setSelectedSize}
@@ -172,7 +169,7 @@ export default function ProductDetails() {
               {isLoggedIn ? (
                 <button
                   onClick={() => addToCartHandler(product._id)}
-                  className="bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14 "
+                  className="bg-mintColor transition duration-700 ease-in-out rounded w-full text-white py-2 px-14 "
                   disabled={isAdding}
                 >
                   {isAdding ? (
@@ -184,7 +181,7 @@ export default function ProductDetails() {
               ) : (
                 <button
                   onClick={navigateToLogin}
-                  className="bg-red-500 hover:bg-red-600 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14"
+                  className="bg-red-500 hover:bg-red-600 transition duration-700 ease-in-out rounded w-full text-white py-2 px-14"
                 >
                   Login to Add to Cart
                 </button>

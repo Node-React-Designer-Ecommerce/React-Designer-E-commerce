@@ -3,7 +3,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import Filter from "../components/Filter";
 import Skelton from "../layouts/Skelton";
 import Paginationn from "../components/Paginationn";
-import ArrowRight from "../icons/ArrowRight";
 import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
 import SearchIcon from "./../icons/SearchIcon";
@@ -54,7 +53,7 @@ export default function ProductsPage() {
     if (isLoading) {
       return (
         <div className="flex justify-center py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-3  md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-8">
             {Array.from({ length: 7 }).map((_, index) => (
               <div key={index} className="card bg-base-100 w-80 shadow-xl">
                 <Skelton />
@@ -88,12 +87,12 @@ export default function ProductsPage() {
                 products.map((product) => (
                   <div
                     key={product._id}
-                    className="card bg-base-100 w-80 shadow-xl"
+                    className="rounded-lg bg-base-100 w-80 shadow-xl"
                   >
                     <figure className=" relative pt-5">
                       {isLoggedIn && (
                         <div
-                          className="bg-white rounded-3xl w-11 absolute top-7 start-3 h-11 flex justify-center items-center cursor-pointer"
+                          className="bg-white rounded-3xl w-11 absolute top-9 start-4 h-11 flex justify-center items-center cursor-pointer"
                           onClick={() => toggleFavorite(product._id)}
                         >
                           {favoriteProducts && favoriteProducts[product._id] ? (
@@ -106,19 +105,20 @@ export default function ProductsPage() {
                       <img
                         src={product.image}
                         alt="Shoes"
-                        className="rounded-xl h-[349px] w-full object-fit"
+                        className="rounded-2xl p-2.5 h-[349px] w-full object-fit"
                       />
                     </figure>
-                    <div className="card-body py-3 items-center text-center">
-                      <h2 className="card-title uppercase">{product.name}</h2>
-                      <p className="text-gray-600">{product.description}</p>
-                      <p className="text-green-800">${product.price}</p>
+                    <div className="p-4 items-center gap-1 text-center">
+                      <div className="flex justify-between">
+                      <h2 className="text-[17px] font-bold uppercase">{product.name}</h2>
+                      <p className="text-xl font-bold text-mintColor">${product.price}</p>
+                      </div>
+                      <p className="text-gray-500 py-2 capitalize text-nowrap truncate">{product.description}</p>
                       <div className="flex justify-center pt-1 w-full">
                         <Link
                           to={`/product-details/${product._id}`}
-                          className="flex items-center"
-                        >
-                          See More <ArrowRight />
+                          className="btn w-full rounded text-white bg-mintColor text-lg flex items-center">
+                          See Details
                         </Link>
                       </div>
                     </div>
@@ -133,7 +133,7 @@ export default function ProductsPage() {
   }, [products, isLoading, isError, error, favoriteProducts]);
 
   return (
-    <div className="w-full font-serif relative ">
+    <div className="w-full font-sans relative ">
       <div className="relative flex flex-col lg:text-2xl items-center tracking-wide">
         <div className="w-full sticky top-0 z-20">
           <div className="bg-slate-700 opacity-25 w-full h-96 absolute"></div>

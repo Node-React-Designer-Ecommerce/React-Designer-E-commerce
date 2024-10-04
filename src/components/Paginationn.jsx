@@ -9,14 +9,14 @@ const Paginationn = ({ getPage, pageCount, currentPage }) => {
   return (
     <ReactPaginate
       breakLabel="..."
-      nextLabel="next >"
+      nextLabel="Next"
       onPageChange={handlePageClick}
       marginPagesDisplayed={1}
       pageRangeDisplayed={1}
       pageCount={pageCount}
-      previousLabel={"< previous"}
+      previousLabel={"Previous"}
       containerClassName={"pagination flex gap-4 justify-content-center p-3"}
-      pageClassName={"page-item btn btn-success text-white"}
+      pageClassName={"page-item btn bg-mintColor text-white"}
       pageLinkClassName={"page-link"}
       previousClassName={`page-item btn ${currentPage === 1 ? " hidden" : ""}`}
       nextClassName={`page-item btn ${currentPage === pageCount ? "hidden" : ""}`}
