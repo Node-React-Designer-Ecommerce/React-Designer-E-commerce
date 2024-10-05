@@ -81,7 +81,7 @@ export const resetCanvas = (fabricCanvas) => {
 
 //Function to handle adding an image to the canvas
 
-export const handleAddImage = (e, fabricCanvas) => {
+export const handleAddImage = (e, fabricCanvas, setDragImages) => {
   let imgObj = e.target.files[0]; // Get the uploaded image file
   let reader = new FileReader();
   reader.readAsDataURL(imgObj); // Read the image file as a data URL
@@ -96,8 +96,11 @@ export const handleAddImage = (e, fabricCanvas) => {
       fabricCanvas.add(image); // Add the image to the canvas
       fabricCanvas.centerObject(image); // Center the image on the canvas
       fabricCanvas.setActiveObject(image); // Make the image the active object
+      setDragImages((prevImages) => [...prevImages, imgObj]);
     };
   };
+  console.log(imgObj);
+  return imgObj;
 };
 
 //remove selected object

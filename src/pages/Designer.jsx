@@ -53,6 +53,7 @@ export default function Designer() {
   const [isAdding, setIsAdding] = useState(false);
   const navigate = useNavigate();
   const { isLoggedIn } = useContext(AuthContext);
+  const [dragImages, setDragImages] = useState([]);
 
   const navigateToLogin = () => {
     navigate(`/login?redirect=product-details/${id}`);
@@ -196,6 +197,9 @@ export default function Designer() {
       formData.append("image", imageFile);
       formData.append("totalPrice", totalPrice.toString());
       formData.append("isGamed", "false");
+      dragImages.forEach((image) => {
+        formData.append(`dragImages`, image); // Append each image to FormData
+      });
 
       console.log("FormData contents:");
       for (let [key, value] of formData.entries()) {
@@ -230,7 +234,8 @@ export default function Designer() {
   const handleResetCanva = () => resetCanvas(fabricCanvas.current);
 
   // Function to handle adding an image to the canvas
-  const handleAddImageOnCanva = (e) => handleAddImage(e, fabricCanvas.current);
+  const handleAddImageOnCanva = (e) =>
+    handleAddImage(e, fabricCanvas.current, setDragImages);
 
   //remove selected object
   const handleRemoveSelectedObj = () =>
