@@ -25,6 +25,7 @@ import { FavoriteProductsProvider } from "./context/FavoriteProductsContext";
 import SuccessPayment from "./pages/SuccessPayment";
 import UserProfile from "./pages/UserProfile";
 import { UserProvider } from "./context/UserContext";
+import DesignerDetails from "./pages/DesignerDetails";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -65,6 +66,7 @@ function App() {
                               <Route path="/" element={<Landing />} />
                               <Route path="/products" element={<ProductsPage />} />
                               <Route path="/customize" element={<CustomizePage />} />
+                              <Route path="/designer-details/:id" element={<DesignerDetails />} />
                               <Route path="/Designer/:id" element={<Designer />} />
                               <Route
                                 path="/product-details/:id"
