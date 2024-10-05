@@ -1,47 +1,32 @@
-//contexts
-import { useCart } from "../context/CartContext";
-
-//empty cart
-import EmptyCart from "../components/EmptyCart";
-
-//toasts
-import "react-toastify/dist/ReactToastify.css";
-
-//order Api
 import { createOrder } from "./../utils/api/orderApi";
+import { useCart } from "../context/CartContext";
+import EmptyCart from "../components/EmptyCart";
+import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
+
 export default function CartPage() {
-  const { totalQuantity, totalPrice } = useCart();
+  const { totalQuantity, totalPrice, cart, loading, pendingUpdates, isRemoving, isClearing, loadingConfirm, handleQuantityChange, confirmUpdateQuantity, handleRemoveFromCart, handleClearCart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [iframeSrc, setIframeSrc] = useState("");
 
-  const {
-    cart,
-    loading,
-    pendingUpdates,
-    isRemoving,
-    isClearing,
-    loadingConfirm,
-    handleQuantityChange,
-    confirmUpdateQuantity,
-    handleRemoveFromCart,
-    handleClearCart,
-  } = useCart();
-
   const checkout = async () => {
     const paymentMethod = "Online";
-    const order = await createOrder(paymentMethod); // Assuming createOrder is defined elsewhere
-    const hash = order.data.kashierOrderHash;
-    const orderId = order.data.order._id;
-    const totalPrice = order.data.order.totalPrice;
+    try {
+      const order = await createOrder(paymentMethod);
+      const hash = order.data.kashierOrderHash;
+      const orderId = order.data.order._id;
+      const totalPrice = order.data.order.totalPrice;
 
-    console.log(hash, "--222--", orderId);
+      console.log(hash, "--222--", orderId);
 
-    // Set the iframe source
-    const src = `https://checkout.kashier.io/?merchantId=MID-28559-7&orderId=${orderId}&amount=${totalPrice}&currency=EGP&hash=${hash}&mode=test&metaData={"metaData":"myData"}&merchantRedirect=http://localhost:5173/success-payment&allowedMethods=card,wallet&failureRedirect=false&redirectMethod=get&brandColor=%2314532d&display=en&serverWebhook=https://react-node-designer.glitch.me/api/v1/orders/kashier`;
+      // Set the iframe source
+      const src = `https://checkout.kashier.io/?merchantId=MID-28559-7&orderId=${orderId}&amount=${totalPrice}&currency=EGP&hash=${hash}&mode=test&metaData={"metaData":"myData"}&merchantRedirect=http://localhost:5173/success-payment&allowedMethods=card,wallet&failureRedirect=false&redirectMethod=get&brandColor=%2314532d&display=en&serverWebhook=https://react-node-designer.glitch.me/api/v1/orders/kashier`;
 
-    setIframeSrc(src); // Set the iframe source in state
-    setIsOpen(true);
+      setIframeSrc(src); // Set the iframe source in state
+      setIsOpen(true);
+    } catch (error) {
+      console.error("Error during checkout:", error);
+    }
   };
 
   if (loading) {
@@ -51,17 +36,16 @@ export default function CartPage() {
       </div>
     );
   }
+
   const handleCloseModal = () => {
     setIsOpen(false);
   };
 
-  // Close modal when clicking outside
   const handleClickOutside = (e) => {
     if (e.target.id === "modal-overlay") {
       handleCloseModal();
     }
   };
-  console.log(cart);
 
   return (
     <div className="container mx-auto">
@@ -105,7 +89,6 @@ export default function CartPage() {
                   <div className="flex items-center">
                     <img
                       className="w-24 h-24 rounded"
-                      // src={product?.product?.image}
                       src={
                         product?.type === "Product"
                           ? product?.product?.image
@@ -124,7 +107,6 @@ export default function CartPage() {
                         <p className="text-lg font-bold">Price : </p>
                         <p className="text-lg ms-2 ">
                           <span className="text-gray-400 text-base">EGP</span>{" "}
-                          {/*product?.product?.price*/}
                           {product?.type === "Product"
                             ? product?.product?.price
                             : product?.design?.totalPrice}
@@ -135,7 +117,6 @@ export default function CartPage() {
                         <p className="text-lg font-bold">Total Price : </p>
                         <p className="text-lg ms-3 ">
                           <span className="text-gray-400 text-base">EGP</span>{" "}
-                          {/*product?.product?.price * product?.quantity*/}
                           {product?.type === "Product"
                             ? product?.product?.price * product?.quantity
                             : product?.design?.totalPrice * product?.quantity}
