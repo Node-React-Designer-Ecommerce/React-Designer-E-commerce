@@ -35,7 +35,7 @@ export default function CardOfDesigner() {
   console.log(products);
   return (
     <div className="mt-32">
-      <div className="mb-5 font-bold text-4xl text-purpleColor text-center">
+      <div className="mb-5 font-bold text-4xl text-textColor text-center">
         Choose your piece
       </div>
       <div className="font-serif flex justify-center">
@@ -52,12 +52,10 @@ export default function CardOfDesigner() {
                 <div className="card-body items-center text-center">
                   <h2 className="card-title uppercase">{product.name}</h2>
 
-                  <p className="text-purpleColor text-xl">
-                    EGP {product.price}
-                  </p>
+                  <p className="text-textColor text-xl">EGP {product.price}</p>
                   <Link
                     to={`/designer/${product._id}`}
-                    className="flex justify-between  w-44 bg-mintColor text-white rounded cursor-pointer hover:bg-purpleColor transition duration-300 ease-in-out text-center p-2 ps-3 text-center "
+                    className="flex justify-between  w-44 bg-buttonColor text-white rounded cursor-pointer hover:bg-hoverButton transition duration-300 ease-in-out text-center p-2 ps-3 text-center "
                   >
                     Custome your design
                   </Link>

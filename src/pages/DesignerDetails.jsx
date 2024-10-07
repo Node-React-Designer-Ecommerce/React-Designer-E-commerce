@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axiosInstance from '../utils/api/axiosInstance';
-import { fabric } from 'fabric';
-import { loadFromJSON } from '../utils/helpers/canvasTools';
-import RadioComponent from '../components/RadioComponent';
-import SizeCharts from '../components/Charts/SizeCharts';
-import XIcon from '../icons/XIcon';
+import { useEffect, useState, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/api/axiosInstance";
+import { fabric } from "fabric";
+import { loadFromJSON } from "../utils/helpers/canvasTools";
+import RadioComponent from "../components/RadioComponent";
+import SizeCharts from "../components/Charts/SizeCharts";
+import XIcon from "../icons/XIcon";
 
 import {
   addText,
@@ -50,6 +50,7 @@ export default function DesignerDetails() {
     const fetchDesignDetails = async () => {
       try {
         const response = await axiosInstance.get(`/designs/${id}`);
+        //console.log(response.data.data);
         setDesign(response.data.data.design);
         setBackgroundImage(response.data.data.design.image);
         setName(response.data.data.design.name);
@@ -57,7 +58,7 @@ export default function DesignerDetails() {
         setCanvasWidth(response.data.data.design.canvasWidth);
         setCanvasHeight(response.data.data.design.canvasHeight);
       } catch (error) {
-        console.error('Error fetching design details:', error);
+        console.error("Error fetching design details:", error);
       }
     };
 
@@ -245,7 +246,10 @@ export default function DesignerDetails() {
                 Sizes table
               </button>
             </div>
-            <RadioComponent setSize={setSelectedSize} stock={new Set(['S', 'M', 'L'])} />
+            <RadioComponent
+              setSize={setSelectedSize}
+              stock={new Set(["S", "M", "L"])}
+            />
           </div>
           <dialog
             id="my_modal_5"

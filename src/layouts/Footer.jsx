@@ -7,7 +7,7 @@ function Footer() {
         <div>
           <div className="ms-10">
             <Link to="/" className="">
-              <img src="/logo2.png" width={90} alt="logo" />
+              <img src="/public/sammlyLogo.png" width={90} alt="logo" />
             </Link>
           </div>
 
@@ -110,7 +110,7 @@ function Footer() {
               placeholder="Your Email"
               className="input rounded input-bordered w-full mb-4"
             />
-            <button className="btn rounded bg-mintColor text-white hover:text-black w-full">
+            <button className="btn rounded bg-buttonColor text-white hover:bg-hoverButton w-full">
               Subscribe
             </button>
           </form>

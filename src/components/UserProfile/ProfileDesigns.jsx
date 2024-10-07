@@ -38,7 +38,7 @@ export default function ProfileDesigns() {
                       EGP {design.totalPrice}
                     </p>
                     <Link
-                      to={`/designer-details/${design._id}`}
+                      to={`/designer/${design.productId}?edit=${design._id}`}
                       className="flex justify-between  w-20 bg-purpleColor text-white rounded cursor-pointer hover:bg-mintColor transition duration-300 ease-in-out text-center p-2 ps-6 text-center "
                     >
                       Edit

@@ -28,7 +28,7 @@ export default function Navbar() {
     <div className="navbar bg-base-100 sticky top-0 z-50 border bottom-1 flex justify-between">
       <div className="ms-10">
         <Link to="/" className="">
-          <img src="/logo2.png" width={90} alt="logo" />
+          <img src="/public/sammlyLogo.png" width={90} alt="logo" />
         </Link>
       </div>
 

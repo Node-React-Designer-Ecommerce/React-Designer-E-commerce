@@ -13,8 +13,8 @@ export default function TeamMembers() {
     {
       name: "Shady Mohamed Radwan",
       role: "Software Engineer",
-      imgSrc: "/public/shady.jpg",
-      email: "shady@example.com",
+      imgSrc: "/public/shady.jpeg",
+      email: "yd.radwan@gmail.com",
       linkedIn: "https://www.linkedin.com/in/shady-radwan-8b0003196/",
     },
 
@@ -22,7 +22,7 @@ export default function TeamMembers() {
       name: "Fatma Elzahraa Abdelaleem",
       role: "Software Engineer",
       imgSrc: "/public/zahra.jpeg",
-      email: "zahra@example.com",
+      email: "fatmaabdelaleem24@gmail.com",
       linkedIn:
         "https://www.linkedin.com/in/zahra-abdelaleem-%F0%93%82%86-1a56a4139/",
     },
@@ -31,14 +31,14 @@ export default function TeamMembers() {
       name: "Yasser Ahmed Salem",
       role: "Software Engineer",
       imgSrc: "/public/yasser.jpg",
-      email: "yasser@example.com",
+      email: "yassersalem9099@gmail.com",
       linkedIn: "https://www.linkedin.com/in/yasser-salem-118b7b214/",
     },
     {
       name: "Farah Mahmoud Mahfouz",
       role: "Software Engineer",
       imgSrc: "/public/farah.jpeg",
-      email: "farah@example.com",
+      email: "farahmahfouz11@gmail.com",
       linkedIn: "https://www.linkedin.com/in/farahmahfouz/",
     },
   ];
@@ -50,13 +50,14 @@ export default function TeamMembers() {
           <div
             key={index}
             className="card bg-white shadow-lg rounded-lg transform transition-transform hover:scale-105"
-            style={{ height: "400px" }}
+            style={{ height: "450px" }}
           >
-            <figure className="px-10 pt-10">
+            <figure className="px-8 pt-10  ">
               <img
                 src={member.imgSrc}
                 alt={member.name}
-                className="rounded-xl w-full h-48 object-cover"
+                className="rounded object-cover w-full"
+                style={{ height: "250px" }}
               />
             </figure>
             <div className="card-body text-center">

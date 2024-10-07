@@ -110,14 +110,21 @@ export default function ProductsPage() {
                     </figure>
                     <div className="p-4 items-center gap-1 text-center">
                       <div className="flex justify-between">
-                      <h2 className="text-[17px] font-bold uppercase">{product.name}</h2>
-                      <p className="text-xl font-bold text-mintColor">${product.price}</p>
+                        <h2 className="text-[17px] font-bold uppercase">
+                          {product.name}
+                        </h2>
+                        <p className="text-xl font-bold text-mintColor">
+                          ${product.price}
+                        </p>
                       </div>
-                      <p className="text-gray-500 py-2 capitalize text-nowrap truncate">{product.description}</p>
+                      <p className="text-gray-500 py-2 capitalize text-nowrap truncate">
+                        {product.description}
+                      </p>
                       <div className="flex justify-center pt-1 w-full">
                         <Link
                           to={`/product-details/${product._id}`}
-                          className="btn w-full rounded text-white bg-mintColor text-lg flex items-center">
+                          className="btn w-full rounded text-white bg-mintColor text-lg flex items-center"
+                        >
                           See Details
                         </Link>
                       </div>
@@ -143,8 +150,12 @@ export default function ProductsPage() {
             className="h-96 w-full object-cover "
           />
           <div className="absolute right-7 top-28 sm:right-16 lg:top-16 lg:right-40 leading-loose">
-            <p className="font-bold  text-white sm:text-gray-700">Featured Products</p>
-            <p className="font-bold text-white sm:text-black uppercase">BestSeller Products</p>
+            <p className="font-bold  text-white sm:text-gray-700">
+              Featured Products
+            </p>
+            <p className="font-bold text-white sm:text-black uppercase">
+              BestSeller Products
+            </p>
             <p className="lg:text-lg text-white sm:text-gray-700">
               Simplicity is the keynote of all true elegance
             </p>

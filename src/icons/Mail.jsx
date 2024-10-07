@@ -5,7 +5,7 @@ export default function Mail() {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke="#73C3A0"
+      stroke="#81B3DC"
       className="size-10 pb-2 "
     >
       <path

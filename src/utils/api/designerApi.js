@@ -14,3 +14,35 @@ export const saveCanvasToBackend = async (formData) => {
     throw new Error("Error saving canvas: " + error.message); // Throw an error if saving fails
   }
 };
+
+export const updateCanvasToBackend = async (formData) => {
+  try {
+    const response = await axiosInstance.patch("/designs", formData);
+
+    // Log the full response for debugging
+    console.log("Full response:", response);
+
+    if (response && response.data) {
+      return response.data;
+    } else {
+      console.error("Unexpected response structure:", response);
+      throw new Error("Unexpected response structure");
+    }
+  } catch (error) {
+    // Log more details about the error
+    console.error("Error in updateCanvasToBackend:", error);
+    console.error("Error response:", error.response);
+
+    if (error.response && error.response.data) {
+      console.error("Error data:", error.response.data);
+    }
+
+    throw new Error("Error updating canvas: " + error.message);
+  }
+};
+
+export const getdesignById = (id) => {
+  return axiosInstance
+    .get(`/designs/${id}`)
+    .then((res) => res.data.data.design);
+};

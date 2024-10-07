@@ -16,7 +16,7 @@ export default function RadioComponent({ setSize, stock }) {
               type="radio"
               name="size"
               value={size}
-              className={`radio ${!stock.has(size) ? 'bg-red-900' : ''}`}
+              className={`radio ${!stock.has(size) ? "bg-gray-900" : ""}`}
               onChange={handleSizeChange}
               disabled={!stock.has(size)} // Disable if size is not available
             />

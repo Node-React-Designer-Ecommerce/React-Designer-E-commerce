@@ -9,14 +9,14 @@ function CustomLink({ to, children }) {
     <div className="relative group">
       <Link
         to={to}
-        className={`px-5 py-1 text-purpleColor font-bold text-xl hover:transition-all ${
+        className={`px-5 py-1 text-textColor font-bold text-xl hover:transition-all ${
           isActive ? "active" : ""
         }`}
       >
         {children}
       </Link>
       <div
-        className={`bg-mintColor w-full h-[3px] rounded-xl transform transition-transform duration-500 ${
+        className={`bg-buttonColor w-full h-[3px] rounded-xl transform transition-transform duration-500 ${
           isActive ? "scale-x-100" : "scale-x-0"
         }`}
       ></div>
