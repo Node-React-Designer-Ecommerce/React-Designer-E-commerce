@@ -8,7 +8,6 @@ export default {
         lightBackGround: "#F5F5F5",
         purpleColor: "#DC8DEA",
         mintColor: "#73C3A0",
-        SecondaryColor: "#4e7f62",
         "custom-bg": "rgb(104 42 34)",
       },
       screens: {

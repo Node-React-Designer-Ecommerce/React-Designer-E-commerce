@@ -25,7 +25,7 @@ export default function AboutUs() {
       {/* Other sections can go here */}
       <div
         style={{ width: "600px" }}
-        className="bg-lightBackGround  h-72 rounded my-10 mx-auto p-10 rounded text-lg"
+        className="bg-lightBackGround  h-72 rounded my-10 mx-auto p-10  text-lg"
       >
         At Samm, we believe in the power of personal expression. Our journey
         began with a simple idea: everyone should have the opportunity to wear

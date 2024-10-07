@@ -15,7 +15,7 @@ function MiniSection() {
     <div className="flex  font-serif flex-wrap justify-start sm:justify-center p-3 items-center w-full py-10 space-y-4 md:space-y-0">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
         <div className="flex items-center w-full md:w-auto">
-          <div className="bg-SecondaryColor text-white w-16 h-16  rounded-r-3xl relative">
+          <div className="  text-white w-16 h-16  rounded-r-3xl relative" style={{ background: 'linear-gradient(#73C3A0, #DC8DEA)' }}>
             <CarIcon></CarIcon>
           </div>
           <div className="pl-5">
@@ -38,7 +38,7 @@ function MiniSection() {
         </div>
 
         <div className="flex items-center w-full md:w-auto">
-          <div className="bg-SecondaryColor w-16 h-16 p-4 rounded-r-3xl relative">
+          <div className=" w-16 h-16 p-4 rounded-r-3xl relative" style={{ background: 'linear-gradient(#73C3A0, #DC8DEA)' }}>
             <LikeIcon></LikeIcon>
           </div>
           <div className="pl-4">

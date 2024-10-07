@@ -25,7 +25,7 @@ function Footer() {
         </div>
 
         <div>
-          <h3 className="font-bold text-gray-900">Company Info</h3>
+          <h3 className="font-bold text-purpleColor">Company Info</h3>
           <ul className="mt-4 space-y-2">
             <li>
               <a href="#" className="hover:underline">
@@ -51,7 +51,7 @@ function Footer() {
         </div>
 
         <div>
-          <h3 className="font-bold text-gray-900">Legal</h3>
+          <h3 className="font-bold text-purpleColor">Legal</h3>
           <ul className="mt-4 space-y-2">
             <li>
               <a href="#" className="hover:underline">
@@ -77,7 +77,7 @@ function Footer() {
         </div>
 
         <div>
-          <h3 className="font-bold text-gray-900">Features</h3>
+          <h3 className="font-bold text-purpleColor">Features</h3>
           <ul className="mt-4 space-y-2">
             <li>
               <a href="#" className="hover:underline">
@@ -103,14 +103,19 @@ function Footer() {
         </div>
 
         <div>
-          <h3 className="font-bold text-gray-900">Get In Touch</h3>
+          <h3 className="font-bold text-purpleColor">Get In Touch</h3>
           <form className="mt-4">
             <input
               type="email"
               placeholder="Your Email"
               className="input rounded input-bordered w-full mb-4"
             />
-            <button className="btn rounded bg-mintColor text-white hover:text-black w-full">
+            <button
+              className="btn rounded  text-white hover:text-black w-full"
+              style={{
+                background: "linear-gradient(to right, #73C3A0, #DC8DEA",
+              }}
+            >
               Subscribe
             </button>
           </form>
@@ -119,8 +124,14 @@ function Footer() {
 
       <div className="text-center py-6 border-t mt-6">
         <p className="text-sm">
-          Made With Love By WAK WAAK WAAAAK Team{" "}
-          <span className="text-3xl">🦆</span>
+          Made With Love By{" "}
+          <Link
+            to={"/AboutUs"}
+            className="text-purpleColor hover:cursor-pointer"
+          >
+            WAK WAAK WAAAAK
+          </Link>
+          Team <span className="text-3xl">🦆</span>
         </p>
       </div>
     </footer>
