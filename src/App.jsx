@@ -27,6 +27,8 @@ import UserProfile from "./pages/UserProfile";
 import { UserProvider } from "./context/UserContext";
 import AboutUs from "./pages/AboutUs";
 import DesignerDetails from "./pages/DesignerDetails";
+import Test from "./pages/Test";
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -94,6 +96,10 @@ function App() {
                                 element={<Designer />}
                               />
                               <Route
+                                path="/test"
+                                element={<Test/>}
+                              />
+                              <Route
                                 path="/product-details/:id"
                                 element={<ProductDetails />}
                               />
@@ -137,6 +143,8 @@ function App() {
                                   </ProtectedRoute>
                                 }
                               />
+                  
+
                               <Route
                                 path="/reset-password/:token"
                                 element={
@@ -149,6 +157,7 @@ function App() {
                             </Routes>
                             <Footer />
                           </>
+
                         }
                       />
                     </Routes>
