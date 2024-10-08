@@ -51,7 +51,7 @@ export default function ProductDetails() {
 
   if (isLoading) {
     return (
-      <div className="h-screen text-SecondaryColor flex justify-center align-middle">
+      <div className="h-screen text-hoverButton flex justify-center align-middle">
         <span className="loading loading-ball loading-xs"></span>
         <span className="loading loading-ball loading-sm"></span>
         <span className="loading loading-ball loading-md"></span>
@@ -124,13 +124,13 @@ export default function ProductDetails() {
           </div>
           <Rating />
 
-          <p className="text-mintColor text-2xl font-bold">${product.price}</p>
+          <p className="text-buttonColor text-2xl font-bold">${product.price}</p>
           <p className="py-4">{product.description}</p>
           <div>
             <div className="flex justify-between">
               <div className="flex gap-3">
                 <button
-                  className="font-bold underline"
+                  className="font-bold text-lg underline"
                   onClick={() =>
                     document.getElementById("my_modal_5").showModal()
                   }
@@ -169,7 +169,7 @@ export default function ProductDetails() {
               {isLoggedIn ? (
                 <button
                   onClick={() => addToCartHandler(product._id)}
-                  className="bg-mintColor transition duration-700 ease-in-out rounded w-full text-white py-2 px-14 "
+                  className="bg-buttonColor hover:bg-hoverButton transition duration-700 rounded w-full text-white py-2 px-14 "
                   disabled={isAdding}
                 >
                   {isAdding ? (
