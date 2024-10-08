@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect, useMemo, useContext } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import Filter from "../components/Filter";
 import Skelton from "../layouts/Skelton";
 import Paginationn from "../components/Paginationn";
 import HeartIcon from "../icons/HeartIcon";
 import HeardFilledIcon from "../icons/HeardFilledIcon";
-import SearchIcon from "./../icons/SearchIcon";
 import NoData from "./../components/NoData";
 import { useProducts } from "./../context/ProductsContext";
 import { useToggleFavorite } from "../hooks/useToggleFavorite";
@@ -113,17 +111,17 @@ export default function ProductsPage() {
                         <h2 className="text-[17px] font-bold uppercase">
                           {product.name}
                         </h2>
-                        <p className="text-xl font-bold text-mintColor">
+                        <p className="text-xl font-bold text-buttonColor ">
                           ${product.price}
                         </p>
                       </div>
-                      <p className="text-gray-500 py-2 capitalize text-nowrap truncate">
+                      <p className="text-gray-500 py-2 text-start capitalize text-nowrap truncate">
                         {product.description}
                       </p>
                       <div className="flex justify-center pt-1 w-full">
                         <Link
                           to={`/product-details/${product._id}`}
-                          className="btn w-full rounded text-white bg-mintColor text-lg flex items-center"
+                          className="btn w-full rounded text-white bg-buttonColor transition duration-700 hover:bg-hoverButton text-lg flex items-center"
                         >
                           See Details
                         </Link>
@@ -141,59 +139,31 @@ export default function ProductsPage() {
 
   return (
     <div className="w-full font-sans relative ">
-      <div className="relative flex flex-col lg:text-2xl items-center tracking-wide">
-        <div className="w-full sticky top-0 z-20">
-          <div className="bg-slate-700 opacity-25 w-full h-96 absolute"></div>
+      <div className=" flex flex-col lg:text-2xl items-center tracking-wide">
+        <div className="w-full grid grid-cols-4">
           <img
-            src="products-page.jpg"
+            src="productscover.png"
             alt="product page header image"
-            className="h-96 w-full object-cover "
+            className="h-60 sm:h-auto col-span-2"
           />
-          <div className="absolute right-7 top-28 sm:right-16 lg:top-16 lg:right-40 leading-loose">
-            <p className="font-bold  text-white sm:text-gray-700">
-              Featured Products
+          <div  className="py-10  col-span-2 flex flex-col justify-end">
+            <p className="font-bold text-textColor md:text-4xl py-3">
+              New Collection
             </p>
-            <p className="font-bold text-white sm:text-black uppercase">
-              BestSeller Products
+            <p className=" text-textColor text-xs md:text-base opacity-90 pb-3 md:pb-7 md:px-10 uppercase">
+              Choose Your own style
             </p>
-            <p className="lg:text-lg text-white sm:text-gray-700">
+            <p className="lg:text-lg text-xs md:px-16 sm:text-gray-700">
               Simplicity is the keynote of all true elegance
             </p>
             {/* Search */}
             <input
               type="text"
-              placeholder="    Search here .."
+              placeholder="  Search products here .."
               value={localSearch}
               onChange={handleLocalSearch}
-              className="input input-bordered rounded-3xl my-20 input-sm md:input-md w-full max-w-xs text-black"
+              className="input input-bordered md:ms-28 rounded-3xl mt-4 lg:mt-20 lg:mb-10 input-sm md:input-md w-full max-w-xs text-black"
             />
-          </div>
-        </div>
-      </div>
-      <div className="sticky  top-28 z-50 mt-3 hidden">
-        <div className="drawer flex justify-start px-5">
-          <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content flex justify-center">
-            <div className="group">
-              <label
-                htmlFor="my-drawer"
-                className="text-2xl cursor-pointer font-bold bg-SecondaryColor
-                                                                  text-white flex items-center gap-3 py-2 px-5 rounded-lg "
-              >
-                Filters here <SearchIcon />
-              </label>
-            </div>
-          </div>
-          <div className="drawer-side z-10 pt-20">
-            <label
-              htmlFor="my-drawer"
-              aria-label="close sidebar"
-              className="drawer-overlay"
-            ></label>
-            <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-              {/* Sidebar content here */}
-              <Filter className="pt-10" />
-            </ul>
           </div>
         </div>
       </div>
