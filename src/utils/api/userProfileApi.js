@@ -64,3 +64,15 @@ export const fetchUserDesigns = async () => {
     throw error;
   }
 };
+
+export const removeFromFavorites = async (productId) => {
+  try {
+    console.log("Removing product from favorites...");
+    const response = await axiosInstance.post(`/favorite/${productId}`);
+    console.log("Removed product from favorites:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error removing product from favorites:", error);
+    throw error;
+  }
+};

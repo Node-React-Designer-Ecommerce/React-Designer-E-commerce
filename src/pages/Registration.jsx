@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom"; // Assuming you are using 
 import axios from "axios";
 
 // Icons
-import ErrorIcon from "../icons/ErrorIcon";
 import Eye from "./../icons/Eye";
 import EyeSlash from "./../icons/EyeSlash";
 
@@ -60,11 +59,11 @@ export default function App() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2  max-w-4xl mx-auto border m-9 rounded-3xl p-5 shadow-[0px_0px_19px_16px_#f4eeee]">
       {/* Image Section */}
-      <div className="md:order-1 flex justify-center items-center  rounded-3xl bg-SecondaryColor">
+      <div className="md:order-1 flex justify-center items-center  rounded-3xl">
         <img
           src="/register.jpg"
           alt="Sign Up"
-          className="w-4/5 h-4/5 object-cover rounded-3xl"
+          className="h-4/5 object-cover rounded-3xl"
         />
       </div>
 
@@ -74,7 +73,7 @@ export default function App() {
         className="md:order-2 p-5 rounded-3xl"
       >
         <div>
-          <h1 className="text-center sm:text-start text-3xl pb-6 text-SecondaryColor font-bold">
+          <h1 className="text-center text-3xl pb-6 text-SecondaryColor font-bold">
             Create Account
           </h1>
         </div>
@@ -101,7 +100,6 @@ export default function App() {
               } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
               placeholder="Enter name"
             />
-            {errors.name && <ErrorIcon />}
           </div>
           {errors.name?.type === "required" && (
             <span className="text-red-500">Name is required</span>
@@ -139,7 +137,6 @@ export default function App() {
               } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
               placeholder="Enter email"
             />
-            {errors.email && <ErrorIcon />}
           </div>
           {errors.email?.type === "required" && (
             <span className="text-red-500">Email is required</span>
@@ -180,7 +177,6 @@ export default function App() {
             ) : (
               <Eye onClick={() => setShowPassword(true)} />
             )}
-            {errors.password && <ErrorIcon />}
           </div>
           {errors.password?.type === "required" && (
             <span className="text-red-500">Password is required</span>
@@ -231,7 +227,6 @@ export default function App() {
             ) : (
               <Eye onClick={() => setShowConfirmPassword(true)} />
             )}
-            {errors.passwordConfirm && <ErrorIcon />}
           </div>
           {errors.passwordConfirm?.type === "required" && (
             <span className="text-red-500">Please confirm your password</span>
@@ -263,7 +258,6 @@ export default function App() {
               } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
               placeholder="Enter address"
             />
-            {errors.address && <ErrorIcon />}
           </div>
           {errors.address?.type === "required" && (
             <span className="text-red-500">Address is required</span>
@@ -291,7 +285,7 @@ export default function App() {
             "Register"
           )}
         </button>
-        <p className="text-center">
+        <p className="text-center mt-3">
           Already have account?{" "}
           <Link to="/login" className="font-bold text-SecondaryColor">
             Login Now

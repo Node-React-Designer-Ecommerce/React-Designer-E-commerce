@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 //contexts
 import AuthContext from "../context/AuthContext";
@@ -16,26 +16,62 @@ import CartIcon from "../icons/CartIcon";
 export default function Navbar() {
   const { isLoggedIn, logout } = useContext(AuthContext);
   const { userProfile, isLoading } = useContext(UserContext);
-  const { totalQuantity, totalPrice } = useCart();
+  const { totalQuantity } = useCart();
   const navigate = useNavigate();
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div className="navbar bg-base-100 sticky top-0 z-50 border bottom-1 flex justify-between">
-      <div className="ms-10">
+      <div className="">
         <Link to="/" className="">
           <img src="/logo2.png" width={90} alt="logo" />
         </Link>
       </div>
 
-      <div className="flex space-x-4">
+      {/* Burger Icon for Small Screens */}
+      <div className="md:hidden">
+        <button onClick={toggleMenu} className="btn btn-ghost btn-circle">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* Navigation Links */}
+      <div className="hidden md:flex space-x-4">
         <CustomLink to="/">Home</CustomLink>
         <CustomLink to="/products">Products</CustomLink>
         <CustomLink to="/customize">Customize</CustomLink>
+      </div>
+
+      {/* Mobile Navigation Links */}
+      <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden`}>
+        <div className="absolute top-16 left-0 bg-white w-full shadow-lg">
+          <CustomLink to="/" className="block px-4 py-2 text-SecondaryColor">Home</CustomLink>
+          <CustomLink to="/products" className="block px-4 py-2 text-SecondaryColor">Products</CustomLink>
+          <CustomLink to="/customize" className="block px-4 py-2 text-SecondaryColor">Customize</CustomLink>
+        </div>
       </div>
 
       <div className="">
@@ -43,11 +79,13 @@ export default function Navbar() {
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
               <div className="indicator">
-                <CartIcon />
+                <Link  to="/cart" >
+                  <CartIcon />
+                </Link>
                 <span className="badge badge-sm indicator-item">{totalQuantity}</span>
               </div>
             </div>
-            <div
+            {/* <div
               tabIndex={0}
               className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
             >
@@ -63,7 +101,7 @@ export default function Navbar() {
                   </Link>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         )}
         <div className="dropdown dropdown-end">
@@ -94,12 +132,12 @@ export default function Navbar() {
           >
             <li className="">
               {isLoggedIn && (
-                <a
-                  href="/user-profile"
+                <Link
+                  to="/user-profile"
                   className="px-5 py-1 text-SecondaryColor text-xl  hover:transition-all"
                 >
                   Profile
-                </a>
+                </Link>
               )}
             </li>
             <li className="">

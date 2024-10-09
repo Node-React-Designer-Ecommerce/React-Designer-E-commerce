@@ -5,7 +5,9 @@ import {
   fetchUserOrders,
   fetchFavoriteProducts,
   fetchUserDesigns,
+  removeFromFavorites as apiRemoveFromFavorites, // Import the API function
 } from "./../utils/api/userProfileApi";
+
 import PropTypes from "prop-types";
 import AuthContext from "./AuthContext";
 
@@ -69,6 +71,16 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const removeFromFavorites = async (productId) => {
+    try {
+      await apiRemoveFromFavorites(productId); // Call the API function to remove the product
+      const updatedFavorites = favoriteProducts.filter(product => product._id !== productId);
+      setFavoriteProducts(updatedFavorites);
+    } catch (error) {
+      setError(`Error removing favorite product: ${error.message}`);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -83,6 +95,7 @@ export const UserProvider = ({ children }) => {
         handleSaveProfile,
         setUserProfile,
         fetchData,
+        removeFromFavorites, // Add the removeFromFavorites function to the context value
       }}
     >
       {children}
