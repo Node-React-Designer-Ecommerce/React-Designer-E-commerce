@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const EyeSlash = ({ onClick }) => (
     <button
         type="button"
-        className="w-2/12 absolute inset-y-0 right-5 px-3 flex flex-row items-center justify-end"
+        className="w-2/12 absolute inset-y-0 right-0 px-3 flex flex-row items-center justify-end"
 
         onClick={onClick}
     >

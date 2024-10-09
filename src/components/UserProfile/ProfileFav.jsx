@@ -2,42 +2,61 @@ import { useContext } from "react";
 import UserContext from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import Skelton from "../../layouts/Skelton";
+import DeleteIcon from "../../icons/DeleteIcon"; // Assuming you have a DeleteIcon component
 
 export default function ProfileFav() {
-    const { favoriteProducts } = useContext(UserContext);
+    const { favoriteProducts, removeFromFavorites } = useContext(UserContext);
 
     if (!favoriteProducts) {
         return <Skelton />;
     }
 
     return (
-        <div className="col-span-2">
-            <div className="card h-full bg-SecondaryColor text-white shadow-md rounded-lg p-4">
-                <div className="card-body">
-                    <h6 className="flex items-center mb-3 text-xl font-bold">
-                        My Favorites
-                    </h6>
-                    {favoriteProducts && favoriteProducts.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {favoriteProducts.map((product) => (
-                                <div key={product._id} className="card bg-base-100 shadow-xl">
-                                    <div className="card-body py-3 flex flex-row justify-between">
-                                        <h2 className="card-title text-xl text-black">{product.name}</h2>
-                                        <Link to={`/product-details/${product._id}`} className="btn btn-sm text-white btn-success mt-2">
-                                            View Details
-                                        </Link>
+        <div className="flex justify-center p-3 mx-5">
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-10">
+                        {favoriteProducts.length === 0 ? (
+                            <div className="w-full flex justify-center items-center col-span-3">
+                                <img src="/noFav.png" className="w-1/4" alt="No Favorites" />
+                            </div>
+                        ) : (
+                            favoriteProducts.map((product) => (
+                                <div
+                                    key={product._id}
+                                    className="rounded-lg bg-base-100 shadow-xl w-full sm:w-80 "
+                                >
+                                    <figure className="relative pt-5">
+                                        <div
+                                            className="bg-red-500 text-white rounded-3xl w-11 absolute top-9 start-4 h-11 flex justify-center items-center cursor-pointer"
+                                            onClick={() => removeFromFavorites(product._id)}
+                                        >
+                                            <DeleteIcon />
+                                        </div>
+                                        <img
+                                            src={product.image}
+                                            alt="Shoes"
+                                            className="rounded-2xl p-2.5 h-[349px] w-full object-fit"
+                                        />
+                                    </figure>
+                                    <div className="p-4 items-center gap-1 text-center">
+                                        <div className="flex justify-between">
+                                            <h2 className="text-[17px] font-bold uppercase">{product.name}</h2>
+                                            <p className="text-xl font-bold text-mintColor">${product.price}</p>
+                                        </div>
+                                        <p className="text-gray-500 py-2 capitalize text-nowrap truncate">{product.description}</p>
+                                        <div className="flex justify-center pt-1 w-full">
+                                            <Link
+                                                to={`/product-details/${product._id}`}
+                                                className="btn w-full rounded text-white bg-mintColor hover:bg-purpleColor text-lg flex items-center">
+                                                See Details
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    ) : (
+                            ))
+                        )}
+                    </div>
 
-                        <div className="flex justify-center">
-                            <img src="/noFav.png" className="w-1/4" alt="" />
-                        </div>
-                    )}
-                </div>
-            </div>
         </div>
     );
 }
