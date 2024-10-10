@@ -2,6 +2,7 @@ import axiosInstance from "./axiosInstance";
 
 export const saveCanvasToBackend = async (formData) => {
   try {
+    console.log(formData);
     const response = await axiosInstance.post("/designs", formData);
 
     // Check if the response is as expected
@@ -15,9 +16,13 @@ export const saveCanvasToBackend = async (formData) => {
   }
 };
 
-export const updateCanvasToBackend = async (formData) => {
+export const updateCanvasToBackend = async (designId, formData) => {
   try {
-    const response = await axiosInstance.patch("/designs", formData);
+    console.log(formData);
+    const response = await axiosInstance.patch(
+      `/designs/${designId}`,
+      formData
+    );
 
     // Log the full response for debugging
     console.log("Full response:", response);

@@ -84,7 +84,7 @@ export default function ProfileInformation() {
                         <div className="flex justify-end">
                             {isEditing ? (
                                 <button
-                                    className="btn bg-SecondaryColor text-white hover:bg-success"
+                                    className="btn bg-buttonColor hover:bg-hoverButton text-white"
                                     onClick={handleSaveClick}
                                     disabled={isSaving}
                                 >
@@ -95,7 +95,7 @@ export default function ProfileInformation() {
                                     )}
                                 </button>
                             ) : (
-                                <button className="btn bg-SecondaryColor text-white hover:bg-success" onClick={handleEditProfile}>
+                                <button className="btn bg-buttonColor hover:bg-hoverButton text-white" onClick={handleEditProfile}>
                                     Edit
                                 </button>
                             )}

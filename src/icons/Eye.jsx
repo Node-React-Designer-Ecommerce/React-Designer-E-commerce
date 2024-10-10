@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const Eye = ({ onClick }) => (
     <button
         type="button"
-        className="w-2/12 absolute inset-y-0 right-5 px-3 flex flex-row items-center justify-end"
+        className="w-2/12 absolute inset-y-0 right-0 px-3 flex flex-row items-center justify-end"
         onClick={onClick}
     >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 h-5 w-5 text-SecondaryColor">

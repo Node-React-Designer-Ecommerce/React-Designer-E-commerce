@@ -1,8 +1,6 @@
 import ProfileCard from "../components/UserProfile/ProfileCard";
-import ProfileDesigns from "../components/UserProfile/ProfileDesigns";
-import ProfileFav from "../components/UserProfile/ProfileFav";
 import ProfileInformation from "../components/UserProfile/ProfileInformation";
-import ProfileOrders from "../components/UserProfile/ProfileOrders";
+import UserTabs from "../components/UserProfile/UserTabs";
 
 const UserProfile = () => {
   return (
@@ -20,10 +18,8 @@ const UserProfile = () => {
           </div>
         </div>
         {/* Profile Orders and Favorites */}
+        <UserTabs/>
         <div className="flex flex-col gap-3">
-          <ProfileOrders />
-          <ProfileFav />
-          <ProfileDesigns />
         </div>
       </div>
     </div>

@@ -1,23 +1,13 @@
 import axiosInstance from "./axiosInstance";
 
-
-
 export const getAllProducts = async () => {
   const response = await axiosInstance.get(`/products`);
   return response.data.data.products;
 };
 
-// export const getProductsByPage = async (page, search = "") => {
-//   const res = await axiosInstance.get(
-//     `/products?page=${page}&search=${search}`
-//   );
-//   return res.data.data.products;
-// };
-
-export const getProductsByPage = async (page, search = "") => {
-  const res = await axiosInstance.get(
-    `/products?page=${page}&search=${search}`
-  );
+export const getProductsByPage = async (page, search = "", priceRange = [0, 1000], category = "") => {
+  const url = `/products?page=${page}&search=${search}&price[gte]=${priceRange[0]}&price[lte]=${priceRange[1]}${category ? `&category=${category}` : ""}`;
+  const res = await axiosInstance.get(url);
   return {
     products: res.data.data.products,
     pagination: res.data.data.pagination,
@@ -39,6 +29,7 @@ export const getIsDesignableProduct = async () => {
     throw error; // Rethrow error for handling in your component
   }
 };
+
 export const getIsDesignableProductById = async (id) => {
   try {
     const res = await axiosInstance.get(`/products/designable-products/${id}`);
@@ -48,4 +39,9 @@ export const getIsDesignableProductById = async (id) => {
     console.error("Error fetching designable products:", error);
     throw error; // Rethrow error for handling in your component
   }
+};
+
+export const getCategories = async () => {
+  const response = await axiosInstance.get(`/categories`);
+  return response.data.data.categories;
 };

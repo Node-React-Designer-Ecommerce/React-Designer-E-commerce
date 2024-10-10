@@ -4,13 +4,13 @@ export default function AboutUs() {
   return (
     <div>
       <div>
-        <img src="/public/aboutus.png" alt="hero" />
+        <img src="/aboutus.png" alt="hero" />
       </div>
       <div className="text-center text-4xl my-8 font-bold ">
         <div className="text-textColor">Who Are We ?</div>
         <div
-          className="text-xl mx-auto font-normal mt-5"
-          style={{ width: "1000px" }}
+          className="text-xl mx-auto font-normal mt-5  max-w-screen-md px-4 md:px-0"
+          //style={{ width: "1000px" }}
         >
           At Samm, we believe in the power of personal expression. Our journey
           began with a simple idea: everyone should have the opportunity to wear
@@ -24,8 +24,8 @@ export default function AboutUs() {
       <div className="text-center text-4xl my-8 font-bold bg-lightBackGround p-10 ">
         <div className="text-textColor">Our Mission</div>
         <div
-          className="text-xl mx-auto font-normal mt-5"
-          style={{ width: "1000px" }}
+          className="text-xl mx-auto font-normal mt-5 max-w-screen-md px-4 md:px-0"
+          //style={{ width: "1000px" }}
         >
           Our mission is to provide high-quality clothing that you can
           personalize, empowering you to express yourself in your way.
@@ -34,8 +34,8 @@ export default function AboutUs() {
 
       <div className="text-center text-4xl my-8   p-10 ">
         <div className="text-textColor mb-5 font-bold">Our Values</div>
-        <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ms-20 ">
-          <div className=" w-80  card card-side bg-base-100 shadow-xl    flex flex-col ">
+        <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 ">
+          <div className=" w-full md:w-auto  card card-side bg-base-100 shadow-xl    flex flex-col ">
             <div className="card-body  flex flex-col  items-center">
               <h2 className="card-title text-xl sm:text-2xl text-textColor">
                 Quality
@@ -48,7 +48,7 @@ export default function AboutUs() {
             </div>
           </div>
 
-          <div className="w-80  card card-side bg-base-100 shadow-xl   flex flex-col ">
+          <div className="w-full md:w-auto  card card-side bg-base-100 shadow-xl   flex flex-col ">
             <div className="card-body  flex flex-col  items-center">
               <h2 className="card-title text-xl sm:text-2xl text-textColor font-bold">
                 Sustainability
@@ -59,7 +59,7 @@ export default function AboutUs() {
               </p>
             </div>
           </div>
-          <div className="w-80  card card-side bg-base-100 shadow-xl   flex flex-col ">
+          <div className="w-full md:w-auto card card-side bg-base-100 shadow-xl   flex flex-col ">
             <div className="card-body  flex flex-col  items-center">
               <h2 className="card-title text-xl sm:text-2xl text-textColor font-bold">
                 Customer-Centered
