@@ -39,7 +39,7 @@ export default function Navbar() {
       </div>
 
       {/* Burger Icon for Small Screens */}
-      <div className="md:hidden">
+      <div className="md:hidden text-textColor absolute left-24">
         <button onClick={toggleMenu} className="btn btn-ghost btn-circle">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation Links */}
       <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden`}>
-        <div className="absolute top-16 left-0 bg-white w-full shadow-lg">
+        <div className="absolute top-16 left-0 bg-white w-full shadow-lg p-3">
           <CustomLink to="/" className="block px-4 py-2 text-textColor">Home</CustomLink>
           <CustomLink to="/products" className="block px-4 py-2 text-textColor">Products</CustomLink>
           <CustomLink to="/customize" className="block px-4 py-2 text-textColor">Customize</CustomLink>
