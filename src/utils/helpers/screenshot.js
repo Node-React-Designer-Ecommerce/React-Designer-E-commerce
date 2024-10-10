@@ -33,10 +33,10 @@ export const takeScreenShotFunc = async (
     console.log("Image is:", image); // Optional: Log the image URL for debugging
 
     // Create a temporary link element to trigger the download
-    const a = document.createElement("a");
-    a.href = image; // Set the image as the link's href (the download URL)
-    a.download = fileName; // Set the desired filename for the download
-    a.click(); // Simulate a click to start the download
+    // const a = document.createElement("a");
+    // a.href = image; // Set the image as the link's href (the download URL)
+    // a.download = fileName; // Set the desired filename for the download
+    // a.click(); // Simulate a click to start the download
     allCanvas.forEach((el) => {
       el.style.border = "1px dashed gray";
     });

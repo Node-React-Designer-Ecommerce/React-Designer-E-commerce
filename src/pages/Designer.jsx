@@ -19,7 +19,6 @@ import {
   updateTextProps,
 } from "../utils/helpers/canvasTools.js";
 import { getIsDesignableProductById } from "../utils/api/productsapi.js";
-import { useQuery } from "@tanstack/react-query";
 import {
   getdesignById,
   saveCanvasToBackend,
@@ -114,8 +113,6 @@ export default function Designer() {
     })
   );
 
-  console.log(product);
-
   //screenshot capture//////////////////////////////////////////////////////////////////////
   const handleCaptureScreenShot = async () => {
     try {
@@ -124,35 +121,6 @@ export default function Designer() {
     } catch (error) {
       console.log("screenshoterror", error);
       return null;
-    }
-  };
-
-  ////////////@@@@@@@@@@
-  const loadSavedDesign = async (designId) => {
-    try {
-      // Fetch the saved design from your backend
-      const design = await getdesignById(designId);
-      //const design = await response.json();
-
-      console.log(design);
-
-      setSavedCanvas(design.canvas);
-      // FIXME:
-      // setIsEditMode(true);
-
-      // Load the background image
-      // setBackgroundImage(design.productImage);
-
-      // Load the canvas JSON
-      loadFromJSON(fabricCanvas.current, design.canvas);
-
-      // Set other properties
-      setName(design.name);
-      setPrice(design.price);
-      setCanvasWidth(design.canvasWidth);
-      setCanvasHeight(design.canvasHeight);
-    } catch (error) {
-      console.error("Error loading saved design:", error);
     }
   };
 
@@ -221,7 +189,6 @@ export default function Designer() {
     };
   }, [product, id, canvasHeight, canvasWidth]); // Only re-run this effect if textProps changes
 
-  ///////////////////////////////////////////////////////////////finish///////////////////////////////////////
   // add text
   const handleAddText = () => {
     addText(fabricCanvas.current, textProps);
@@ -237,11 +204,11 @@ export default function Designer() {
     try {
       const canvasJSON = saveAsJSON(fabricCanvas.current);
       setSavedCanvas(canvasJSON);
-      console.log("Canvas JSON:", canvasJSON);
+      // console.log("Canvas JSON:", canvasJSON);
 
       // Get the image data
       const imageOfDesign = await handleCaptureScreenShot();
-      console.log("screenshot", imageOfDesign);
+      // console.log("screenshot", imageOfDesign);
 
       const basePrice = product.price; // Assuming you have a product object with a price
       const totalPrice = calculateTotalPrice(basePrice, fabricCanvas.current);
@@ -252,7 +219,7 @@ export default function Designer() {
 
       // Create a File object
       const imageFile = new File([blob], "design.jpg", { type: "image/jpeg" });
-      console.log(imageFile.name);
+      // console.log(imageFile.name);
 
       // Create FormData object
       const formData = new FormData();
@@ -272,29 +239,32 @@ export default function Designer() {
       }
 
       // Make the API call to save the design
+      // const params = new URLSearchParams(window.location.search);
+      // const designId = params.get("edit");
+      // if (designId) {
+      //   const saveResponse = await updateCanvasToBackend(designId, formData);
+      //   toast.success("Your Design updated successfully");
+      //   console.log("Canvas updated successfully:", saveResponse);
+      //   return saveResponse;
+      // } else {
+      //   const saveResponse = await saveCanvasToBackend(formData);
+      //   toast.success("Your Design saved successfully");
+      //   console.log("Canvas saved successfully:", saveResponse);
+      //   // Add the designId to the URL
+      //   const newDesignId = saveResponse.data.design._id;
+      //   console.log(newDesignId);
+      //   const currentUrl = new URL(window.location.href);
+      //   currentUrl.searchParams.set("edit", newDesignId);
+      //   window.history.pushState({}, "", currentUrl.toString());
+
+      //   return saveResponse;
+      // }
       const saveResponse = await saveCanvasToBackend(formData);
       toast.success("Your Design saved successfully");
       console.log("Canvas saved successfully:", saveResponse);
-      // FIXME:
-      // setIsEditing(true);
-      return saveResponse;
     } catch (error) {
       console.error("Error saving canvas:", error);
     }
-  };
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // load from json
-  const handleLoadFromJSON = () =>
-    loadFromJSON(fabricCanvas.current, savedCanvas);
-
-  const handleSaveButton = async () => {
-    // FIXME: handle saving modes
-    // if (isEditing) {
-    //   await handleLoadFromJSON(); // Load JSON if in edit mode
-    // } else {
-    //   await handleSaveDesign(); // Save as JSON if not in edit mode
-    // }
   };
 
   //reset canva
@@ -325,7 +295,6 @@ export default function Designer() {
       type: "Design",
     };
     try {
-      // setIsAdding(true);
       const response = await addToCart(cartItem);
       if (response.status === "Not-Modified") {
         toast.warn(response.message);
@@ -337,11 +306,6 @@ export default function Designer() {
       setIsAdding(false);
       toast.error(`${error.message}`);
     }
-  };
-
-  const handleSaveDesignJson = () => {
-    const canvasJSON = saveAsJSON(fabricCanvas.current);
-    setSavedCanvas(canvasJSON);
   };
 
   return (
@@ -579,14 +543,10 @@ export default function Designer() {
                 Login to Add to Cart
               </button>
             )}
-            *<button onClick={handleLoadFromJSON}>load from json</button>
-            <button onClick={handleResetCanva}>reset canvas</button>
-            <button onClick={handleSaveDesignJson}>save design as json</button>
-            {/* Button to save canvas as JSON */}
             <button
               style={{ borderColor: "#4e7f62" }}
               className=" bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
-              onClick={handleSaveButton}
+              onClick={handleSaveDesign} // FIXME:
             >
               {/* {isEditing ? "Saved" : "Save Design"} */}
               Save Design
