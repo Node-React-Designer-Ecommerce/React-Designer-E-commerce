@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useRef, useEffect, useState, useContext } from "react";
 import { fabric } from "fabric";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
 import SizeCharts from "../components/Charts/SizeCharts";
 import XIcon from "../icons/XIcon";

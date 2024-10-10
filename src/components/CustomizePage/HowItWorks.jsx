@@ -13,9 +13,9 @@ export default function HowItWorks() {
             backgroundImage: "url('/public/Curve.png')",
             backgroundRepeat: "no-repeat",
           }}
-          className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ms-20 "
+          className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 "
         >
-          <div className=" w-80  card card-side bg-base-100 shadow-xl    flex flex-col ">
+          <div className=" w-72 md:w-auto card card-side bg-base-100 shadow-xl    flex flex-col ">
             <div className="mx-auto bg-textColor text-white text-4xl p-3 mt-3 rounded">
               1
             </div>
@@ -27,7 +27,7 @@ export default function HowItWorks() {
             </div>
           </div>
 
-          <div className="w-80  card card-side bg-base-100 shadow-xl   flex flex-col ">
+          <div className="w-72 md:w-auto card card-side bg-base-100 shadow-xl   flex flex-col ">
             <div className="mx-auto bg-textColor text-white text-4xl p-3 mt-3 rounded">
               2
             </div>
@@ -39,7 +39,7 @@ export default function HowItWorks() {
               </p>
             </div>
           </div>
-          <div className="w-80  card card-side bg-base-100 shadow-xl   flex flex-col ">
+          <div className="w-72 md:w-auto card card-side bg-base-100 shadow-xl   flex flex-col ">
             <div className="mx-auto bg-textColor text-white text-4xl p-3 mt-3 rounded">
               3
             </div>
