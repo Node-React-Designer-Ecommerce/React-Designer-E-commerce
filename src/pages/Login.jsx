@@ -85,7 +85,7 @@ export default function Login() {
         className="md:order-2 p-5 rounded-3xl flex flex-col justify-evenly"
       >
         <div>
-          <h1 className="text-center  text-3xl pb-6 text-SecondaryColor font-bold">
+          <h1 className="text-center  text-3xl pb-6 text-textColor font-bold">
             Log In
           </h1>
         </div>
@@ -95,7 +95,7 @@ export default function Login() {
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-SecondaryColor"
+              className="block text-sm font-medium text-textColor"
             >
               Email address
             </label>
@@ -108,7 +108,7 @@ export default function Login() {
                 type="email"
                 id="email"
                 className={`mt-1 block w-full px-3 py-2 border-b ${errors.email ? "border-b-red-500" : "border-b-gray-300"
-                  } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
+                  } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-textColor`}
                 placeholder="Enter email"
               />
             </div>
@@ -127,7 +127,7 @@ export default function Login() {
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-SecondaryColor"
+              className="block text-sm font-medium text-textColor"
             >
               Password
             </label>
@@ -142,7 +142,7 @@ export default function Login() {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 className={`mt-1 block w-full px-3 py-2 border-b ${errors.password ? "border-b-red-500" : "border-b-gray-300"
-                  } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
+                  } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-textColor`}
                 placeholder="Password"
               />
               {showPassword ? (
@@ -178,7 +178,7 @@ export default function Login() {
           <p className="text-end ">
             <Link
               to="/forget-password"
-              className="font-bold text-SecondaryColor"
+              className="font-bold text-textColor"
             >
               Forget Password
             </Link>
@@ -187,7 +187,7 @@ export default function Login() {
           {/* is loading button */}
           <button
             type="submit"
-            className="w-full mt-3 flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-sm font-bold text-white bg-SecondaryColor hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-SecondaryColor"
+            className="w-full mt-3 flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-sm font-bold text-white bg-buttonColor hover:bg-hoverButton hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hoverButton"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -199,7 +199,7 @@ export default function Login() {
 
           <p className="text-center mt-5">
             {`Don't have an account?`}{" "}
-            <Link to="/sign-up" className="font-bold text-SecondaryColor">
+            <Link to="/sign-up" className="font-bold text-textColor">
               Signup
             </Link>
           </p>

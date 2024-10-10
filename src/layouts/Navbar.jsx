@@ -69,9 +69,9 @@ export default function Navbar() {
       {/* Mobile Navigation Links */}
       <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden`}>
         <div className="absolute top-16 left-0 bg-white w-full shadow-lg">
-          <CustomLink to="/" className="block px-4 py-2 text-SecondaryColor">Home</CustomLink>
-          <CustomLink to="/products" className="block px-4 py-2 text-SecondaryColor">Products</CustomLink>
-          <CustomLink to="/customize" className="block px-4 py-2 text-SecondaryColor">Customize</CustomLink>
+          <CustomLink to="/" className="block px-4 py-2 text-textColor">Home</CustomLink>
+          <CustomLink to="/products" className="block px-4 py-2 text-textColor">Products</CustomLink>
+          <CustomLink to="/customize" className="block px-4 py-2 text-textColor">Customize</CustomLink>
           <CustomLink to="/aboutus">About Us</CustomLink>
         </div>
       </div>
@@ -91,25 +91,6 @@ export default function Navbar() {
                 <span className="badge badge-sm indicator-item">{totalQuantity}</span>
               </div>
             </div>
-            {/* <div
-              tabIndex={0}
-              className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
-            >
-              <div className="card-body">
-                <span className="text-lg font-bold">{totalQuantity} Items</span>
-                <span className="text-SecondaryColor">
-                  Subtotal: EGP {totalPrice}
-                </span>
-                <div className="card-actions">
-                  <Link
-                    to="/cart"
-                    className="btn bg-SecondaryColor hover:bg-SecondaryColor btn-block text-cyan-50"
-                  >
-                    View cart
-                  </Link>
-                </div>
-              </div>
-            </div> */}
           </div>
         )}
         <div className="dropdown dropdown-end">
@@ -124,10 +105,10 @@ export default function Navbar() {
                   userProfile ? "online" : ""
                 } placeholder w-10`}
               >
-                <div className="bg-white text-SecondaryColor border border-SecondaryColor w-16 rounded-full">
+                <div className="bg-white text-textColor border border-textColor w-16 rounded-full">
                   <span className="text-xl">
-                    {isLoading ? (
-                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-SecondaryColor"></div>
+                    {isLoading && isLoggedIn ? (
+                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-textColor"></div>
                     ) : userProfile ? (
                       userProfile.name.charAt(0).toUpperCase()
                     ) : (
@@ -146,7 +127,7 @@ export default function Navbar() {
               {isLoggedIn && (
                 <Link
                   to="/user-profile"
-                  className="px-5 py-1 text-SecondaryColor text-xl  hover:transition-all"
+                  className="px-5 py-1 text-textColor text-xl  hover:transition-all"
                 >
                   Profile
                 </Link>
@@ -156,7 +137,7 @@ export default function Navbar() {
               {!isLoggedIn && (
                 <Link
                   to="/login"
-                  className="px-5 py-1 text-SecondaryColor text-xl  hover:transition-all"
+                  className="px-5 py-1 text-textColor text-xl  hover:transition-all"
                 >
                   Login
                 </Link>
@@ -166,7 +147,7 @@ export default function Navbar() {
               {!isLoggedIn && (
                 <Link
                   to="/sign-up"
-                  className="px-5 py-1  text-SecondaryColor text-xl  hover:transition-all"
+                  className="px-5 py-1  text-textColor text-xl  hover:transition-all"
                 >
                   Register
                 </Link>
