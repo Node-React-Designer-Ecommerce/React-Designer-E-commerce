@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useRef, useEffect, useState, useContext } from "react";
 import { fabric } from "fabric";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
 import SizeCharts from "../components/Charts/SizeCharts";
 import XIcon from "../icons/XIcon";
@@ -58,9 +58,6 @@ export default function Designer() {
   const { isLoggedIn } = useContext(AuthContext);
   const [dragImages, setDragImages] = useState([]);
 
-  ///@@@@@@@@
-  const [isEditMode, setIsEditMode] = useState(false);
-
   const navigateToLogin = () => {
     navigate(`/login?redirect=product-details/${id}`);
   };
@@ -94,34 +91,6 @@ export default function Designer() {
     } catch (error) {
       console.log("screenshoterror", error);
       return null;
-    }
-  };
-
-  ////////////@@@@@@@@@@
-  const loadSavedDesign = async (designId) => {
-    try {
-      // Fetch the saved design from your backend
-      const design = await getdesignById(designId);
-      //const design = await response.json();
-
-      console.log(design);
-
-      setSavedCanvas(design.canvas);
-      setIsEditMode(true);
-
-      // Load the background image
-      // setBackgroundImage(design.productImage);
-
-      // Load the canvas JSON
-      loadFromJSON(fabricCanvas.current, design.canvas);
-
-      // Set other properties
-      setName(design.name);
-      setPrice(design.price);
-      setCanvasWidth(design.canvasWidth);
-      setCanvasHeight(design.canvasHeight);
-    } catch (error) {
-      console.error("Error loading saved design:", error);
     }
   };
 

@@ -16,7 +16,7 @@ export default function CardOfDesigner() {
   if (isLoading) {
     return (
       <div className="flex justify-center py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-3  md:grid-cols-2 gap-5">
           {Array.from({ length: 3 }).map((_, index) => (
             <div key={index} className="card bg-base-100 w-80 shadow-xl">
               <Skelton />
