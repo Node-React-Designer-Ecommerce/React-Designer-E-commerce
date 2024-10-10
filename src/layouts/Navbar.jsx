@@ -63,6 +63,7 @@ export default function Navbar() {
         <CustomLink to="/">Home</CustomLink>
         <CustomLink to="/products">Products</CustomLink>
         <CustomLink to="/customize">Customize</CustomLink>
+        <CustomLink to="/aboutus">About Us</CustomLink>
       </div>
 
       {/* Mobile Navigation Links */}
@@ -71,6 +72,7 @@ export default function Navbar() {
           <CustomLink to="/" className="block px-4 py-2 text-SecondaryColor">Home</CustomLink>
           <CustomLink to="/products" className="block px-4 py-2 text-SecondaryColor">Products</CustomLink>
           <CustomLink to="/customize" className="block px-4 py-2 text-SecondaryColor">Customize</CustomLink>
+          <CustomLink to="/aboutus">About Us</CustomLink>
         </div>
       </div>
 

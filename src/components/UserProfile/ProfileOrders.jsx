@@ -24,19 +24,20 @@ export default function ProfileOrders() {
                                         <div className="flex justify-between flex-col sm:flex-row">
                                             <div className="">
                                                 <div className="flex justify-between items-start  flex-col sm:flex-row sm:items-center mb-2">
-                                                    <span className="font-bold">Order ID:</span>
-                                                    <span>{order._id}</span>
+                                                    <span className="font-bold">ID:</span>
+                                                    <span className="text-xs sm:text-lg">{order._id}</span>
                                                 </div>
-                                                <div className="flex justify-between items-start  flex-col sm:flex-row sm:items-center mb-2">
-                                                    <span className="font-bold">Status:</span>
-                                                    <span>{order.orderStatus}</span>
-                                                </div>
+
                                                 <div className="flex justify-between items-start  flex-col sm:flex-row sm:items-center">
                                                     <span className="font-bold">Date:</span>
                                                     <span>{new Date(order.createdAt).toLocaleString()}</span>
                                                 </div>
                                             </div>
                                             <div className="">
+                                                <div className="flex justify-between items-start  flex-col sm:flex-row sm:items-center mb-2">
+                                                    <span className="font-bold">Status:</span>
+                                                    <span>{order.orderStatus}</span>
+                                                </div>
                                                 <div className="flex justify-between items-start  flex-col sm:flex-row sm:items-center mb-2">
                                                     <span className="font-bold">Total Price:</span>
                                                     <span>${order.totalPrice}</span>

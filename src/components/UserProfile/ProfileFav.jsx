@@ -47,7 +47,7 @@ export default function ProfileFav() {
                                         <div className="flex justify-center pt-1 w-full">
                                             <Link
                                                 to={`/product-details/${product._id}`}
-                                                className="btn w-full rounded text-white bg-mintColor hover:bg-purpleColor text-lg flex items-center">
+                                                className="btn w-full rounded text-white bg-buttonColor hover:bg-hoverButton text-lg flex items-center">
                                                 See Details
                                             </Link>
                                         </div>
