@@ -34,12 +34,12 @@ export default function ProfileDesigns() {
                   <div className="card-body items-center text-center">
                     <h2 className="card-title uppercase">{design.name}</h2>
 
-                    <p className="text-mintColor text-xl">
+                    <p className="text-textColor text-xl">
                       EGP {design.totalPrice}
                     </p>
                     <Link
                       to={`/designer/${design.productId}?edit=${design._id}`}
-                      className="flex justify-between  w-20 bg-purpleColor text-white rounded cursor-pointer hover:bg-mintColor transition duration-300 ease-in-out text-center p-2 ps-6 text-center "
+                      className="flex justify-between  w-20 bg-buttonColor text-white rounded cursor-pointer hover:bg-hoverButton transition duration-300 ease-in-out text-center p-2 ps-6 text-center "
                     >
                       Edit
                     </Link>
