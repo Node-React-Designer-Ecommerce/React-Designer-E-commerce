@@ -320,282 +320,309 @@ export default function Designer() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      {/* Sidebar */}
-      <div className="w-full lg:w-2/4 p-4 bg-base-200 text-base-content">
-        <div
-          style={{ width: "100%", height: "100%", borderColor: "#4e7f62" }}
-          className="flex flex-col border border-indigo-600 rounded-lg p-5"
-        >
-          <div className="flex justify-between">
-            <div className="mb-5 font-bold text-3xl text-black">{name}</div>
-            <div className="mb-5 font-bold text-3xl text-green-800">
-              EGP {price}
-            </div>
-          </div>
-          <div className="flex flex-col justify-center mb-5">
-            {/* Image Upload */}
-            <div className="flex justify-between items-center">
-              <input
-                id="chooseImg"
-                className="hidden"
-                type="file"
-                accept="image/*"
-                onChange={handleAddImageOnCanva} // Handle the image upload
-              />
+    <div className="mb-20">
+      <div className="text-textColor text-4xl text-center my-10 font-bold">
+        Customize your design
+      </div>
+      <div className="flex flex-col lg:flex-row mx-20 ">
+        {/* T-shirt Canvas */}
+        {/* Display the captured screenshot if available */}
 
-              {/* Custom Button */}
-              <label
-                style={{ borderColor: "#4e7f62" }}
-                htmlFor="chooseImg" // Triggers the hidden file input
-                className=" bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 text-center"
-              >
-                Choose Image
-              </label>
-              <span className=" text-2xl text-green-800">EGP 100</span>
-            </div>
-
-            {/* Button to Add Text */}
-            <div className="flex justify-between items-center">
-              <button
-                style={{ borderColor: "#4e7f62" }}
-                className=" bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 "
-                id="addTextBtn"
-                onClick={handleAddText}
-              >
-                Add Text
-              </button>
-              <span className=" text-2xl text-green-800">EGP 50</span>
-            </div>
-          </div>
-          <div>
-            <button
-              style={{ borderColor: "#4e7f62" }}
-              className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 mb-5"
-              onClick={handleRemoveSelectedObj} // Handle image removal
-            >
-              Remove Selected Element
-            </button>
-          </div>
-          {/*chart */}
-
-          <div className="flex flex-col justify-between mb-5">
-            <div className="flex gap-3">
-              <button
-                className="font-bold underline"
-                onClick={() =>
-                  document.getElementById("my_modal_5").showModal()
-                }
-              >
-                Sizes table
-              </button>
-            </div>
-            <RadioComponent setSize={setSelectedSize} stock={stockAvailable} />
-          </div>
-          <dialog
-            id="my_modal_5"
-            className="modal modal-bottom sm:modal-middle"
+        <div className="w-full lg:w-3/4 flex justify-center items-center p-4 ">
+          <div
+            id="divToTakeScreenshot"
+            style={{
+              width: "100%",
+              height: "600px",
+              backgroundImage: `url(${backgroundImage})`,
+            }}
+            className="flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg  bg-cover xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 "
           >
-            <div className="modal-box">
-              <form method="dialog">
-                <div className="p-3">
-                  <button className="float-right rounded-full">
-                    <XIcon />
-                  </button>
+            {/* Fabric.js Canvas */}
+            <canvas
+              id="canvasBorder"
+              ref={canvasRef} // Reference to the canvas element
+              style={{
+                border: "1px dashed gray",
+              }}
+            />
+          </div>
+        </div>
+        {/* Sidebar */}
+        <div className="w-full lg:w-2/4 p-4 shadow-md rounded-lg border border-gray-300 text-base-content">
+          <div
+            style={{ width: "100%", height: "100%" }}
+            className="flex flex-col   p-5"
+          >
+            <div className="flex justify-between">
+              <div className="mb-5 font-bold text-2xl text-black">{name}</div>
+              <div className="mb-5 font-bold text-2xl ">{price} EG</div>
+            </div>
+            <div className="flex flex-col justify-center mb-5">
+              {/* Image Upload */}
+              <div className="flex justify-between mt-5 mb-2">
+                <div className="text-xl font-bold">Choose Image </div>
+                <span className=" text-xl 0">+ 100EG</span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <input
+                  id="chooseImg"
+                  className="hidden"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAddImageOnCanva} // Handle the image upload
+                />
+
+                {/* Custom Button */}
+                <label
+                  htmlFor="chooseImg" // Triggers the hidden file input
+                  className=" bg-white text-buttonColor py-4 px-4 rounded cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  w-full border border-buttonColor text-center "
+                >
+                  Choose Image
+                </label>
+              </div>
+
+              {/* Button to Add Text */}
+              <div className="mt-5">
+                <div className="flex justify-between mb-2">
+                  <div className="text-xl font-bold">Add Text</div>
+                  <span className=" text-xl ">+ 50EG</span>
                 </div>
-              </form>
-              <h3 className="font-bold text-2xl ">Size Charts</h3>
-              <p className="py-4">Choose your size carfully ..</p>
-              <div className="modal-action justify-center">
-                <form method="dialog">
-                  <SizeCharts />
-                </form>
+                <button
+                  className=" bg-white text-buttonColor py-4 px-4 rounded cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  w-full border border-buttonColor "
+                  id="addTextBtn"
+                  onClick={handleAddText}
+                >
+                  Add Text
+                </button>
               </div>
             </div>
-          </dialog>
+            <div className="text-xl font-bold">Text Control</div>
+            <div className="bg-lightBackGround p-3 mt-3 rounded ">
+              <div className="flex justify-between">
+                {/* Font Size Input */}
+                <div className="flex  items-center mt-3">
+                  <div className="">
+                    <label htmlFor="font-size">Font Size</label>
+                  </div>
+                  <span className="ml-1 text-sm">{textProps.fontSize}</span>
+                  <div className="">
+                    <input
+                      id="font-size"
+                      type="range"
+                      min={1}
+                      max="50"
+                      value={textProps.fontSize} // Bind the input to the current font size
+                      className="range range-xs"
+                      onChange={(e) => {
+                        if (
+                          parseInt(e.target.value) <= 0 ||
+                          e.target.value === ""
+                        ) {
+                          e.target.value = 1;
+                        }
+                        handleUpdateTextProps(
+                          "fontSize",
+                          parseInt(e.target.value)
+                        );
+                        console.log("Font size changed to:", e.target.value); // Debugging
+                        console.log(textProps);
+                      }}
+                    />
+                  </div>
+                </div>
 
-          {/* Color Picker for Text */}
-          <div className="flex gap-9 items-center mt-3">
-            <div className="">
-              <label
-                htmlFor="color_picker"
-                className="text-sm font-medium mb-2"
-              >
-                Color
-              </label>
-            </div>
-            <div className="">
-              <input
-                id="color_picker"
-                className="p-1 h-8 w-12 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none"
-                type="color"
-                value={textProps.fill} // Bind the color picker to the current text color
-                onChange={(e) => {
-                  handleUpdateTextProps("fill", e.target.value);
-                  console.log("Color changed to:", e.target.value); // Debugging
-                  console.log(textProps);
-                }} // Update the fill color when changed
-              />
-            </div>
-          </div>
+                {/* Font Family Selector */}
+                <div className="flex gap-3 items-center mt-3 ">
+                  <div className="">
+                    <label htmlFor="font-style">Font Style</label>
+                  </div>
+                  <div className="">
+                    <select
+                      id="font-style"
+                      className="select select-sm select-success w-full max-w-xs"
+                      value={textProps.fontFamily} // Bind the select dropdown to the current font family
+                      onChange={(e) => {
+                        handleUpdateTextProps("fontFamily", e.target.value);
+                        console.log("Font family changed to:", e.target.value); // Debugging
+                        console.log(textProps);
+                      }} // Update the font family when changed
+                    >
+                      <option defaultValue value="arial">
+                        Arial
+                      </option>
+                      <option value="helvetica">Helvetica</option>
+                      <option value="verdana">Verdana</option>
+                      <option value="georgia">Georgia</option>
+                      <option value="courier">Courier</option>
+                      <option value="comic sans ms">Comic Sans MS</option>
+                      <option value="impact">Impact</option>
+                      <option value="monaco">Monaco</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between">
+                {/* Color Picker for Text */}
+                <div className="flex gap-9 items-center mt-3">
+                  <div className="">
+                    <label
+                      htmlFor="color_picker"
+                      className="text-sm font-medium mb-2"
+                    >
+                      Color
+                    </label>
+                  </div>
+                  <div className="">
+                    <input
+                      id="color_picker"
+                      className="p-1 h-8 w-12 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none"
+                      type="color"
+                      value={textProps.fill} // Bind the color picker to the current text color
+                      onChange={(e) => {
+                        handleUpdateTextProps("fill", e.target.value);
+                        console.log("Color changed to:", e.target.value); // Debugging
+                        console.log(textProps);
+                      }} // Update the fill color when changed
+                    />
+                  </div>
+                </div>
 
-          {/* Font Size Input */}
-          <div className="flex gap-9 items-center mt-3">
-            <div className="">
-              <label htmlFor="font-size">Font Size</label>
+                {/* Button to make text Bold */}
+                <div className="flex gap-9 items-center mt-3">
+                  <div>
+                    <label htmlFor="bold-button">Bold</label>
+                  </div>
+                  <div>
+                    <input
+                      id="bold-button"
+                      type="checkbox"
+                      onChange={() => {
+                        handleUpdateTextProps(
+                          "fontWeight",
+                          textProps.fontWeight === "" ? "bold" : ""
+                        );
+                        console.log("Bold changed to:", textProps.fontWeight); // Debugging
+                      }}
+                      className="checkbox"
+                    />{" "}
+                  </div>
+                </div>
+
+                <div className="flex gap-9 items-center mt-3">
+                  <div>
+                    <label htmlFor="italic-button">Italic</label>
+                  </div>
+                  <div>
+                    <input
+                      id="italic-button"
+                      type="checkbox"
+                      value={textProps.italic}
+                      onChange={() => {
+                        handleUpdateTextProps(
+                          "fontStyle",
+                          textProps.fontStyle === "" ? "italic" : ""
+                        );
+                      }}
+                      className="checkbox"
+                    />{" "}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="">
-              <input
-                id="font-size"
-                type="range"
-                min={1}
-                max="50"
-                value={textProps.fontSize} // Bind the input to the current font size
-                className="range range-xs"
-                onChange={(e) => {
-                  if (parseInt(e.target.value) <= 0 || e.target.value === "") {
-                    e.target.value = 1;
+
+            {/*chart */}
+
+            <div className="flex flex-col justify-between my-5">
+              <div className="flex gap-3">
+                <button
+                  className="font-bold underline"
+                  onClick={() =>
+                    document.getElementById("my_modal_5").showModal()
                   }
-                  handleUpdateTextProps("fontSize", parseInt(e.target.value));
-                  console.log("Font size changed to:", e.target.value); // Debugging
-                  console.log(textProps);
-                }}
+                >
+                  Sizes table
+                </button>
+              </div>
+              <RadioComponent
+                setSize={setSelectedSize}
+                stock={stockAvailable}
               />
             </div>
-          </div>
-
-          {/* Font Family Selector */}
-          <div className="flex gap-9 items-center mt-3">
-            <div className="">
-              <label htmlFor="font-style">Font Style</label>
-            </div>
-            <div className="">
-              <select
-                id="font-style"
-                className="select select-sm select-success w-full max-w-xs"
-                value={textProps.fontFamily} // Bind the select dropdown to the current font family
-                onChange={(e) => {
-                  handleUpdateTextProps("fontFamily", e.target.value);
-                  console.log("Font family changed to:", e.target.value); // Debugging
-                  console.log(textProps);
-                }} // Update the font family when changed
-              >
-                <option defaultValue value="arial">
-                  Arial
-                </option>
-                <option value="helvetica">Helvetica</option>
-                <option value="verdana">Verdana</option>
-                <option value="georgia">Georgia</option>
-                <option value="courier">Courier</option>
-                <option value="comic sans ms">Comic Sans MS</option>
-                <option value="impact">Impact</option>
-                <option value="monaco">Monaco</option>
-              </select>
-            </div>
-          </div>
-          {/* Button to make text Bold */}
-          <div className="flex gap-9 items-center mt-3">
-            <div>
-              <label htmlFor="bold-button">Bold</label>
-            </div>
-            <div>
-              <input
-                id="bold-button"
-                type="checkbox"
-                onChange={() => {
-                  handleUpdateTextProps(
-                    "fontWeight",
-                    textProps.fontWeight === "" ? "bold" : ""
-                  );
-                  console.log("Bold changed to:", textProps.fontWeight); // Debugging
-                }}
-                className="checkbox"
-              />{" "}
-            </div>
-          </div>
-          <div className="flex gap-9 items-center mt-3">
-            <div>
-              <label htmlFor="italic-button">Italic</label>
-            </div>
-            <div>
-              <input
-                id="italic-button"
-                type="checkbox"
-                value={textProps.italic}
-                onChange={() => {
-                  handleUpdateTextProps(
-                    "fontStyle",
-                    textProps.fontStyle === "" ? "italic" : ""
-                  );
-                }}
-                className="checkbox"
-              />{" "}
-            </div>
-          </div>
-
-          <div className="flex justify-end">
-            {isLoggedIn ? (
-              <button
-                onClick={handleAddToCart}
-                className="py-2 px-4 rounded cursor-pointer bg-SecondaryColor hover:bg-green-900 transition duration-700 ease-in-out  text-white btn  mt-5 w-44 me-10 "
-                disabled={isAdding}
-              >
-                {isAdding ? (
-                  <span className="loading loading-ring loading-md"></span>
-                ) : (
-                  "ADD TO CART"
-                )}
-              </button>
-            ) : (
-              <button
-                onClick={navigateToLogin}
-                className="bg-red-500 hover:bg-red-600 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14"
-              >
-                Login to Add to Cart
-              </button>
-            )}
-            <button
-              style={{ borderColor: "#4e7f62" }}
-              className=" bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600"
-              onClick={handleSaveDesign} // FIXME:
+            <dialog
+              id="my_modal_5"
+              className="modal modal-bottom sm:modal-middle"
             >
-              {/* {isEditing ? "Saved" : "Save Design"} */}
-              Save Design
-            </button>
-          </div>
-          {/*<div className="p-5 flex justify-around">
+              <div className="modal-box">
+                <form method="dialog">
+                  <div className="p-3">
+                    <button className="float-right rounded-full">
+                      <XIcon />
+                    </button>
+                  </div>
+                </form>
+                <h3 className="font-bold text-2xl ">Size Charts</h3>
+                <p className="py-4">Choose your size carfully ..</p>
+                <div className="modal-action justify-center">
+                  <form method="dialog">
+                    <SizeCharts />
+                  </form>
+                </div>
+              </div>
+            </dialog>
+
+            {/*<div className="p-5 flex justify-around">
 
             <button className="btn btn-error" onClick={handleCaptureScreenShot}>
               {" "}
               screenshot.js{" "}
             </button>
           </div> */}
+          </div>
         </div>
       </div>
-
-      {/* T-shirt Canvas */}
-      {/* Display the captured screenshot if available */}
-
-      <div className="w-full lg:w-3/4 flex justify-center items-center p-4">
-        <div
-          id="divToTakeScreenshot"
-          style={{
-            width: "100%",
-            height: "600px",
-            backgroundImage: `url(${backgroundImage})`,
-            borderColor: "#4e7f62",
-          }}
-          className="flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg border bg-cover xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 "
+      <div className="flex justify-end me-32">
+        <button
+          className="me-5 bg-white text-buttonColor py-2 px-4 rounded cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out mt-5 w-44 border border-buttonColor"
+          onClick={handleSaveDesign} // FIXME:
         >
-          {/* Fabric.js Canvas */}
-          <canvas
-            id="canvasBorder"
-            ref={canvasRef} // Reference to the canvas element
+          {/* {isEditing ? "Saved" : "Save Design"} */}
+          Save Design
+        </button>
+        {isLoggedIn ? (
+          <button
+            onClick={handleAddToCart}
             style={{
-              border: "1px dashed gray",
+              background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
             }}
-          />
-        </div>
+            className="py-2 px-4 rounded cursor-pointer  hover:bg-green-900 transition duration-700 ease-in-out  text-white btn  mt-5 w-44 me-10 "
+            disabled={isAdding}
+          >
+            {isAdding ? (
+              <span className="loading loading-ring loading-md"></span>
+            ) : (
+              "ADD TO CART"
+            )}
+          </button>
+        ) : (
+          <button
+            onClick={navigateToLogin}
+            className="bg-red-500 hover:bg-red-600 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14"
+          >
+            Login to Add to Cart
+          </button>
+        )}
+      </div>
+
+      <div>
+        <button
+          style={{ borderColor: "#4e7f62" }}
+          className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 mb-5"
+          onClick={handleRemoveSelectedObj} // Handle image removal
+        >
+          Remove Selected Element
+        </button>
       </div>
     </div>
   );

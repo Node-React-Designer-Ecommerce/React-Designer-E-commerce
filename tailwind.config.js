@@ -6,8 +6,7 @@ export default {
     extend: {
       colors: {
         lightBackGround: "#F5F5F5",
-        purpleColor: "#DC8DEA",
-        mintColor: "#73C3A0",
+
         SecondaryColor: "#4e7f62",
         buttonColor: "#81B3DC",
         hoverButton: "#61D1DD",
