@@ -63,7 +63,7 @@ export default function Navbar() {
         <CustomLink to="/">Home</CustomLink>
         <CustomLink to="/products">Products</CustomLink>
         <CustomLink to="/customize">Customize</CustomLink>
-        <CustomLink to="/aboutus">About Us</CustomLink>
+        <CustomLink to="/aboutus" className>About Us</CustomLink>
       </div>
 
       {/* Mobile Navigation Links */}

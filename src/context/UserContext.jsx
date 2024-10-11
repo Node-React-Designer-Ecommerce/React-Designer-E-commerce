@@ -7,6 +7,7 @@ import {
   fetchUserDesigns,
   removeFromFavorites as apiRemoveFromFavorites, // Import the API function
 } from "./../utils/api/userProfileApi";
+import { removeUserDesign } from "../utils/api/designerApi";
 
 import PropTypes from "prop-types";
 import AuthContext from "./AuthContext";
@@ -81,6 +82,16 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const removeDesign = async (designId) => {
+    try {
+      await removeUserDesign(designId); // Call the API function to remove the design
+      const updatedDesigns = designs.filter(design => design._id !== designId);
+      setUserDesigns(updatedDesigns);
+    } catch (error) {
+      setError(`Error removing design: ${error.message}`);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -96,6 +107,7 @@ export const UserProvider = ({ children }) => {
         setUserProfile,
         fetchData,
         removeFromFavorites, // Add the removeFromFavorites function to the context value
+        removeDesign, // Add the removeDesign function to the context value
       }}
     >
       {children}
