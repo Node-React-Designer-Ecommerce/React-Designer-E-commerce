@@ -62,6 +62,10 @@ export default function Designer() {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
 
+  //@@
+  const [designId, setDesignId] = useState(null);
+  //@@
+
   const fetchProductAndDesign = async () => {
     if (!id) return;
 
@@ -75,13 +79,16 @@ export default function Designer() {
 
       // Fetch the design if 'edit' parameter exists
       const params = new URLSearchParams(window.location.search);
-      const designId = params.get("edit");
+      const editDesignId = params.get("edit");
 
-      if (designId) {
-        const fetchedDesign = await getdesignById(designId);
+      if (editDesignId) {
+        setDesignId(editDesignId);
+        const fetchedDesign = await getdesignById(editDesignId);
         console.log(fetchedDesign);
         setSavedCanvas(fetchedDesign.canvas);
         loadFromJSON(fabricCanvas.current, fetchedDesign.canvas);
+        setSelectedSize(fetchedDesign.size);
+        setDragImages(fetchedDesign.dragImages || []);
       }
     } catch (err) {
       setIsError(true);
@@ -239,29 +246,32 @@ export default function Designer() {
       }
 
       // Make the API call to save the design
-      // const params = new URLSearchParams(window.location.search);
-      // const designId = params.get("edit");
-      // if (designId) {
-      //   const saveResponse = await updateCanvasToBackend(designId, formData);
-      //   toast.success("Your Design updated successfully");
-      //   console.log("Canvas updated successfully:", saveResponse);
-      //   return saveResponse;
-      // } else {
+      //const params = new URLSearchParams(window.location.search);
+      let saveResponse;
+      //const designId = params.get("edit");
+      if (designId) {
+        saveResponse = await updateCanvasToBackend(designId, formData);
+        toast.success("Your Design updated successfully");
+        console.log("Canvas updated successfully:", saveResponse);
+        return saveResponse;
+      } else {
+        saveResponse = await saveCanvasToBackend(formData);
+        toast.success("Your Design saved successfully");
+        console.log("Canvas saved successfully:", saveResponse);
+        // Add the designId to the URL
+        const newDesignId = saveResponse.data.design._id;
+        setDesignId(newDesignId);
+        console.log(newDesignId);
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set("edit", newDesignId);
+        window.history.pushState({}, "", currentUrl.toString());
+        console.log(saveResponse);
+        return saveResponse;
+      }
       //   const saveResponse = await saveCanvasToBackend(formData);
       //   toast.success("Your Design saved successfully");
       //   console.log("Canvas saved successfully:", saveResponse);
-      //   // Add the designId to the URL
-      //   const newDesignId = saveResponse.data.design._id;
-      //   console.log(newDesignId);
-      //   const currentUrl = new URL(window.location.href);
-      //   currentUrl.searchParams.set("edit", newDesignId);
-      //   window.history.pushState({}, "", currentUrl.toString());
-
       //   return saveResponse;
-      // }
-      const saveResponse = await saveCanvasToBackend(formData);
-      toast.success("Your Design saved successfully");
-      console.log("Canvas saved successfully:", saveResponse);
     } catch (error) {
       console.error("Error saving canvas:", error);
     }
@@ -286,6 +296,7 @@ export default function Designer() {
     }
 
     const res = await handleSaveDesign();
+
     console.log(res.data.design._id);
 
     const cartItem = {
