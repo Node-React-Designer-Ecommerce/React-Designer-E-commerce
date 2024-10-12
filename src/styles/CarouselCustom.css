@@ -1,0 +1,13 @@
+
+.custom-height {
+  height: 300px; 
+}
+
+.carousel .control-dots .dot {
+  background-color:#81B3DC;
+}
+
+.carousel .control-dots .dot.selected {
+    width:70px;
+  background-color: #ce6ada;
+}

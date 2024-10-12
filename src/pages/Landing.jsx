@@ -1,8 +1,9 @@
 import Hero from "../components/Landing/Hero";
-import Slider from "../components/Landing/Slider";
+// import Slider from "../components/Landing/Slider";
 import CategorySection from "./../components/Landing/CategorySection";
 import MiniSection from "../components/Landing/MiniSection";
 import LandingProductItem from "./../layouts/LandingProductItem";
+import Heroo from './Heroo';
 
 function Landing() {
   return (
@@ -20,8 +21,8 @@ function Landing() {
       <section className="mt-5 ">
         <div className="text-center mb-6">
           <p className="text-gray-500">FEATURED PRODUCTS</p>
-          <h2 className="text-2xl font-bold">BEST SELLER</h2>
-          <p className="text-gray-500 text-2xl">
+          <h2 className="text-2xl font-bold text-textColor">BEST SELLER</h2>
+          <p className="text-gray-500 text-l">
             Discover our best-selling clothing pieces <br /> that combine style
             and quality to complete your perfect look
           </p>
@@ -31,7 +32,7 @@ function Landing() {
       <LandingProductItem className="h-72"></LandingProductItem>
 
       {/* slider section5 */}
-      <Slider></Slider>
+      <Heroo/>
     </>
   );
 }

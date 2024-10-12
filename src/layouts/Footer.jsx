@@ -5,7 +5,7 @@ function Footer() {
     <footer className="bg-gray-100 text-center sm:text-start  text-gray-700 p-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
         <div>
-          <div className="ms-10">
+          <div className="flex justify-center sm:justify-start">
             <Link to="/" className="">
               <img src="/public/sammlyLogo.png" width={90} alt="logo" />
             </Link>
@@ -103,14 +103,19 @@ function Footer() {
         </div>
 
         <div>
-          <h3 className="font-bold text-purpleColor">Get In Touch</h3>
+          <h3 className="font-bold text-purpleColor text-center">Get In Touch</h3>
           <form className="mt-4">
             <input
               type="email"
               placeholder="Your Email"
               className="input rounded input-bordered w-full mb-4"
             />
-            <button className="btn rounded bg-buttonColor text-white hover:bg-hoverButton w-full">
+            <button
+              className="btn rounded  text-white hover:bg-hoverButton w-full"
+              style={{
+                background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
+              }}
+            >
               Subscribe
             </button>
           </form>
@@ -122,7 +127,7 @@ function Footer() {
           Made With Love By{" "}
           <Link
             to={"/AboutUs"}
-            className="text-purpleColor hover:cursor-pointer"
+            className="text-textColor hover:cursor-pointer"
           >
             WAK WAAK WAAAAK
           </Link>

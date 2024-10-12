@@ -57,7 +57,7 @@ export default function App() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2  max-w-4xl mx-auto border m-9 rounded-3xl p-5 shadow-[0px_0px_19px_16px_#f4eeee]">
+    <div className="grid grid-cols-1 md:grid-cols-2  max-w-4xl mx-auto   m-9 rounded-3xl p-5 shadow-[0px_0px_3px_3px_#fbfbfb]">
       {/* Image Section */}
       <div className="md:order-1 flex justify-center items-center  rounded-3xl">
         <img
