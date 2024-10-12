@@ -22,14 +22,13 @@
 
 * {
   body {
-    font-family: "Serif", serif;
+    font-family: "Roboto", sans-serif;
   }
 }
 
 /* .carousel{
     height:100vh;
   }  */
-
 
 .active {
   /* Add any additional styles for the active state */

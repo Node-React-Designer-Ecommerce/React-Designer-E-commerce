@@ -20,8 +20,8 @@ export default function ProfileCard() {
             className="w-64 h-64 rounded-full object-cover"
           />
         ) : (
-          <div className="w-32 h-32 rounded-full bg-purpleColor flex items-center justify-center">
-            <span className="text-white  text-4xl">
+          <div className="w-32 h-32 rounded-full bg-purpleColor bg-buttonColor flex items-center justify-center">
+            <span className="text-white  text-7xl">
               {userProfile.name.charAt(0).toUpperCase()}
             </span>
           </div>

@@ -51,3 +51,15 @@ export const getdesignById = (id) => {
     .get(`/designs/${id}`)
     .then((res) => res.data.data.design);
 };
+
+
+
+
+export const removeUserDesign = async (designId) => {
+  try {
+    const response = await axiosInstance.delete(`/designs/${designId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

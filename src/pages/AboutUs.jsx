@@ -12,7 +12,7 @@ export default function AboutUs() {
           className="text-xl mx-auto font-normal mt-5  max-w-screen-md px-4 md:px-0"
           //style={{ width: "1000px" }}
         >
-          At Samm, we believe in the power of personal expression. Our journey
+          At Sammly, we believe in the power of personal expression. Our journey
           began with a simple idea: everyone should have the opportunity to wear
           something that represents their unique style and personality.
           That&apos;s why we created a platform where fashion meets creativity,

@@ -6,7 +6,7 @@ function Hero() {
       <div className=" w-full h-auto flex justify-between  " style={{ background: 'linear-gradient(to right, #73C3A0, #DC8DEA' }}>
        
         <div className="  text-neutral-700  p-4 my-auto">
-          <h1 className="text-xl mb-8 md:text-4xl font-bold">
+          <h1 className="text-xl mb-8 md:text-4xl font-bold ">
             Show The World Your <br />
             Own Unique Style
           </h1>
