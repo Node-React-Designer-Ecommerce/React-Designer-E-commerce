@@ -22,7 +22,6 @@ export default function ProductsPage() {
     error,
     handleSearch,
     handlePageChange,
-    handlePriceRangeChange,
     handleCategoryChange,
     categories,
   } = useProducts();
@@ -32,7 +31,6 @@ export default function ProductsPage() {
   const [localSearch, setLocalSearch] = useState(initialSearch);
   const searchTimeout = useRef(null);
 
-  const [priceRange, setPriceRange] = useState([0, 1000]);
   const [category, setCategory] = useState("");
 
   const handleLocalSearch = (e) => {
@@ -79,7 +77,7 @@ export default function ProductsPage() {
 
     return (
       <div className="flex justify-center p-3 mx-5">
-        <div className="w-11/12 gap-5 relative flex justify-center">
+        <div className="w-full  sm:w-11/12 gap-5 relative flex justify-center">
           <div className=" md:pt-16 pt-2">
             <div className="grid grid-cols-1 lg:grid-cols-3  md:grid-cols-2 gap-20">
               {/* No Data Found Message */}
@@ -117,8 +115,8 @@ export default function ProductsPage() {
                         <h2 className="text-[17px] font-bold uppercase">
                           {product.name}
                         </h2>
-                        <p className="text-xl font-bold text-buttonColor ">
-                          ${product.price}
+                        <p className="text-lg font-bold text-buttonColor ">
+                          EGP{product.price} 
                         </p>
                       </div>
                       <p className="text-gray-500 py-2 text-start capitalize text-nowrap truncate">
@@ -146,85 +144,73 @@ export default function ProductsPage() {
   return (
     <div className="w-full font-sans relative ">
       <div className=" flex flex-col lg:text-2xl items-center tracking-wide ">
-        <div className="w-full grid grid-cols-4  ">
+        <div className="w-full  grid-cols-4 hidden sm:grid">
           <img
             src="productscover.png"
             alt="product page header image"
-            className="h-60 sm:h-auto col-span-2"
+            className="h-60  col-span-2 relative z-40"
           />
-          <div className="py-10  col-span-2 flex flex-col justify-end">
-            <p className="font-bold text-textColor md:text-4xl py-3">
+          <div className="py-10  col-span-2 flex flex-col items-start justify-start md:justify-center">
+            <p className="font-bold text-textColor text-4xl py-3">
               New Collection
             </p>
             <p className=" text-textColor text-xs md:text-base opacity-90 pb-3 md:pb-7 md:px-10 uppercase">
               Choose Your own style
             </p>
-            <p className="lg:text-lg text-xs md:px-16 sm:text-gray-700">
+            {/* <p className="lg:text-lg text-xs md:px-16 sm:text-gray-700">
               Simplicity is the keynote of all true elegance
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
-      <div className="sticky top-20 z-20 p-3">
-        <div className="">
-          {/* Search */}
-          <input
-            type="text"
-            placeholder="  Search products here .."
-            value={localSearch}
-            onChange={handleLocalSearch}
-            className="input input-bordered rounded-3xl mt-4  input-sm md:input-md w-full max-w-xs text-black"
-          />
-        </div>
-        <div className="">
-          <input
-            type="range"
-            min={0}
-            max={1000}
-            value={priceRange[1]}
-            onChange={(e) => {
-              const newPriceRange = [priceRange[0], parseInt(e.target.value)];
-              setPriceRange(newPriceRange);
-              handlePriceRangeChange(newPriceRange);
+      <div className="sticky top-12 bg-white  sm:top-16 z-30 p-3 pr-5 flex justify-center sm:justify-end  mt-[-60px] ">
+        {/* Search */}
+        <input
+          type="text"
+          placeholder="  Search products here .."
+          value={localSearch}
+          onChange={handleLocalSearch}
+          className="input input-bordered border-textColor rounded-3xl mt-4  input-sm md:input-md w-full max-w-xs text-black"
+        />
+      </div>
+      
+      <div className="sticky top-28 mt-3 bg-white sm:bg-transparent sm:p-0 sm:top-20 z-30  flex justify-center sm:justify-center w-full sm:w-3/5">
+        <div className="flex flex-wrap gap-2 mt-4 pb-5">
+          <button
+            key="all"
+            onClick={() => {
+              setCategory("");
+              handleCategoryChange("");
             }}
-            className="range"
-            step="25"
-          />
-          <div className="flex w-full justify-between px-2 text-xs">
-            <span>200</span>
-            <span>400</span>
-            <span>600</span>
-            <span>800</span>
-            <span>1000</span>
-          </div>
-        </div>
-        <div className="">
-          <select
-            value={category}
-            onChange={(e) => {
-              setCategory(e.target.value);
-              handleCategoryChange(e.target.value);
-            }}
-            className="select select-bordered w-full max-w-xs"
+            className={`btn ${category === "" ? "bg-buttonColor text-white" : ""} hover:bg-buttonColor hover:text-white btn-sm sm:btn-md`}
           >
-            <option value="">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat._id} value={cat._id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
+            All
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat._id}
+              onClick={() => {
+                setCategory(cat._id);
+                handleCategoryChange(cat._id);
+              }}
+              className={`btn ${category === cat._id ? "bg-buttonColor text-white" : ""}  hover:bg-buttonColor  hover:text-white btn-sm sm:btn-md`}
+            >
+              {cat.name}
+            </button>
+          ))}
         </div>
       </div>
       {memoizedProductsSection}
       {/* Pagination Controls */}
-      <div className="flex justify-center  m-10 text-lg">
-        <Paginationn
-          getPage={handlePageChange}
-          pageCount={totalPages}
-          currentPage={currentPage}
-        />
-      </div>
+      {products.length > 0 && (
+        <div className="flex justify-center  m-10 text-lg">
+          <Paginationn
+            getPage={handlePageChange}
+            pageCount={totalPages}
+            currentPage={currentPage}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -124,7 +124,7 @@ export default function ProductDetails() {
           </div>
           <Rating />
 
-          <p className="text-buttonColor text-2xl font-bold">${product.price}</p>
+          <p className="text-buttonColor text-2xl font-bold">EGP{product.price}</p>
           <p className="py-4">{product.description}</p>
           <div>
             <div className="flex justify-between">
@@ -164,7 +164,7 @@ export default function ProductDetails() {
                 </div>
               </div>
             </dialog>
-            <Delivery />
+            {/* <Delivery /> */}
             <div className="flex justify-center lg:flex lg:justify-end p-5">
               {isLoggedIn ? (
                 <button

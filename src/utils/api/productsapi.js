@@ -5,8 +5,8 @@ export const getAllProducts = async () => {
   return response.data.data.products;
 };
 
-export const getProductsByPage = async (page, search = "", priceRange = [0, 1000], category = "") => {
-  const url = `/products?page=${page}&search=${search}&price[gte]=${priceRange[0]}&price[lte]=${priceRange[1]}${category ? `&category=${category}` : ""}`;
+export const getProductsByPage = async (page, search = "", category = "") => {
+  const url = `/products?page=${page}&search=${search}${category ? `&category=${category}` : ""}`;
   const res = await axiosInstance.get(url);
   return {
     products: res.data.data.products,
