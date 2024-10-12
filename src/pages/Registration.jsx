@@ -57,20 +57,20 @@ export default function App() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2  max-w-4xl mx-auto   m-9 rounded-3xl p-5 shadow-[0px_0px_3px_3px_#fbfbfb]">
+    <div className="grid grid-cols-1 md:grid-cols-2  max-w-4xl mx-auto   m-9 rounded-xl p-5 shadow-[0px_0px_3px_3px_#fbfbfb]">
       {/* Image Section */}
-      <div className="md:order-1 flex justify-center items-center  rounded-3xl">
+      <div className="md:order-1 flex justify-center items-center  rounded-xl">
         <img
           src="/register.jpg"
           alt="Sign Up"
-          className="h-4/5 object-cover rounded-3xl"
+          className="h-4/5 object-cover rounded-xl"
         />
       </div>
 
       {/* Form Section */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="md:order-2 p-5 rounded-3xl"
+        className="md:order-2 p-5 rounded-xl"
       >
         <div>
           <h1 className="text-center text-3xl pb-6 text-textColor font-bold">
@@ -102,15 +102,15 @@ export default function App() {
             />
           </div>
           {errors.name?.type === "required" && (
-            <span className="text-red-500">Name is required</span>
+            <span className="text-red-500 text-sm">Name is required</span>
           )}
           {errors.name?.type === "minLength" && (
-            <span className="text-red-500">
+            <span className="text-red-500 text-sm">
               Name must be at least 3 characters
             </span>
           )}
           {errors.name?.type === "maxLength" && (
-            <span className="text-red-500">
+            <span className="text-red-500 text-sm">
               Name must be at most 100 characters
             </span>
           )}
@@ -139,13 +139,13 @@ export default function App() {
             />
           </div>
           {errors.email?.type === "required" && (
-            <span className="text-red-500">Email is required</span>
+            <span className="text-red-500 text-sm">Email is required</span>
           )}
           {errors.email?.type === "pattern" && (
-            <span className="text-red-500">Invalid email address</span>
+            <span className="text-red-500 text-sm">Invalid email address</span>
           )}
           {errors.email?.type === "manual" && (
-            <span className="text-red-500">{errors.email.message}</span>
+            <span className="text-red-500 text-sm">{errors.email.message}</span>
           )}
         </div>
 
@@ -179,20 +179,20 @@ export default function App() {
             )}
           </div>
           {errors.password?.type === "required" && (
-            <span className="text-red-500">Password is required</span>
+            <span className="text-red-500 text-sm">Password is required</span>
           )}
           {errors.password?.type === "minLength" && (
-            <span className="text-red-500">
+            <span className="text-red-500 text-sm">
               Password must be at least 8 characters
             </span>
           )}
           {errors.password?.type === "maxLength" && (
-            <span className="text-red-500">
+            <span className="text-red-500 text-sm">
               Password must be at most 30 characters
             </span>
           )}
           {errors.password?.type === "pattern" && (
-            <span className="text-red-500">
+            <span className="text-red-500 text-sm">
               Password must contain at least one uppercase letter, one lowercase
               letter, and one number
             </span>
@@ -229,10 +229,10 @@ export default function App() {
             )}
           </div>
           {errors.passwordConfirm?.type === "required" && (
-            <span className="text-red-500">Please confirm your password</span>
+            <span className="text-red-500 text-sm">Please confirm your password</span>
           )}
           {errors.passwordConfirm?.type === "validate" && (
-            <span className="text-red-500">Passwords do not match</span>
+            <span className="text-red-500 text-sm">Passwords do not match</span>
           )}
         </div>
 
@@ -260,23 +260,55 @@ export default function App() {
             />
           </div>
           {errors.address?.type === "required" && (
-            <span className="text-red-500">Address is required</span>
+            <span className="text-red-500 text-sm">Address is required</span>
           )}
           {errors.address?.type === "minLength" && (
-            <span className="text-red-500">
+            <span className="text-red-500 text-sm">
               Address must be at least 3 characters
             </span>
           )}
           {errors.address?.type === "maxLength" && (
-            <span className="text-red-500">
+            <span className="text-red-500 text-sm">
               Address must be at most 100 characters
+            </span>
+          )}
+        </div>
+
+        {/* Phone Number */}
+        <div className="mb-4">
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium text-textColor"
+          >
+            Phone Number
+          </label>
+          <div className="relative">
+            <input
+              {...register("phone", {
+                required: true,
+                pattern: /^(01)[0-2,5]{1}[0-9]{8}$/,
+              })}
+              type="text"
+              id="phone"
+              className={`mt-1 block w-full px-3 py-2 border-b ${
+                errors.phone ? "border-b-red-500" : "border-b-gray-300"
+              } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-textColor`}
+              placeholder="Enter phone number"
+            />
+          </div>
+          {errors.phone?.type === "required" && (
+            <span className="text-red-500 text-sm">Phone number is required</span>
+          )}
+          {errors.phone?.type === "pattern" && (
+            <span className="text-red-500 text-sm">
+              Invalid Egyptian phone number (e.g., 01012345678)
             </span>
           )}
         </div>
 
         <button
           type="submit"
-          className="w-full mt-3 flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-sm font-bold text-white bg-buttonColor hover:bg-hoverButton hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hoverButton"
+          className="w-full mt-3 flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-buttonColor hover:bg-hoverButton hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hoverButton"
           disabled={isLoading}
         >
           {isLoading ? (

@@ -44,23 +44,23 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto border m-9 rounded-3xl p-5 shadow-[0px_0px_19px_16px_#f4eeee]">
+    <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto border m-9 rounded-xl p-5 shadow-[0px_0px_19px_16px_#f4eeee]">
       {/* Image Section */}
-      <div className="md:order-1 flex justify-center items-center rounded-3xl bg-SecondaryColor">
+      <div className="md:order-1 flex justify-center items-center rounded-xl">
         <img
-          src="/recover.jpg"
+          src="/resetpass.png"
           alt="Reset Password"
-          className="w-4/5 h-4/5 object-cover rounded-3xl"
+          className="w-4/5 object-cover rounded-xl"
         />
       </div>
 
       {/* Form Section */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="md:order-2 p-5 rounded-3xl flex flex-col justify-evenly"
+        className="md:order-2 p-5 rounded-xl flex flex-col justify-evenly"
       >
         <div>
-          <h1 className="text-center sm:text-start text-3xl pb-6 text-SecondaryColor font-bold">
+          <h1 className="text-center sm:text-start text-3xl pb-6 text-textColor font-bold">
             Reset Password
           </h1>
         </div>
@@ -70,7 +70,7 @@ export default function ResetPassword() {
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-SecondaryColor"
+              className="block text-sm font-medium text-textColor"
             >
               New Password
             </label>
@@ -100,17 +100,17 @@ export default function ResetPassword() {
               <span className="text-red-500">Password is required</span>
             )}
             {errors.password?.type === "minLength" && (
-              <span className="text-red-500">
+              <span className="text-red-500 text-sm">
                 Password must be at least 8 characters
               </span>
             )}
             {errors.password?.type === "maxLength" && (
-              <span className="text-red-500">
+              <span className="text-red-500 text-sm">
                 Password must be at most 30 characters
               </span>
             )}
             {errors.password?.type === "pattern" && (
-              <span className="text-red-500">
+              <span className="text-red-500 text-sm">
                 Password must contain at least one uppercase letter, one
                 lowercase letter, and one number
               </span>
@@ -121,7 +121,7 @@ export default function ResetPassword() {
           <div className="mb-4">
             <label
               htmlFor="passwordConfirm"
-              className="block text-sm font-medium text-SecondaryColor"
+              className="block text-sm font-medium text-textColor"
             >
               Confirm Password
             </label>
@@ -148,16 +148,16 @@ export default function ResetPassword() {
               {errors.passwordConfirm && <ErrorIcon />}
             </div>
             {errors.passwordConfirm?.type === "required" && (
-              <span className="text-red-500">Please confirm your password</span>
+              <span className="text-red-500 text-sm">Please confirm your password</span>
             )}
             {errors.passwordConfirm?.type === "validate" && (
-              <span className="text-red-500">Passwords do not match</span>
+              <span className="text-red-500 text-sm">Passwords do not match</span>
             )}
           </div>
 
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-sm font-bold text-white bg-SecondaryColor hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-SecondaryColor"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-buttonColor hover:bg-hoverButton hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hoverButton"
             disabled={isLoading}
           >
             {isLoading ? (
