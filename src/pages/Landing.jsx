@@ -3,6 +3,7 @@ import Hero from "../components/Landing/Hero";
 import CategorySection from "./../components/Landing/CategorySection";
 import MiniSection from "../components/Landing/MiniSection";
 import LandingProductItem from "./../layouts/LandingProductItem";
+import Heroo from './Heroo';
 
 function Landing() {
   return (
@@ -31,7 +32,7 @@ function Landing() {
       <LandingProductItem className="h-72"></LandingProductItem>
 
       {/* slider section5 */}
-      {/* <Slider></Slider> */}
+      <Heroo/>
     </>
   );
 }
