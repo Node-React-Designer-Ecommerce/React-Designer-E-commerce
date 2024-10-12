@@ -69,20 +69,20 @@ export default function Login() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto  m-9 rounded-3xl p-5 shadow-[0px_0px_3px_3px_#fbfbfb] h-4/5">
+    <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto  m-9 rounded-xl p-5 shadow-[0px_0px_3px_3px_#fbfbfb] h-4/5">
       {/* Image Section */}
-      <div className="md:order-1 flex justify-center items-center rounded-3xl">
+      <div className="md:order-1 flex justify-center items-center rounded-xl">
         <img
           src="/formcover2.jpg"
           alt="Login"
-          className=" rounded-3xl h-5/5"
+          className=" rounded-xl h-5/5"
         />
       </div>
 
       {/* Form Section */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="md:order-2 p-5 rounded-3xl flex flex-col justify-evenly"
+        className="md:order-2 p-5 rounded-xl flex flex-col justify-evenly"
       >
         <div>
           <h1 className="text-center  text-3xl pb-6 text-textColor font-bold">
@@ -113,13 +113,13 @@ export default function Login() {
               />
             </div>
             {errors.email?.type === "required" && (
-              <span className="text-red-500">Email is required</span>
+              <span className="text-red-500 text-sm">Email is required</span>
             )}
             {errors.email?.type === "pattern" && (
-              <span className="text-red-500">Invalid email address</span>
+              <span className="text-red-500 text-sm">Invalid email address</span>
             )}
             {errors.email?.type === "manual" && (
-              <span className="text-red-500">{errors.email.message}</span>
+              <span className="text-red-500 text-sm">{errors.email.message}</span>
             )}
           </div>
 
@@ -152,26 +152,26 @@ export default function Login() {
               )}
             </div>
             {errors.password?.type === "required" && (
-              <span className="text-red-500">Password is required</span>
+              <span className="text-red-500 text-sm">Password is required</span>
             )}
             {errors.password?.type === "minLength" && (
-              <span className="text-red-500">
+              <span className="text-red-500 text-sm">
                 Password must be at least 8 characters
               </span>
             )}
             {errors.password?.type === "maxLength" && (
-              <span className="text-red-500">
+              <span className="text-red-500 text-sm">
                 Password must be at most 30 characters
               </span>
             )}
             {errors.password?.type === "pattern" && (
-              <span className="text-red-500">
+              <span className="text-red-500 text-sm">
                 Password must contain at least one uppercase letter, one
                 lowercase letter, and one number
               </span>
             )}
             {errors.password?.type === "manual" && (
-              <span className="text-red-500">{errors.password.message}</span>
+              <span className="text-red-500 text-sm">{errors.password.message}</span>
             )}
           </div>
 
@@ -187,7 +187,7 @@ export default function Login() {
           {/* is loading button */}
           <button
             type="submit"
-            className="w-full mt-3 flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-sm font-bold text-white bg-buttonColor hover:bg-hoverButton hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hoverButton"
+            className="w-full mt-3 flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-buttonColor hover:bg-hoverButton hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hoverButton"
             disabled={isLoading}
           >
             {isLoading ? (

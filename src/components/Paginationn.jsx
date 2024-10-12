@@ -16,15 +16,15 @@ const Paginationn = ({ getPage, pageCount, currentPage }) => {
       pageCount={pageCount}
       previousLabel={"Previous"}
       containerClassName={"pagination flex gap-4 justify-content-center p-3"}
-      pageClassName={"page-item btn bg-mintColor text-white"}
+      pageClassName={"page-item btn bg-buttonColor text-white hover:bg-hoverButton"}
       pageLinkClassName={"page-link"}
-      previousClassName={`page-item btn ${currentPage === 1 ? " hidden" : ""}`}
-      nextClassName={`page-item btn ${currentPage === pageCount ? "hidden" : ""}`}
-      previousLinkClassName={"page-link"}
+      previousClassName={`page-item btn bg-buttonColor text-white hover:bg-hoverButton ${currentPage === 1 ? " hidden" : ""}`}
+      nextClassName={`page-item btn bg-buttonColor text-white hover:bg-hoverButton ${currentPage === pageCount ? "hidden" : ""}`}
+      previousLinkClassName={"page-link "}
       nextLinkClassName={"page-link"}
       breakClassName={"page-item"}
       breakLinkClassName={"page-link"}
-      activeClassName={"active"}
+      activeClassName={"active bg-textColor"}
       forcePage={currentPage - 1} // Ensure the current page is highlighted
     />
   );

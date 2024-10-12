@@ -8,6 +8,7 @@ export default function ProfileInformation() {
     const [editedProfile, setEditedProfile] = useState({
         name: userProfile?.name || '',
         address: userProfile?.address || '',
+        phone: userProfile?.phone || '',
     });
     const [isSaving, setIsSaving] = useState(false);
 
@@ -38,7 +39,7 @@ export default function ProfileInformation() {
 
     return (
         <div className="card bg-white shadow-md rounded-lg p-4 mb-4">
-            <div className="card-body">
+            <div className="card-body p-2">
                 {error && <div className="text-red-500 mb-4">{error}</div>}
                 <div className="grid grid-cols-3 gap-4">
                     <div className="col-span-1">
@@ -78,6 +79,27 @@ export default function ProfileInformation() {
                         )}
                     </div>
                 </div>
+
+                <hr />
+                <div className="grid grid-cols-3 gap-4">
+                    <div className="col-span-1">
+                        <h6 className="mb-0">Phone</h6>
+                    </div>
+                    <div className="col-span-2 text-gray-500">
+                        {isEditing ? (
+                            <input
+                                type="text"
+                                name="phone"
+                                value={editedProfile.phone}
+                                onChange={handleInputChange}
+                                className="border p-1"
+                            />
+                        ) : (
+                            userProfile.phone
+                        )}
+                    </div>
+                </div>
+
                 <hr />
                 <div className="grid grid-cols-3 gap-4">
                     <div className="col-span-3">
