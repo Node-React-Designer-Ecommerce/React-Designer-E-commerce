@@ -11,6 +11,7 @@ export default {
         buttonColor: "#81B3DC",
         hoverButton: "#61D1DD",
         textColor: "#CE6ADA",
+        canvaWidth: "600px",
         transitionHover: "transition duration-700",
         "custom-bg": "rgb(104 42 34)",
       },

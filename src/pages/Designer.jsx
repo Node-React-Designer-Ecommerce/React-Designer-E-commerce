@@ -61,10 +61,11 @@ export default function Designer() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
+  const [isElementSelected, setIsElementSelected] = useState(false);
 
-  //@@
   const [designId, setDesignId] = useState(null);
-  //@@
+  const [isSaving, setIsSaving] = useState(false);
+  //const [currentDesignId, setCurrentDesignId] = useState(null);
 
   const fetchProductAndDesign = async () => {
     if (!id) return;
@@ -105,8 +106,6 @@ export default function Designer() {
       loadFromJSON(fabricCanvas.current, savedCanvas);
     }
   }, []);
-
-  ///@@@@@@@@
 
   const navigateToLogin = () => {
     navigate(`/login?redirect=product-details/${id}`);
@@ -164,13 +163,17 @@ export default function Designer() {
     };
 
     // Listen for text selection and update events
-    fabricCanvas.current.on("selection:created", handleSelection);
+    fabricCanvas.current.on("selection:created", () => {
+      handleSelection;
+      setIsElementSelected(true);
+    });
     fabricCanvas.current.on("selection:updated", handleSelection);
 
     // Handle clearing of the selection
     fabricCanvas.current.on("selection:cleared", () => {
       setSelectedText(null); // No text is selected
       console.log("Selection cleared"); // Debugging
+      setIsElementSelected(false); // No element selected
     });
 
     // Run resizeCanvas when the component is mounted
@@ -185,6 +188,12 @@ export default function Designer() {
 
     // Cleanup when the component unmounts
     return () => {
+      if (fabricCanvas.current) {
+        const canvas = fabricCanvas.current;
+        // Clean up event listeners when the component is unmounted
+        canvas.off("selection:created");
+        canvas.off("selection:cleared");
+      }
       window.removeEventListener("resize", () =>
         resizeCanvas(fabricCanvas.current, canvasWidth, canvasHeight)
       );
@@ -208,6 +217,7 @@ export default function Designer() {
   };
   // save design
   const handleSaveDesign = async () => {
+    setIsSaving(true); // Start loading
     try {
       const canvasJSON = saveAsJSON(fabricCanvas.current);
       setSavedCanvas(canvasJSON);
@@ -256,6 +266,8 @@ export default function Designer() {
         return saveResponse;
       } else {
         saveResponse = await saveCanvasToBackend(formData);
+        //console.log(saveResponse.data.design._id);
+        //setCurrentDesignId(saveResponse.data.design._id);
         toast.success("Your Design saved successfully");
         console.log("Canvas saved successfully:", saveResponse);
         // Add the designId to the URL
@@ -268,12 +280,10 @@ export default function Designer() {
         console.log(saveResponse);
         return saveResponse;
       }
-      //   const saveResponse = await saveCanvasToBackend(formData);
-      //   toast.success("Your Design saved successfully");
-      //   console.log("Canvas saved successfully:", saveResponse);
-      //   return saveResponse;
     } catch (error) {
       console.error("Error saving canvas:", error);
+    } finally {
+      setIsSaving(false); // Stop loading
     }
   };
 
@@ -285,27 +295,40 @@ export default function Designer() {
     handleAddImage(e, fabricCanvas.current, setDragImages);
 
   //remove selected object
-  const handleRemoveSelectedObj = () =>
-    removeSelectedObject(fabricCanvas.current);
+  const handleRemoveSelectedObj = () => {
+    console.log(isElementSelected);
+    if (!isElementSelected) {
+      console.log("no element");
+    } else {
+      console.log("Removing selected object");
+      removeSelectedObject(fabricCanvas.current); // Your function to remove the selected object
+      setIsElementSelected(false); // Reset the selected state after removing
+    }
+  };
 
   // add to cart
   const handleAddToCart = async () => {
+    if (!designId) {
+      toast.warn("Please save your design before adding to cart");
+      return; // Exit the function if the design is not saved
+    }
     if (!selectedSize) {
       toast.warn("Please choose your size");
       return;
     }
 
-    const res = await handleSaveDesign();
+    //const res = await handleSaveDesign();
 
-    console.log(res.data.design._id);
+    //console.log(res.data.design._id);
 
     const cartItem = {
-      designId: res.data.design._id,
+      designId: designId,
       quantity: 1,
       size: selectedSize,
       type: "Design",
     };
     try {
+      setIsAdding(true);
       const response = await addToCart(cartItem);
       if (response.status === "Not-Modified") {
         toast.warn(response.message);
@@ -321,48 +344,77 @@ export default function Designer() {
 
   return (
     <div className="mb-20">
-      <div className="text-textColor text-4xl text-center my-10 font-bold">
+      <div className="text-textColor text-3xl sm:text-4xl text-center my-5 sm:my-10 font-bold">
         Customize your design
       </div>
-      <div className="flex flex-col lg:flex-row mx-20 ">
+      <div className="flex flex-col lg:flex-row gap-3  jutify-between mx-5 sm:mx-20 lg:mx-36 ">
         {/* T-shirt Canvas */}
         {/* Display the captured screenshot if available */}
 
-        <div className="w-full lg:w-3/4 flex justify-center items-center p-4 ">
-          <div
-            id="divToTakeScreenshot"
-            style={{
-              width: "100%",
-              height: "600px",
-              backgroundImage: `url(${backgroundImage})`,
-            }}
-            className="flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg  bg-cover xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 "
-          >
-            {/* Fabric.js Canvas */}
-            <canvas
-              id="canvasBorder"
-              ref={canvasRef} // Reference to the canvas element
+        <div className="w-full lg:w-3/4 flex justify-start items-center  ">
+          <div className="flex flex-col">
+            <div className=" flex justify-between">
+              <div>
+                <button
+                  className=" bg-red-700 text-white py-2 px-2  rounded w-full sm:w-32 mb-5 cursor-pointer hover:bg-red-600 transition duration-300 ease-in-out    "
+                  onClick={handleResetCanva} // Handle image removal
+                >
+                  Clear Design
+                </button>
+              </div>
+              <div>
+                <button
+                  className={` bg-white text-gray-700 py-2 px-4 rounded w-full sm:w-44 mb-5 
+                transition duration-300 ease-in-out  border border-gray-200 
+                ${
+                  !isElementSelected
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-gray-100 cursor-pointer border border-buttonColor text-buttonColor"
+                }`} // Disable styles
+                  onClick={handleRemoveSelectedObj}
+                  disabled={!isElementSelected} // Disable button if no element is selected
+                >
+                  Remove Selected
+                </button>
+              </div>
+            </div>
+            <div
+              id="divToTakeScreenshot"
               style={{
-                border: "1px dashed gray",
+                backgroundImage: `url(${backgroundImage})`,
               }}
-            />
+              className="flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 bg-red-200
+             w-[350px] h-[350px] md:w-[600px] md:h-[600px]"
+            >
+              {/* Fabric.js Canvas */}
+              <canvas
+                id="canvasBorder"
+                ref={canvasRef} // Reference to the canvas element
+                style={{
+                  border: "1px dashed gray",
+                }}
+              />
+            </div>
           </div>
         </div>
         {/* Sidebar */}
         <div className="w-full lg:w-2/4 p-4 shadow-md rounded-lg border border-gray-300 text-base-content">
-          <div
-            style={{ width: "100%", height: "100%" }}
-            className="flex flex-col   p-5"
-          >
+          <div className="flex flex-col p-5">
             <div className="flex justify-between">
-              <div className="mb-5 font-bold text-2xl text-black">{name}</div>
-              <div className="mb-5 font-bold text-2xl ">{price} EG</div>
+              <div className="mb-5 font-bold text-xl sm:text-2xl text-black">
+                {name}
+              </div>
+              <div className="mb-5 font-bold text-xl sm:text-2xl ">
+                {price} EG
+              </div>
             </div>
             <div className="flex flex-col justify-center mb-5">
               {/* Image Upload */}
               <div className="flex justify-between mt-5 mb-2">
-                <div className="text-xl font-bold">Choose Image </div>
-                <span className=" text-xl 0">+ 100EG</span>
+                <div className="text-lg sm:text-xl font-bold">
+                  Choose Image{" "}
+                </div>
+                <span>+ 100EG</span>
               </div>
 
               <div className="flex justify-between items-center">
@@ -386,8 +438,8 @@ export default function Designer() {
               {/* Button to Add Text */}
               <div className="mt-5">
                 <div className="flex justify-between mb-2">
-                  <div className="text-xl font-bold">Add Text</div>
-                  <span className=" text-xl ">+ 50EG</span>
+                  <div className="text-lg sm:text-xl font-bold">Add Text</div>
+                  <span>+ 50EG</span>
                 </div>
                 <button
                   className=" bg-white text-buttonColor py-4 px-4 rounded cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  w-full border border-buttonColor "
@@ -398,15 +450,15 @@ export default function Designer() {
                 </button>
               </div>
             </div>
-            <div className="text-xl font-bold">Text Control</div>
+            <div className="text-lg sm:text-xl font-bold">Text Control</div>
             <div className="bg-lightBackGround p-3 mt-3 rounded ">
-              <div className="flex justify-between">
+              <div className="">
                 {/* Font Size Input */}
-                <div className="flex  items-center mt-3">
+                <div className="flex gap-8  items-center mt-3">
                   <div className="">
                     <label htmlFor="font-size">Font Size</label>
                   </div>
-                  <span className="ml-1 text-sm">{textProps.fontSize}</span>
+                  <span className="ml-4 text-sm">{textProps.fontSize}</span>
                   <div className="">
                     <input
                       id="font-size"
@@ -434,14 +486,14 @@ export default function Designer() {
                 </div>
 
                 {/* Font Family Selector */}
-                <div className="flex gap-3 items-center mt-3 ">
+                <div className="flex gap-12 items-center mt-3 ">
                   <div className="">
                     <label htmlFor="font-style">Font Style</label>
                   </div>
                   <div className="">
                     <select
                       id="font-style"
-                      className="select select-sm select-success w-full max-w-xs"
+                      className="select select-sm border-buttonColor select-success w-full max-w-xs"
                       value={textProps.fontFamily} // Bind the select dropdown to the current font family
                       onChange={(e) => {
                         handleUpdateTextProps("fontFamily", e.target.value);
@@ -463,7 +515,7 @@ export default function Designer() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between">
+              <div className="lg:flex justify-between">
                 {/* Color Picker for Text */}
                 <div className="flex gap-9 items-center mt-3">
                   <div className="">
@@ -582,13 +634,22 @@ export default function Designer() {
           </div>
         </div>
       </div>
-      <div className="flex justify-end me-32">
+      {/* action buttons */}
+      <div className="lg:flex justify-end mx-5 sm:mx-44 mt-5">
         <button
-          className="me-5 bg-white text-buttonColor py-2 px-4 rounded cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out mt-5 w-44 border border-buttonColor"
-          onClick={handleSaveDesign} // FIXME:
+          className={`me-5 bg-white text-buttonColor py-2 px-4 rounded cursor-pointer 
+                  hover:bg-gray-100 transition duration-300 ease-in-out mt-5 w-full sm:w-44 
+                  border border-buttonColor ${
+                    isSaving ? "opacity-50 cursor-not-allowed" : ""
+                  }`} // Disable styles
+          onClick={handleSaveDesign}
+          disabled={isSaving} // Disable button if saving
         >
-          {/* {isEditing ? "Saved" : "Save Design"} */}
-          Save Design
+          {isSaving ? (
+            <span className="loading loading-ring loading-md"></span> // Show loading spinner
+          ) : (
+            "Save Design"
+          )}
         </button>
         {isLoggedIn ? (
           <button
@@ -596,7 +657,7 @@ export default function Designer() {
             style={{
               background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
             }}
-            className="py-2 px-4 rounded cursor-pointer  hover:bg-green-900 transition duration-700 ease-in-out  text-white btn  mt-5 w-44 me-10 "
+            className="py-2 px-4 rounded cursor-pointer  transition duration-700 ease-in-out  text-white btn  mt-5 w-full sm:w-44 me-8 "
             disabled={isAdding}
           >
             {isAdding ? (
@@ -613,16 +674,6 @@ export default function Designer() {
             Login to Add to Cart
           </button>
         )}
-      </div>
-
-      <div>
-        <button
-          style={{ borderColor: "#4e7f62" }}
-          className="inline-block bg-white text-gray-700 py-2 px-4 rounded cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out mt-5 w-44 border border-indigo-600 mb-5"
-          onClick={handleRemoveSelectedObj} // Handle image removal
-        >
-          Remove Selected Element
-        </button>
       </div>
     </div>
   );
