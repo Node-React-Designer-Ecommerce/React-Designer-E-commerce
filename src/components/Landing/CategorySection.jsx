@@ -5,7 +5,7 @@ function CategorySection() {
   return (
     <section className="py-10 ">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold">CATEGORY SECTION</h2>
+        <h2 className="text-2xl font-bold text-textColor">CATEGORY SECTION</h2>
         <p className="text-gray-500 mb-11">
           Explore our diverse categories to find the perfect styles <br /> that
           suit your taste and needs

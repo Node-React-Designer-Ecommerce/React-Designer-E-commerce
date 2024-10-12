@@ -110,7 +110,12 @@ function Footer() {
               placeholder="Your Email"
               className="input rounded input-bordered w-full mb-4"
             />
-            <button className="btn rounded bg-buttonColor text-white hover:bg-hoverButton w-full">
+            <button
+              className="btn rounded  text-white hover:bg-hoverButton w-full"
+              style={{
+                background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
+              }}
+            >
               Subscribe
             </button>
           </form>
@@ -122,7 +127,7 @@ function Footer() {
           Made With Love By{" "}
           <Link
             to={"/AboutUs"}
-            className="text-purpleColor hover:cursor-pointer"
+            className="text-textColor hover:cursor-pointer"
           >
             WAK WAAK WAAAAK
           </Link>
