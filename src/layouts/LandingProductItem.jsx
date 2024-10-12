@@ -39,33 +39,32 @@ function LandingProductItem() {
   const productChunks = chunkProducts(products, 3);
 
   return (
-    <div className="flex flex-col justify-center">
-      <div className="flex flex-col items-center py-2">
-
+    <div className="flex flex-col justify-center w-full">
+      <div className="flex flex-col items-center py-6 w-full">
         <Carousel
           showArrows={true}
           infiniteLoop={true}
           showThumbs={false}
           showStatus={false}
-          autoPlay={true}          
-          interval={3000}        
-          stopOnHover={true}     
-          className="custom-carousel w-full "  // Adjust max-width to accommodate 3 cards
+          autoPlay={true}
+          interval={3000}
+          stopOnHover={true}
+          className="custom-carousel w-full"  
         >
           {productChunks?.map((chunk, index) => (
-            <div key={index} className="flex justify-around mx-auto" style={{ width: "800px" }}>
+            <div key={index} className="flex flex-wrap justify-center mx-auto gap-4" style={{ maxWidth: "1200px" }}>
               {chunk.map((product) => (
-                <div key={product.id} className="card w-auto bg-white shadow mx-2">
+                <div key={product.id} className="card w-72 bg-white shadow-lg mx-2">
                   <figure>
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="custom-height w-auto "
+                      className="w-full h-48 object-cover"
                     />
                   </figure>
                   <div className="card-body">
-                    <h2 className="card-title">{product.name}</h2>
-                    <p className="text-lg font-semibold">${product.price}</p>
+                    <h2 className="card-title text-center">{product.name}</h2>
+                    <p className="text-lg font-semibold text-center">${product.price}</p>
                   </div>
                 </div>
               ))}

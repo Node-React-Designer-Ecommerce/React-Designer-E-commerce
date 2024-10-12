@@ -11,7 +11,7 @@ function MenCategorySection() {
         <div className="absolute bottom-4 left-4">
           <Link
             to="/products"
-            className="  text-white  px-4 py-2"
+            className="  text-white  px-4 py-2 rounded"
             style={{
               background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
             }}
