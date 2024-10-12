@@ -343,53 +343,49 @@ export default function Designer() {
   };
 
   return (
-    <div className="mb-20">
-      <div className="text-textColor text-3xl sm:text-4xl text-center my-5 sm:my-10 font-bold">
+    <div className="container mx-auto px-4 mb-20">
+      <div className="text-textColor text-3xl sm:text-4xl text-center my-5 sm:my-8 md:my-10 font-bold">
         Customize your design
       </div>
-      <div className="flex flex-col lg:flex-row gap-3  jutify-between mx-5 sm:mx-20 lg:mx-36 ">
+      <div className="flex flex-col lg:flex-row gap-6  justify-between  ">
         {/* T-shirt Canvas */}
         {/* Display the captured screenshot if available */}
 
-        <div className="w-full lg:w-3/4 flex justify-start items-center  ">
+        <div className="w-full lg:w-3/5 flex flex-col justify-start items-center">
           <div className="flex flex-col">
-            <div className=" flex justify-between">
-              <div>
-                <button
-                  className=" bg-red-700 text-white py-2 px-2  rounded w-full sm:w-32 mb-5 cursor-pointer hover:bg-red-600 transition duration-300 ease-in-out    "
-                  onClick={handleResetCanva} // Handle image removal
-                >
-                  Clear Design
-                </button>
-              </div>
-              <div>
-                <button
-                  className={` bg-white text-gray-700 py-2 px-4 rounded w-full sm:w-44 mb-5 
-                transition duration-300 ease-in-out  border border-gray-200 
-                ${
+            {/* Buttons Container */}
+            <div className="flex sm:justify-between justify-evenly  w-full">
+              <button
+                className="bg-red-700 text-white py-2 px-2 rounded w-32 sm:w-1/4 md:w-32 lg:w-32 cursor-pointer hover:bg-red-600 transition duration-300 ease-in-out "
+                onClick={handleResetCanva}
+              >
+                Clear Design
+              </button>
+              <button
+                className={`bg-white text-gray-700 py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-gray-200  ${
                   !isElementSelected
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:bg-gray-100 cursor-pointer border border-buttonColor text-buttonColor"
-                }`} // Disable styles
-                  onClick={handleRemoveSelectedObj}
-                  disabled={!isElementSelected} // Disable button if no element is selected
-                >
-                  Remove Selected
-                </button>
-              </div>
+                }`}
+                onClick={handleRemoveSelectedObj}
+                disabled={!isElementSelected}
+              >
+                Remove Selected
+              </button>
             </div>
+
+            {/* Design Container */}
             <div
               id="divToTakeScreenshot"
               style={{
                 backgroundImage: `url(${backgroundImage})`,
               }}
-              className="flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 bg-red-200
-             w-[350px] h-[350px] md:w-[600px] md:h-[600px]"
+              className="flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover sm:bg-contain xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 w-[400px] h-[500px] md:w-[600px] md:h-[600px]"
             >
               {/* Fabric.js Canvas */}
               <canvas
                 id="canvasBorder"
-                ref={canvasRef} // Reference to the canvas element
+                ref={canvasRef}
                 style={{
                   border: "1px dashed gray",
                 }}
@@ -397,6 +393,7 @@ export default function Designer() {
             </div>
           </div>
         </div>
+
         {/* Sidebar */}
         <div className="w-full lg:w-2/4 p-4 shadow-md rounded-lg border border-gray-300 text-base-content">
           <div className="flex flex-col p-5">
