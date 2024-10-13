@@ -24,7 +24,8 @@ export default function ProfileInformation() {
         setIsSaving(true);
         try {
             await handleSaveProfile(editedProfile);
-            window.location.reload();
+            toast.success('Profile updated successfully!');
+            window.location.reload()
         } catch (error) {
             console.error('Error saving profile:', error);
             toast.error('Error updating profile. Please try again.');

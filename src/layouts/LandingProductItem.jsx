@@ -3,7 +3,7 @@ import { getAllProducts } from '../utils/api/productsapi';
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Skelton from './../layouts/Skelton';
-import '../styles/CarouselCustom.css'; 
+import '../styles/CarouselCustom.css';
 
 // Utility function to group products into chunks of 3
 const chunkProducts = (products, chunkSize) => {
@@ -24,10 +24,12 @@ function LandingProductItem() {
   if (isLoading) {
     return (
       <div className="flex justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-8">
           {Array.from({ length: 3 }).map((_, index) => (
             <div key={index} className="card bg-base-100 w-80 shadow-xl">
-              <Skelton />
+              <div className="flex justify-center">
+                <Skelton />
+              </div>
             </div>
           ))}
         </div>
@@ -49,7 +51,7 @@ function LandingProductItem() {
           autoPlay={true}
           interval={3000}
           stopOnHover={true}
-          className="custom-carousel w-full"  
+          className="custom-carousel w-full"
         >
           {productChunks?.map((chunk, index) => (
             <div key={index} className="flex flex-wrap justify-center mx-auto gap-4" style={{ maxWidth: "1200px" }}>
