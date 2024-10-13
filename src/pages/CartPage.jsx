@@ -5,7 +5,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 
 export default function CartPage() {
-  const { totalQuantity, totalPrice, cart, loading, pendingUpdates, isRemoving, isClearing, loadingConfirm, handleQuantityChange, confirmUpdateQuantity, handleRemoveFromCart, handleClearCart } = useCart();
+  const {
+    totalQuantity,
+    totalPrice,
+    cart,
+    loading,
+    pendingUpdates,
+    isRemoving,
+    isClearing,
+    loadingConfirm,
+    handleQuantityChange,
+    //confirmUpdateQuantity,
+    handleRemoveFromCart,
+    handleClearCart,
+  } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [iframeSrc, setIframeSrc] = useState("");
 
@@ -103,33 +116,41 @@ export default function CartPage() {
                       <p className="text-gray-500">Size: {product?.size}</p>
                     </div>
                     <div className="text-left">
+                      <div>
+                        <button
+                          onClick={() => handleRemoveFromCart(product?._id)}
+                          className="btn btn-outline btn-danger"
+                          disabled={isRemoving === product?._id}
+                        >
+                          {isRemoving === product?._id ? (
+                            <span className="loading loading-ring loading-md"></span>
+                          ) : (
+                            "Remove"
+                          )}
+                        </button>
+                      </div>
                       <div className="flex ">
                         <p className="text-lg font-bold">Price : </p>
                         <p className="text-lg ms-2 ">
-                          <span className="text-gray-400 text-base">EGP</span>{" "}
                           {product?.type === "Product"
                             ? product?.product?.price
                             : product?.design?.totalPrice}
+                          <span className="text-gray-400 text-base">EG</span>{" "}
                         </p>
                       </div>
 
                       <div className="flex justify-between">
                         <p className="text-lg font-bold">Total Price : </p>
                         <p className="text-lg ms-3 ">
-                          <span className="text-gray-400 text-base">EGP</span>{" "}
                           {product?.type === "Product"
                             ? product?.product?.price * product?.quantity
                             : product?.design?.totalPrice * product?.quantity}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-base font-bold">
-                          Qty: {product?.quantity}
+                          <span className="text-gray-400 text-base">EG</span>{" "}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mt-3">
+                  <div className="flex items-center justify-end mt-3">
                     <div className="flex items-center">
                       <button
                         onClick={() =>
@@ -141,13 +162,9 @@ export default function CartPage() {
                         className="btn btn-outline btn-neutral"
                         disabled={product?.quantity <= 1}
                       >
-                        -1
+                        -
                       </button>
-                      <span className="mx-3">
-                        {pendingUpdates[product?._id] !== undefined
-                          ? pendingUpdates[product?._id]
-                          : product?.quantity}
-                      </span>
+                      <span className="mx-3">{product?.quantity}</span>
                       <button
                         onClick={() =>
                           handleQuantityChange(
@@ -157,28 +174,16 @@ export default function CartPage() {
                         }
                         className="btn btn-outline btn-neutral"
                         disabled={
-                          pendingUpdates[product?._id] >=
+                          product?.quantity >=
                           product?.product?.stock?.find(
                             (s) => s?.size === product?.size
                           )?.quantity
                         }
                       >
-                        +1
+                        +
                       </button>
-                      {pendingUpdates[product?._id] !== undefined && (
-                        <button
-                          onClick={() => confirmUpdateQuantity(product?._id)}
-                          className="bg-slate-50 hover:bg-green-900 hover:text-white btn text-SecondaryColor border border-SecondaryColor ml-3"
-                          disabled={loadingConfirm[product?._id]}
-                        >
-                          {loadingConfirm[product?._id] ? (
-                            <span className="loading loading-ring loading-md"></span>
-                          ) : (
-                            "Confirm"
-                          )}
-                        </button>
-                      )}
                     </div>
+                    {/*
                     <button
                       onClick={() => handleRemoveFromCart(product?._id)}
                       className="btn btn-outline btn-danger"
@@ -189,15 +194,17 @@ export default function CartPage() {
                       ) : (
                         "Remove"
                       )}
-                    </button>
+                    </button>*/}
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Summary Section */}
-            <div className="col-span-1 bg-gray-100 p-5 rounded-lg">
-              <h2 className="font-bold text-2xl text-black">Order Summary</h2>
+            <div className="col-span-1 bg-lightBackGround p-5 rounded-lg h-80">
+              <h2 className="font-bold text-2xl text-textColor">
+                Order Summary
+              </h2>
               <div className="mt-5">
                 <div className="flex justify-between">
                   <span className="font-bold">Total Quantity:</span>
@@ -205,7 +212,7 @@ export default function CartPage() {
                 </div>
                 <div className="flex justify-between mt-2">
                   <span className="font-bold">Total Price:</span>
-                  <span>EGP {totalPrice}</span>
+                  <span> {totalPrice} EG</span>
                 </div>
                 <button
                   onClick={handleClearCart}
@@ -219,8 +226,11 @@ export default function CartPage() {
                   )}
                 </button>
                 <button
-                  className="bg-SecondaryColor hover:bg-green-900 transition duration-300 ease-in-out rounded-lg text-white px-14 py-2 mt-2 w-full  "
+                  className="  transition duration-300 ease-in-out rounded-lg text-white px-14 py-2 mt-2 w-full  "
                   onClick={checkout}
+                  style={{
+                    background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
+                  }}
                 >
                   Checkout
                 </button>

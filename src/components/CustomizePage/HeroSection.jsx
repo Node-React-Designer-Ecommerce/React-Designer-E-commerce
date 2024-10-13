@@ -10,7 +10,7 @@ export default function HeroSection() {
       </div>
       <div className="bg-white flex justify-start items-center text-gray-600 md:col-span-2  p-4 ">
         <div className="text-lg w-full md:w-[600px]">
-          <div className="mb-5 font-bold text-4xl text-purpleColor text-center">
+          <div className="mb-5 font-bold text-4xl text-textColor text-center">
             Create Your Perfect T-Shirt !
           </div>
           <p className="text-center">
