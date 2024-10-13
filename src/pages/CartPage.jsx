@@ -3,9 +3,23 @@ import { useCart } from "../context/CartContext";
 import EmptyCart from "../components/EmptyCart";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
+import DeleteIcon from "../icons/DeleteIcon";
 
 export default function CartPage() {
-  const { totalQuantity, totalPrice, cart, loading, pendingUpdates, isRemoving, isClearing, loadingConfirm, handleQuantityChange, confirmUpdateQuantity, handleRemoveFromCart, handleClearCart } = useCart();
+  const {
+    totalQuantity,
+    totalPrice,
+    cart,
+    loading,
+    pendingUpdates,
+    isRemoving,
+    isClearing,
+    loadingConfirm,
+    handleQuantityChange,
+    //confirmUpdateQuantity,
+    handleRemoveFromCart,
+    handleClearCart,
+  } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [iframeSrc, setIframeSrc] = useState("");
 
@@ -78,17 +92,19 @@ export default function CartPage() {
         <EmptyCart></EmptyCart>
       ) : (
         <div className="m-5">
-          <h1 className="mb-5 font-bold text-3xl text-black">Shopping Cart</h1>
+          <h1 className="mb-5 font-bold text-3xl text-textColor">
+            Shopping Cart
+          </h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-            <div className="col-span-2">
+            <div className="col-span-2 ">
               {cart.map((product) => (
                 <div
                   key={product?._id}
-                  className="bg-white shadow-lg rounded-lg p-5 mb-5"
+                  className="relative bg-white shadow-lg rounded-lg py-5 px-10 mb-5 "
                 >
-                  <div className="flex items-center">
+                  <div className="lg:flex md:flex items-center">
                     <img
-                      className="w-24 h-24 rounded"
+                      className="w-32 h-32 rounded"
                       src={
                         product?.type === "Product"
                           ? product?.product?.image
@@ -103,101 +119,83 @@ export default function CartPage() {
                       <p className="text-gray-500">Size: {product?.size}</p>
                     </div>
                     <div className="text-left">
-                      <div className="flex ">
+                      <div className="absolute top-0 right-0 flex justify-end p-2">
+                        <button
+                          onClick={() => handleRemoveFromCart(product?._id)}
+                          className="bg-red-500 text-white rounded-3xl w-11  h-11 flex justify-center items-center cursor-pointer"
+                          disabled={isRemoving === product?._id}
+                        >
+                          {isRemoving === product?._id ? (
+                            <span className="loading loading-ring loading-md"></span>
+                          ) : (
+                            <DeleteIcon />
+                          )}
+                        </button>
+                      </div>
+                      <div className="flex justify-start  ">
                         <p className="text-lg font-bold">Price : </p>
                         <p className="text-lg ms-2 ">
-                          <span className="text-gray-400 text-base">EGP</span>{" "}
                           {product?.type === "Product"
                             ? product?.product?.price
                             : product?.design?.totalPrice}
+                          <span className="text-gray-400 text-base">EG</span>{" "}
                         </p>
                       </div>
 
                       <div className="flex justify-between">
                         <p className="text-lg font-bold">Total Price : </p>
                         <p className="text-lg ms-3 ">
-                          <span className="text-gray-400 text-base">EGP</span>{" "}
                           {product?.type === "Product"
                             ? product?.product?.price * product?.quantity
                             : product?.design?.totalPrice * product?.quantity}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-base font-bold">
-                          Qty: {product?.quantity}
+                          <span className="text-gray-400 text-base">EG</span>{" "}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mt-3">
+                  <div className="flex items-center justify-end mt-3">
                     <div className="flex items-center">
-                      <button
+                      <div
                         onClick={() =>
                           handleQuantityChange(
                             product?._id,
                             product?.quantity - 1
                           )
                         }
-                        className="btn btn-outline btn-neutral"
+                        className=" rounded border border-buttonColor w-10 h-10 text-lg  flex items-center justify-center text-buttonColor hover:cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  "
                         disabled={product?.quantity <= 1}
                       >
-                        -1
-                      </button>
-                      <span className="mx-3">
-                        {pendingUpdates[product?._id] !== undefined
-                          ? pendingUpdates[product?._id]
-                          : product?.quantity}
-                      </span>
-                      <button
+                        -
+                      </div>
+                      <span className="mx-3">{product?.quantity}</span>
+                      <div
                         onClick={() =>
                           handleQuantityChange(
                             product?._id,
                             product?.quantity + 1
                           )
                         }
-                        className="btn btn-outline btn-neutral"
+                        className=" rounded border border-buttonColor w-10 h-10 text-lg  flex items-center justify-center text-buttonColor hover:cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out "
                         disabled={
-                          pendingUpdates[product?._id] >=
+                          product?.quantity >=
                           product?.product?.stock?.find(
                             (s) => s?.size === product?.size
                           )?.quantity
                         }
                       >
-                        +1
-                      </button>
-                      {pendingUpdates[product?._id] !== undefined && (
-                        <button
-                          onClick={() => confirmUpdateQuantity(product?._id)}
-                          className="bg-slate-50 hover:bg-green-900 hover:text-white btn text-SecondaryColor border border-SecondaryColor ml-3"
-                          disabled={loadingConfirm[product?._id]}
-                        >
-                          {loadingConfirm[product?._id] ? (
-                            <span className="loading loading-ring loading-md"></span>
-                          ) : (
-                            "Confirm"
-                          )}
-                        </button>
-                      )}
+                        +
+                      </div>
                     </div>
-                    <button
-                      onClick={() => handleRemoveFromCart(product?._id)}
-                      className="btn btn-outline btn-danger"
-                      disabled={isRemoving === product?._id}
-                    >
-                      {isRemoving === product?._id ? (
-                        <span className="loading loading-ring loading-md"></span>
-                      ) : (
-                        "Remove"
-                      )}
-                    </button>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Summary Section */}
-            <div className="col-span-1 bg-gray-100 p-5 rounded-lg">
-              <h2 className="font-bold text-2xl text-black">Order Summary</h2>
+            <div className="col-span-1 bg-lightBackGround p-5 rounded-lg h-80">
+              <h2 className="font-bold text-2xl text-textColor">
+                Order Summary
+              </h2>
               <div className="mt-5">
                 <div className="flex justify-between">
                   <span className="font-bold">Total Quantity:</span>
@@ -205,11 +203,11 @@ export default function CartPage() {
                 </div>
                 <div className="flex justify-between mt-2">
                   <span className="font-bold">Total Price:</span>
-                  <span>EGP {totalPrice}</span>
+                  <span> {totalPrice} EG</span>
                 </div>
                 <button
                   onClick={handleClearCart}
-                  className="bg-slate-50 hover:bg-red-600 hover:text-white text-red-500 border border-red-500 transition duration-300 ease-in-out rounded-lg py-2 px-14 mt-16 w-full  "
+                  className="bg-red-700 hover:bg-red-600 text-white  transition duration-300 ease-in-out rounded py-2 px-14 mt-16 w-full  "
                   disabled={isClearing}
                 >
                   {isClearing ? (
@@ -219,8 +217,11 @@ export default function CartPage() {
                   )}
                 </button>
                 <button
-                  className="bg-SecondaryColor hover:bg-green-900 transition duration-300 ease-in-out rounded-lg text-white px-14 py-2 mt-2 w-full  "
+                  className="  transition duration-300 ease-in-out rounded text-white px-14 py-2 mt-2 w-full  "
                   onClick={checkout}
+                  style={{
+                    background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
+                  }}
                 >
                   Checkout
                 </button>

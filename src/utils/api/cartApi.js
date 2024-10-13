@@ -23,7 +23,9 @@ export const getCart = async () => {
 // Remove item from cart
 export const removeFromCart = async (cartItemId) => {
   try {
+    console.log(cartItemId);
     const response = await axiosInstance.delete(`/cart/${cartItemId}`); // Appending /cart/:cartItemId
+    console.log(response.data);
     return response.data;
   } catch (error) {
     throw error.response.data;

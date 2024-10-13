@@ -3,7 +3,8 @@ import Hero from "../components/Landing/Hero";
 import CategorySection from "./../components/Landing/CategorySection";
 import MiniSection from "../components/Landing/MiniSection";
 import LandingProductItem from "./../layouts/LandingProductItem";
-import Heroo from './Heroo';
+import Heroo from "../components/Landing/Heroo";
+// import Heroo from '../components/Landing/Heroo';
 
 function Landing() {
   return (
