@@ -66,6 +66,7 @@ export default function Designer() {
   const [designId, setDesignId] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   //const [currentDesignId, setCurrentDesignId] = useState(null);
+  const [canvasObjects, setCanvasObjects] = useState([]);
 
   const fetchProductAndDesign = async () => {
     if (!id) return;
@@ -129,16 +130,6 @@ export default function Designer() {
       return null;
     }
   };
-  const updateTotalPrice = () => {
-    if (product && fabricCanvas.current) {
-      const basePrice = parseFloat(product.price);
-      const newTotalPrice = calculateTotalPrice(
-        basePrice,
-        fabricCanvas.current
-      );
-      setTotalPrice(newTotalPrice);
-    }
-  };
 
   // useeffect/////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
@@ -148,15 +139,29 @@ export default function Designer() {
       setPrice(product.price);
       setCanvasWidth(product.canvasWidth); // Set canvas width from product
       setCanvasHeight(product.canvasHeight); // Set canvas height from product
-      fabricCanvas.current.on("object:added", updateTotalPrice);
-      fabricCanvas.current.on("object:removed", updateTotalPrice);
-      // Initial price calculation
-      updateTotalPrice();
     }
 
     // Initialize the Fabric.js canvas
 
     fabricCanvas.current = new fabric.Canvas(canvasRef.current);
+
+    const handleObjectAdded = (e) => {
+      console.log("Object added:", e.target.type);
+      setCanvasObjects((prevObjects) => [...prevObjects, e.target]);
+    };
+
+    const handleObjectRemoved = (e) => {
+      console.log("Object removed:", e.target.type);
+      setCanvasObjects((prevObjects) =>
+        prevObjects.filter((obj) => obj !== e.target)
+      );
+    };
+
+    fabricCanvas.current.on("object:added", handleObjectAdded);
+    fabricCanvas.current.on("object:removed", handleObjectRemoved);
+
+    // Initial price calculation
+    updateTotalPrice();
 
     // Function to handle when text is selected or updated
     const handleSelection = (e) => {
@@ -207,8 +212,8 @@ export default function Designer() {
         // Clean up event listeners when the component is unmounted
         canvas.off("selection:created");
         canvas.off("selection:cleared");
-        fabricCanvas.current.off("object:added", updateTotalPrice);
-        fabricCanvas.current.off("object:removed", updateTotalPrice);
+        fabricCanvas.current.off("object:added", handleObjectAdded);
+        fabricCanvas.current.off("object:removed", handleObjectRemoved);
       }
       window.removeEventListener("resize", () =>
         resizeCanvas(fabricCanvas.current, canvasWidth, canvasHeight)
@@ -221,10 +226,23 @@ export default function Designer() {
     };
   }, [product, id, canvasHeight, canvasWidth]); // Only re-run this effect if textProps changes
 
+  useEffect(() => {
+    updateTotalPrice();
+  }, [canvasObjects]);
+
+  const updateTotalPrice = () => {
+    if (product && fabricCanvas.current) {
+      const basePrice = parseFloat(product.price);
+      const newTotalPrice = calculateTotalPrice(
+        basePrice,
+        fabricCanvas.current
+      );
+      setTotalPrice(newTotalPrice);
+    }
+  };
   // add text
   const handleAddText = () => {
     addText(fabricCanvas.current, textProps);
-    updateTotalPrice();
   };
 
   // Function to update the properties of the selected text
@@ -312,7 +330,6 @@ export default function Designer() {
   // Function to handle adding an image to the canvas
   const handleAddImageOnCanva = (e) => {
     handleAddImage(e, fabricCanvas.current, setDragImages);
-    updateTotalPrice();
   };
 
   //remove selected object
