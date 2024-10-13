@@ -148,7 +148,7 @@ export default function ProductsPage() {
           <img
             src="productscover.png"
             alt="product page header image"
-            className="h-60  col-span-2 relative z-40"
+            className="h-96    w-full col-span-2 relative z-40"
           />
           <div className="py-10  col-span-2 flex flex-col items-start justify-start md:justify-center">
             <p className="font-bold text-textColor text-4xl py-3">

@@ -5,9 +5,16 @@
 
 .carousel .control-dots .dot {
   background-color:#81B3DC;
+  width:15px;
+  height: 15px;
+}
+
+.control-dots{
+  bottom: -30px ;
 }
 
 .carousel .control-dots .dot.selected {
-    width:70px;
+    width:20px;
+    height: 20px;
   background-color: #ce6ada;
 }

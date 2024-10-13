@@ -64,9 +64,8 @@ export const UserProvider = ({ children }) => {
         userProfile._id,
         updatedData
       );
-      setUserProfile(updatedProfile);
+      setUserProfile(updatedProfile); // Update the local state with the updated profile data
       setIsEditing(false);
-      fetchData(); // Re-fetch data after updating profile
     } catch (error) {
       setError(`Error updating user profile: ${error.message}`);
     }
