@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useRef, useEffect, useState, useContext } from "react";
 import { fabric } from "fabric";
 import { useLocation, useNavigate, useParams } from "react-router";
@@ -49,6 +48,7 @@ export default function Designer() {
   const [backgroundImage, setBackgroundImage] = useState(""); // State for background image
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [totalPrice, setTotalPrice] = useState("");
   const [canvasWidth, setCanvasWidth] = useState(0); // State for canvas width
   const [canvasHeight, setCanvasHeight] = useState(0); // State for canvas height
   const [selectedSize, setSelectedSize] = useState(""); // State for size
@@ -129,6 +129,16 @@ export default function Designer() {
       return null;
     }
   };
+  const updateTotalPrice = () => {
+    if (product && fabricCanvas.current) {
+      const basePrice = parseFloat(product.price);
+      const newTotalPrice = calculateTotalPrice(
+        basePrice,
+        fabricCanvas.current
+      );
+      setTotalPrice(newTotalPrice);
+    }
+  };
 
   // useeffect/////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
@@ -138,6 +148,10 @@ export default function Designer() {
       setPrice(product.price);
       setCanvasWidth(product.canvasWidth); // Set canvas width from product
       setCanvasHeight(product.canvasHeight); // Set canvas height from product
+      fabricCanvas.current.on("object:added", updateTotalPrice);
+      fabricCanvas.current.on("object:removed", updateTotalPrice);
+      // Initial price calculation
+      updateTotalPrice();
     }
 
     // Initialize the Fabric.js canvas
@@ -193,6 +207,8 @@ export default function Designer() {
         // Clean up event listeners when the component is unmounted
         canvas.off("selection:created");
         canvas.off("selection:cleared");
+        fabricCanvas.current.off("object:added", updateTotalPrice);
+        fabricCanvas.current.off("object:removed", updateTotalPrice);
       }
       window.removeEventListener("resize", () =>
         resizeCanvas(fabricCanvas.current, canvasWidth, canvasHeight)
@@ -208,6 +224,7 @@ export default function Designer() {
   // add text
   const handleAddText = () => {
     addText(fabricCanvas.current, textProps);
+    updateTotalPrice();
   };
 
   // Function to update the properties of the selected text
@@ -254,6 +271,8 @@ export default function Designer() {
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
+      setTotalPrice(totalPrice);
+      console.log(totalPrice);
 
       // Make the API call to save the design
       //const params = new URLSearchParams(window.location.search);
@@ -291,8 +310,10 @@ export default function Designer() {
   const handleResetCanva = () => resetCanvas(fabricCanvas.current);
 
   // Function to handle adding an image to the canvas
-  const handleAddImageOnCanva = (e) =>
+  const handleAddImageOnCanva = (e) => {
     handleAddImage(e, fabricCanvas.current, setDragImages);
+    updateTotalPrice();
+  };
 
   //remove selected object
   const handleRemoveSelectedObj = () => {
@@ -303,6 +324,7 @@ export default function Designer() {
       console.log("Removing selected object");
       removeSelectedObject(fabricCanvas.current); // Your function to remove the selected object
       setIsElementSelected(false); // Reset the selected state after removing
+      updateTotalPrice();
     }
   };
 
@@ -343,15 +365,15 @@ export default function Designer() {
   };
 
   return (
-    <div className="container mx-auto px-4 mb-20">
+    <div className="container mx-auto px-4 mb-20 ">
       <div className="text-textColor text-3xl sm:text-4xl text-center my-5 sm:my-8 md:my-10 font-bold">
         Customize your design
       </div>
-      <div className="flex flex-col lg:flex-row gap-6  justify-between  ">
+      <div className="flex flex-col lg:flex-row gap-6  justify-between  lg:mx-24 ">
         {/* T-shirt Canvas */}
         {/* Display the captured screenshot if available */}
 
-        <div className="w-full lg:w-3/5 flex flex-col justify-start items-center">
+        <div className="w-full lg:w-3/5 flex flex-col justify-start items-center ">
           <div className="flex flex-col">
             {/* Buttons Container */}
             <div className="flex sm:justify-between justify-evenly  w-full">
@@ -402,7 +424,7 @@ export default function Designer() {
                 {name}
               </div>
               <div className="mb-5 font-bold text-xl sm:text-2xl ">
-                {price} EG
+                {totalPrice} EG
               </div>
             </div>
             <div className="flex flex-col justify-center mb-5">
@@ -632,7 +654,7 @@ export default function Designer() {
         </div>
       </div>
       {/* action buttons */}
-      <div className="lg:flex justify-end mx-5 sm:mx-44 mt-5">
+      <div className="lg:flex justify-end mx-5 sm:mx-40 mt-5">
         <button
           className={`me-5 bg-white text-buttonColor py-2 px-4 rounded cursor-pointer 
                   hover:bg-gray-100 transition duration-300 ease-in-out mt-5 w-full sm:w-44 
