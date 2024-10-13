@@ -274,6 +274,7 @@ export default function Designer() {
         const currentUrl = new URL(window.location.href);
         currentUrl.searchParams.set("edit", newDesignId);
         window.history.pushState({}, "", currentUrl.toString());
+        toast.success("Your Design added successfully");
         console.log(saveResponse);
         return saveResponse;
       }
@@ -369,9 +370,7 @@ export default function Designer() {
 
               <button
                 className={`bg-white  text-gray-700 py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-buttonColor ${
-                  isRemoveButtonDisabled()
-                    ? "bg-secondary-content border-none"
-                    : ""
+                  isRemoveButtonDisabled() ? "bg-gray-200 border-none" : ""
                 }`}
                 onClick={handleRemoveSelectedObj}
                 disabled={isRemoveButtonDisabled()}
