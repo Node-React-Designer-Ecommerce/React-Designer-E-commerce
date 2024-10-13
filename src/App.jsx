@@ -27,7 +27,6 @@ import UserProfile from "./pages/UserProfile";
 import { UserProvider } from "./context/UserContext";
 import AboutUs from "./pages/AboutUs";
 import DesignerDetails from "./pages/DesignerDetails";
-import Heroo from "./pages/Heroo";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -93,10 +92,6 @@ function App() {
                               <Route
                                 path="/Designer/:id"
                                 element={<Designer />}
-                              />
-                              <Route
-                                path="/test"
-                                element={<Heroo/>}
                               />
                               <Route
                                 path="/product-details/:id"

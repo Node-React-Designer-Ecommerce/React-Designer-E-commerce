@@ -11,7 +11,7 @@ function Hero() {
       >
         {/* Text Section */}
         <div className="text-neutral-700 p-4 my-auto text-center md:text-left">
-          <h1 className="text-2xl mb-4 md:text-4xl font-bold">
+          <h1 className="text-md sm:text-xl mb-4 md:text-2xl lg:text-2xl font-bold">
             Show The World Your <br />
             Own Unique Style
           </h1>
