@@ -64,62 +64,63 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const handleQuantityChange = (itemId, newQuantity) => {
-    const cartItem = cart.find((item) => item._id === itemId);
-    const sizeStock = cartItem.product.stock.find(
-      (s) => s.size === cartItem.size
+  const handleQuantityChange = (productId, newQuantity) => {
+    // Update the product's quantity in the cart
+    const updatedCart = cart.map((product) =>
+      product._id === productId
+        ? { ...product, quantity: newQuantity }
+        : product
+    );
+    setCart(updatedCart);
+
+    // Recalculate total quantity and price
+    const newTotalQuantity = updatedCart.reduce(
+      (acc, product) => acc + product.quantity,
+      0
+    );
+    const newTotalPrice = updatedCart.reduce(
+      (acc, product) =>
+        acc +
+        (product.type === "Product"
+          ? product.product.price * product.quantity
+          : product.design.totalPrice * product.quantity),
+      0
     );
 
-    if (newQuantity < 1) return;
-
-    if (newQuantity > sizeStock.quantity) {
-      toast.error(
-        `Not enough quantity of size ${cartItem.size} in stock. Available: ${sizeStock.quantity}`
-      );
-      return;
-    }
-
-    setPendingUpdates((prev) => ({
-      ...prev,
-      [itemId]: newQuantity,
-    }));
-
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item._id === itemId ? { ...item, quantity: newQuantity } : item
-      )
-    );
+    setTotalQuantity(newTotalQuantity);
+    setTotalPrice(newTotalPrice);
   };
 
-  const confirmUpdateQuantity = async (itemId) => {
-    const newQuantity = pendingUpdates[itemId];
+  // const confirmUpdateQuantity = async (itemId) => {
+  //   const newQuantity = pendingUpdates[itemId];
 
-    setLoadingConfirm((prev) => ({ ...prev, [itemId]: true }));
+  //   setLoadingConfirm((prev) => ({ ...prev, [itemId]: true }));
 
-    try {
-      await updateCartItem(itemId, {
-        size: cart.find((item) => item._id === itemId).size,
-        quantity: newQuantity,
-      });
-      const updatedCart = await getCart();
-      setCart(updatedCart.data.cart);
-      calculateTotals(updatedCart.data.cart);
-      setPendingUpdates((prev) => {
-        const { [itemId]: _, ...rest } = prev;
-        return rest;
-      });
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setLoadingConfirm((prev) => ({ ...prev, [itemId]: false }));
-    }
-  };
+  //   try {
+  //     await updateCartItem(itemId, {
+  //       size: cart.find((item) => item._id === itemId).size,
+  //       quantity: newQuantity,
+  //     });
+  //     const updatedCart = await getCart();
+  //     setCart(updatedCart.data.cart);
+  //     calculateTotals(updatedCart.data.cart);
+  //     setPendingUpdates((prev) => {
+  //       const { [itemId]: _, ...rest } = prev;
+  //       return rest;
+  //     });
+  //   } catch (err) {
+  //     toast.error(err.message);
+  //   } finally {
+  //     setLoadingConfirm((prev) => ({ ...prev, [itemId]: false }));
+  //   }
+  // };
 
   const handleRemoveFromCart = async (itemId) => {
     setIsRemoving(itemId);
+    console.log(itemId);
     try {
       await removeFromCart(itemId);
-      const updatedCart = cart.filter((item) => item._id !== itemId);
+      const updatedCart = cart.filter((item) => item?._id !== itemId);
       setCart(updatedCart);
       calculateTotals(updatedCart);
     } catch (err) {
@@ -156,7 +157,7 @@ export const CartProvider = ({ children }) => {
         loadingConfirm,
         addToCart,
         handleQuantityChange,
-        confirmUpdateQuantity,
+        //confirmUpdateQuantity,
         handleRemoveFromCart,
         handleClearCart,
       }}
