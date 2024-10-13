@@ -1,60 +1,13 @@
-/* CarouselCustom.css */
-.carousel {
-  position: relative;
+
+.custom-height {
+  height: 300px; 
 }
 
-.carousel-item {
-  display: none;
+.carousel .control-dots .dot {
+  background-color:#81B3DC;
 }
 
-.carousel-item.active {
-  display: block;
-}
-
-.carousel-item img {
-  width: 100%;
-  height: auto;
-}
-
-.carousel-item .btn-circle {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.carousel-item .btn-circle:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* Custom styles for navigation bullets */
-.btn-xs {
-  background-color: #81B3DC;
-  color: white;
-  font-size: 1.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-xs:hover {
-  background-color: #6092B3;
-}
-
-/* Custom styles for cards */
-.card {
-  height: 300px; /* Adjust the height as needed */
-}
-
-.card img {
-  height: 200px; /* Adjust the height as needed */
-  object-fit: cover;
-}
-
-.card-body {
-  padding: 1rem;
+.carousel .control-dots .dot.selected {
+    width:70px;
+  background-color: #ce6ada;
 }
