@@ -1,8 +1,12 @@
+import { useEffect } from "react";
 import ProfileCard from "../components/UserProfile/ProfileCard";
 import ProfileInformation from "../components/UserProfile/ProfileInformation";
 import UserTabs from "../components/UserProfile/UserTabs";
 
 const UserProfile = () => {
+  useEffect(()=> {
+
+  },[])
   return (
     <div className="container mx-auto p-4">
       <div className="main-body lg:mx-32">

@@ -24,29 +24,34 @@ export const UserProvider = ({ children }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = async () => {
-    try {
-      const [profileData, ordersData, favProductsData, designs] =
-        await Promise.all([
-          fetchUserProfile(),
-          fetchUserOrders(),
-          fetchFavoriteProducts(),
-          fetchUserDesigns(),
-        ]);
-      setUserProfile(profileData);
-      setUserOrders(ordersData);
-      setFavoriteProducts(favProductsData);
-      setUserDesigns(designs);
-    } catch (error) {
-      setError(`Error fetching user data: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true); // Start loading before fetching
+        const [profileData, ordersData, favProductsData, designs] =
+          await Promise.all([
+            fetchUserProfile(),
+            fetchUserOrders(),
+            fetchFavoriteProducts(),
+            fetchUserDesigns(),
+          ]);
+        setUserProfile(profileData);
+        setUserOrders(ordersData);
+        setFavoriteProducts(favProductsData);
+        setUserDesigns(designs);
+      } catch (error) {
+        setError(`Error fetching user data: ${error.message}`);
+      } finally {
+        setIsLoading(false); // Finish loading
+      }
+    };
+
+    fetchData(); // Call the fetch function when component mounts
+  }, []); // Empty dependency array means it runs once when the component mounts
 
   useEffect(() => {
     if (isLoggedIn) {
-      fetchData();
+      setIsLoading(true);
     } else {
       setUserProfile(null);
       setUserOrders(null);
@@ -75,7 +80,7 @@ export const UserProvider = ({ children }) => {
     try {
       await apiRemoveFromFavorites(productId); // Call the API function to remove the product
       const updatedFavorites = favoriteProducts.filter(product => product._id !== productId);
-      setFavoriteProducts(updatedFavorites);
+      setFavoriteProducts([...updatedFavorites]); // Update the state
     } catch (error) {
       setError(`Error removing favorite product: ${error.message}`);
     }
@@ -85,11 +90,15 @@ export const UserProvider = ({ children }) => {
     try {
       await removeUserDesign(designId); // Call the API function to remove the design
       const updatedDesigns = designs.filter(design => design._id !== designId);
-      setUserDesigns(updatedDesigns);
+      setUserDesigns([...updatedDesigns]); // Update the state
     } catch (error) {
       setError(`Error removing design: ${error.message}`);
     }
   };
+
+  useEffect(() => {
+    // Effect to re-render when userProfile, userOrders, favoriteProducts, or designs change
+  }, [userProfile, userOrders, favoriteProducts, designs]);
 
   return (
     <UserContext.Provider
@@ -104,7 +113,6 @@ export const UserProvider = ({ children }) => {
         handleEditProfile,
         handleSaveProfile,
         setUserProfile,
-        fetchData,
         removeFromFavorites, // Add the removeFromFavorites function to the context value
         removeDesign, // Add the removeDesign function to the context value
       }}

@@ -1,9 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import UserContext from "../../context/UserContext";
 import Skelton from "../../layouts/Skelton";
 
 export default function ProfileOrders() {
     const { userOrders } = useContext(UserContext);
+
+    useEffect(() => {
+        // This effect will trigger a re-render whenever userOrders change
+    }, [userOrders]);
 
     if (!userOrders) {
         return <Skelton />;

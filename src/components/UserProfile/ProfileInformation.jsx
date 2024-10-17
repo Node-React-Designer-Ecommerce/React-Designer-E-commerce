@@ -1,16 +1,25 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import UserContext from '../../context/UserContext';
 import Skelton from './../../layouts/Skelton';
 
 export default function ProfileInformation() {
     const { userProfile, isEditing, error, handleEditProfile, handleSaveProfile } = useContext(UserContext);
+    console.log(userProfile)
     const [editedProfile, setEditedProfile] = useState({
         name: userProfile?.name || '',
         address: userProfile?.address || '',
         phone: userProfile?.phone || '',
     });
     const [isSaving, setIsSaving] = useState(false);
+
+    useEffect(() => {
+        setEditedProfile({
+            name: userProfile?.name || '',
+            address: userProfile?.address || '',
+            phone: userProfile?.phone || '',
+        });
+    }, [userProfile]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -25,7 +34,6 @@ export default function ProfileInformation() {
         try {
             await handleSaveProfile(editedProfile);
             toast.success('Profile updated successfully!');
-            window.location.reload()
         } catch (error) {
             console.error('Error saving profile:', error);
             toast.error('Error updating profile. Please try again.');

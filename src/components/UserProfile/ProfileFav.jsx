@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import UserContext from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import Skelton from "../../layouts/Skelton";
@@ -6,6 +6,10 @@ import DeleteIcon from "../../icons/DeleteIcon"; // Assuming you have a DeleteIc
 
 export default function ProfileFav() {
     const { favoriteProducts, removeFromFavorites } = useContext(UserContext);
+
+    useEffect(() => {
+        console.log(favoriteProducts)
+    }, [favoriteProducts]);
 
     if (!favoriteProducts) {
         return <Skelton />;
