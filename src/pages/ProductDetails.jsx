@@ -45,7 +45,7 @@ export default function ProductDetails() {
       }
     })
   );
-
+   
   const { favoriteProducts, toggleFavorite } = useToggleFavorite();
   const { addToCart } = useCart();
 
@@ -103,7 +103,7 @@ export default function ProductDetails() {
           <img
             src={product.image}
             alt={product.name}
-            className=" w-full h-[500px] rounded-xl object-fit"
+            className=" w-full h-[510px] rounded-xl object-cover"
           />
         </div>
         <div className="w-full p-5">
@@ -139,8 +139,7 @@ export default function ProductDetails() {
               stock={stockAvailable}/>
             <dialog
               id="my_modal_5"
-              className="modal modal-bottom sm:modal-middle"
-            >
+              className="modal modal-bottom sm:modal-middle">
               <div className="modal-box">
                 <form method="dialog">
                   <div className="p-3">

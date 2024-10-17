@@ -107,7 +107,7 @@ export default function ProductsPage() {
                       <img
                         src={product.image}
                         alt="Shoes"
-                        className="rounded-2xl p-2.5 h-[349px] w-full object-fit"
+                        className="rounded-2xl p-2.5 h-[349px] w-full object-cover"
                       />
                     </figure>
                     <div className="p-4 items-center gap-1 text-center">
