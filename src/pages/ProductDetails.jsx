@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 import SizeCharts from "../components/Charts/SizeCharts";
-import Delivery from "../components/Charts/Delivery";
+// import Delivery from "../components/Charts/Delivery";
 import Rating from "../components/Rating";
 import RadioComponent from "../components/RadioComponent";
 import { useToggleFavorite } from "../hooks/useToggleFavorite";
