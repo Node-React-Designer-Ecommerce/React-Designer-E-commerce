@@ -64,7 +64,21 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const handleQuantityChange = (productId, newQuantity) => {
+  const updateCartItemQuantity = async (itemId, newQuantity) => {
+    try {
+      await updateCartItem(itemId, {
+        size: cart.find((item) => item._id === itemId).size,
+        quantity: newQuantity,
+      });
+      const updatedCart = await getCart();
+      setCart(updatedCart.data.cart);
+      calculateTotals(updatedCart.data.cart);
+    } catch (err) {
+      toast.error(`${err} Error updating product quantity`);
+    }
+  };
+
+  const handleQuantityChange = async (productId, newQuantity) => {
     // Update the product's quantity in the cart
     const updatedCart = cart.map((product) =>
       product._id === productId
@@ -89,6 +103,8 @@ export const CartProvider = ({ children }) => {
 
     setTotalQuantity(newTotalQuantity);
     setTotalPrice(newTotalPrice);
+    // Update the cart item in the database
+    await updateCartItemQuantity(productId, newQuantity);
   };
 
   // const confirmUpdateQuantity = async (itemId) => {

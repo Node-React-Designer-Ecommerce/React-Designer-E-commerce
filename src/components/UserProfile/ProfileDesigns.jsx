@@ -32,17 +32,23 @@ export default function ProfileDesigns() {
                   <DeleteIcon />
                 </div>
                 <img
-                  src={design.image}
+                  src={design.image[0]}
                   alt="Design"
                   className="rounded-2xl p-2.5 h-[349px] w-full object-fit"
                 />
               </figure>
               <div className="p-4 items-center gap-1 text-center">
                 <div className="flex justify-between">
-                  <h2 className="text-[17px] font-bold uppercase">{design.name}</h2>
-                  <p className="text-xl font-bold text-mintColor">EGP {design.totalPrice}</p>
+                  <h2 className="text-[17px] font-bold uppercase">
+                    {design.name}
+                  </h2>
+                  <p className="text-xl font-bold text-mintColor">
+                    EGP {design.totalPrice}
+                  </p>
                 </div>
-                <p className="text-gray-500 py-2 capitalize text-nowrap truncate">{design.description}</p>
+                <p className="text-gray-500 py-2 capitalize text-nowrap truncate">
+                  {design.description}
+                </p>
                 <div className="flex justify-center pt-1 w-full">
                   <Link
                     to={`/designer/${design.productId}?edit=${design._id}`}
