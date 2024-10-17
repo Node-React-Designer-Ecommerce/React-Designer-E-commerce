@@ -116,7 +116,7 @@ export default function ProductsPage() {
                           {product.name}
                         </h2>
                         <p className="text-lg font-bold text-buttonColor ">
-                          EGP{product.price} 
+                          EG {product.price} 
                         </p>
                       </div>
                       <p className="text-gray-500 py-2 text-start capitalize text-nowrap truncate">
@@ -148,7 +148,7 @@ export default function ProductsPage() {
           <img
             src="productscover.png"
             alt="product page header image"
-            className="h-96    w-full col-span-2 relative z-40"
+            className=" w-full col-span-2 relative z-40"
           />
           <div className="py-10  col-span-2 flex flex-col items-start justify-start md:justify-center">
             <p className="font-bold text-textColor text-4xl py-3">
@@ -157,9 +157,9 @@ export default function ProductsPage() {
             <p className=" text-textColor text-xs md:text-base opacity-90 pb-3 md:pb-7 md:px-10 uppercase">
               Choose Your own style
             </p>
-            {/* <p className="lg:text-lg text-xs md:px-16 sm:text-gray-700">
+            <p className="lg:text-lg text-xs md:px-16 sm:text-gray-700">
               Simplicity is the keynote of all true elegance
-            </p> */}
+            </p>
           </div>
         </div>
       </div>

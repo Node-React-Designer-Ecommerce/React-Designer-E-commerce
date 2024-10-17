@@ -5,7 +5,7 @@ export default function RadioComponent({ setSize, stock }) {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
+    <div className="flex flex-col sm:flex-row gap-5 md:py-8 items-start sm:items-center">
       <div>
         <label className="font-bold">Size</label>
       </div>

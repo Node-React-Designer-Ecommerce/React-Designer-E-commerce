@@ -103,12 +103,12 @@ export default function ProductDetails() {
           <img
             src={product.image}
             alt={product.name}
-            className=" w-full h-full rounded-xl object-fit"
+            className=" w-full h-[500px] rounded-xl object-fit"
           />
         </div>
         <div className="w-full p-5">
           <div className="flex justify-between">
-            <h1 className="text-3xl font-bold uppercase ">{product.name}</h1>
+            <h1 className="text-xl md:text-3xl font-bold uppercase ">{product.name}</h1>
             {isLoggedIn && (
               <div
                 className="bg-gray-100 rounded-3xl w-12 h-12 flex justify-center items-center cursor-pointer"
@@ -123,26 +123,20 @@ export default function ProductDetails() {
             )}
           </div>
           <Rating />
-
-          <p className="text-buttonColor text-2xl font-bold">EGP{product.price}</p>
-          <p className="py-4">{product.description}</p>
-          <div>
-            <div className="flex justify-between">
-              <div className="flex gap-3">
-                <button
-                  className="font-bold text-lg underline"
-                  onClick={() =>
-                    document.getElementById("my_modal_5").showModal()
-                  }
-                >
-                  Find your size
-                </button>
-              </div>
-              <RadioComponent
-                setSize={setSelectedSize}
-                stock={stockAvailable}
-              />
-            </div>
+          <hr className="py-2 md:pt-5"/>
+          <p className="text-buttonColor text-2xl  font-bold">EG {product.price}</p>
+          <p className="py-4 text-gray-500">{product.description}</p>
+          <hr className="md:pt-5"/>
+          <div className="md:pt-5">
+            <button
+              className="font-bold  text-lg underline"
+              onClick={() =>
+                document.getElementById("my_modal_5").showModal()}>
+              Find your size
+            </button>
+            <RadioComponent 
+              setSize={setSelectedSize}
+              stock={stockAvailable}/>
             <dialog
               id="my_modal_5"
               className="modal modal-bottom sm:modal-middle"
@@ -165,7 +159,7 @@ export default function ProductDetails() {
               </div>
             </dialog>
             {/* <Delivery /> */}
-            <div className="flex justify-center lg:flex lg:justify-end p-5">
+            <div className="flex justify-center lg:flex lg:justify-end p-5 md:pt-10">
               {isLoggedIn ? (
                 <button
                   onClick={() => addToCartHandler(product._id)}
