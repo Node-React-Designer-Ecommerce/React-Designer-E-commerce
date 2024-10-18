@@ -711,6 +711,7 @@ export default function Designer() {
     textBackgroundColor: "transparent", // Initial background color (transparent)
   });
   const [backgroundImage, setBackgroundImage] = useState(""); // State for background image
+  const [backgroundBackImage, setBackgroundBackImage] = useState(""); // State for background back image
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
@@ -775,7 +776,7 @@ export default function Designer() {
   }, []);
 
   const navigateToLogin = () => {
-    navigate(`/login?redirect=product-details/${id}`);
+    navigate(`/login?redirect=designer/${id}`);
   };
 
   const stockAvailable = new Set(
@@ -799,6 +800,7 @@ export default function Designer() {
   useEffect(() => {
     if (product && canvasRefFront.current && canvasRefBack.current) {
       setBackgroundImage(product.image);
+      setBackgroundBackImage(product.backImage);
       setName(product.name);
       setPrice(product.price);
       setCanvasWidth(product.canvasWidth);
@@ -1134,7 +1136,7 @@ export default function Designer() {
             <div
               id="divToTakeScreenshotBack"
               style={{
-                backgroundImage: `url(${backgroundImage})`,
+                backgroundImage: `url(${backgroundBackImage})`,
               }}
               className="flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover sm:bg-contain xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 w-[400px] h-[500px] md:w-[600px] md:h-[600px]"
             >
