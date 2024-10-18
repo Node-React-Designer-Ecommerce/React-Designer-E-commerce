@@ -34,7 +34,7 @@ export default function CartPage() {
       console.log(hash, "--222--", orderId);
 
       // Set the iframe source
-      const src = `https://checkout.kashier.io/?merchantId=MID-28559-7&orderId=${orderId}&amount=${totalPrice}&currency=EGP&hash=${hash}&mode=test&metaData={"metaData":"myData"}&merchantRedirect=http://localhost:5173/success-payment&allowedMethods=card,wallet&failureRedirect=false&redirectMethod=get&brandColor=%2314532d&display=en&serverWebhook=https://react-node-designer.glitch.me/api/v1/orders/kashier`;
+      const src = `https://checkout.kashier.io/?merchantId=MID-28559-7&orderId=${orderId}&amount=${totalPrice}&currency=EGP&hash=${hash}&mode=test&metaData={"metaData":"myData"}&merchantRedirect=http://localhost:5173/success-payment&allowedMethods=card,wallet&failureRedirect=false&redirectMethod=get&brandColor=%2381B3DC&display=en&serverWebhook=https://react-node-designer.glitch.me/api/v1/orders/kashier`;
 
       setIframeSrc(src); // Set the iframe source in state
       setIsOpen(true);
@@ -92,15 +92,28 @@ export default function CartPage() {
         <EmptyCart></EmptyCart>
       ) : (
         <div className="m-5">
-          <h1 className="mb-5 font-bold text-3xl text-textColor">
-            Shopping Cart
-          </h1>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-5">
             <div className="col-span-2 ">
+              <div className="flex justify-between">
+                <h1 className="mb-5 font-bold text-3xl text-textColor">
+                  Shopping Cart
+                </h1>
+                <button
+                  onClick={handleClearCart}
+                  className="bg-red-600 hover:bg-red-500 text-white  transition duration-300 ease-in-out rounded px-3 py-1 h-9 "
+                  disabled={isClearing}
+                >
+                  {isClearing ? (
+                    <span className="loading loading-ring loading-md"></span>
+                  ) : (
+                    "Clear Cart"
+                  )}
+                </button>
+              </div>
               {cart.map((product) => (
                 <div
                   key={product?._id}
-                  className="relative bg-white shadow-lg rounded-lg py-5 px-10 mb-5 "
+                  className="relative bg-white shadow-lg rounded-lg py-5 px-10 my-5 "
                 >
                   <div className="lg:flex md:flex items-center">
                     <img
@@ -108,7 +121,7 @@ export default function CartPage() {
                       src={
                         product?.type === "Product"
                           ? product?.product?.image
-                          : product?.design?.image
+                          : product?.design?.image[0]
                       }
                       alt={product?.product?.name}
                     />
@@ -192,10 +205,11 @@ export default function CartPage() {
             </div>
 
             {/* Summary Section */}
-            <div className="col-span-1 bg-lightBackGround p-5 rounded-lg h-80">
+            <div className="col-span-1 bg-lightBackGround p-5 rounded-lg h-72">
               <h2 className="font-bold text-2xl text-textColor">
                 Order Summary
               </h2>
+
               <div className="mt-5">
                 <div className="flex justify-between">
                   <span className="font-bold">Total Quantity:</span>
@@ -205,19 +219,9 @@ export default function CartPage() {
                   <span className="font-bold">Total Price:</span>
                   <span> {totalPrice} EG</span>
                 </div>
+
                 <button
-                  onClick={handleClearCart}
-                  className="bg-red-700 hover:bg-red-600 text-white  transition duration-300 ease-in-out rounded py-2 px-14 mt-16 w-full  "
-                  disabled={isClearing}
-                >
-                  {isClearing ? (
-                    <span className="loading loading-ring loading-md"></span>
-                  ) : (
-                    "Clear Cart"
-                  )}
-                </button>
-                <button
-                  className="  transition duration-300 ease-in-out rounded text-white px-14 py-2 mt-2 w-full  "
+                  className="  transition duration-300 ease-in-out rounded text-white px-14 py-2 mt-10 w-full  "
                   onClick={checkout}
                   style={{
                     background: "linear-gradient(to right, #81B3DC, #CE6ADA)",

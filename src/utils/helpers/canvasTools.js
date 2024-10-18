@@ -10,11 +10,28 @@ export const resizeCanvas = (fabricCanvas, canvasWidth, canvasHeight) => {
 };
 //////////////////////////////////////////////////original code/////////////////////////////
 //screenshot capture
-export const captureScreenShot = async (fabricCanvas) => {
+// export const captureScreenShot = async (fabricCanvas) => {
+//   fabricCanvas.discardActiveObject();
+//   fabricCanvas.renderAll();
+//   const imageOfDesign = await takeScreenShotFunc(
+//     "divToTakeScreenshot",
+//     "MyImage",
+//     "image/jpeg",
+//     "#f5f5f5"
+//   );
+//   console.log(imageOfDesign);
+//   if (imageOfDesign) {
+//     return imageOfDesign;
+//   } else {
+//     throw new Error("Screenshot capture failed");
+//   }
+// };
+
+export const captureScreenShot = async (fabricCanvas, elementId) => {
   fabricCanvas.discardActiveObject();
   fabricCanvas.renderAll();
   const imageOfDesign = await takeScreenShotFunc(
-    "divToTakeScreenshot",
+    elementId,
     "MyImage",
     "image/jpeg",
     "#f5f5f5"
@@ -59,17 +76,30 @@ export const updateTextProps = (selectedText, prop, value, fabricCanvas) => {
 };
 
 // save designer as json
-export const saveAsJSON = (fabricCanvas) => {
-  return JSON.stringify(fabricCanvas.toJSON());
+// export const saveAsJSON = (fabricCanvas) => {
+//   return JSON.stringify(fabricCanvas.toJSON());
 
-  // You can send this JSON to your backend to save it
+//   // You can send this JSON to your backend to save it
+// };
+export const saveAsJSON = (fabricCanvas) => {
+  const json = JSON.stringify(fabricCanvas.toJSON());
+  console.log("Saved JSON:", json); // Log the saved JSON to inspect its structure
+  return json;
 };
+
+///////////////////////////////////////////
 //load from json
-export const loadFromJSON = (fabricCanvas, savedCanvas) => {
-  // Load the canvas from the JSON string
-  fabricCanvas.loadFromJSON(savedCanvas, () => {
-    fabricCanvas.renderAll(); // Render the canvas after loading
-    console.log("Canvas loaded from JSON");
+// export const loadFromJSON = (fabricCanvas, savedCanvas) => {
+//   // Load the canvas from the JSON string
+//   fabricCanvas.loadFromJSON(savedCanvas, () => {
+//     fabricCanvas.renderAll(); // Render the canvas after loading
+//     console.log("Canvas loaded from JSON");
+//   });
+// };
+
+export const loadFromJSON = (canvas, json) => {
+  canvas.loadFromJSON(json, () => {
+    canvas.renderAll();
   });
 };
 
@@ -118,17 +148,33 @@ export const removeSelectedObject = (fabricCanvas) => {
   }
 };
 
-export const calculateTotalPrice = (basePrice, canvas) => {
-  let totalPrice = basePrice;
-  const IMAGE_PRICE = 100; // Price per image
-  const TEXT_PRICE = 50; // Price per text element
+// export const calculateTotalPrice = (basePrice, canvas) => {
+//   let totalPrice = basePrice;
+//   const IMAGE_PRICE = 100; // Price per image
+//   const TEXT_PRICE = 50; // Price per text element
 
-  canvas.getObjects().forEach((obj) => {
-    if (obj.type === "image" || obj.type === "img") {
-      totalPrice += IMAGE_PRICE;
-    } else if (obj.type === "textbox") {
-      totalPrice += TEXT_PRICE;
-    }
+//   canvas.getObjects().forEach((obj) => {
+//     if (obj.type === "image" || obj.type === "img") {
+//       totalPrice += IMAGE_PRICE;
+//     } else if (obj.type === "textbox") {
+//       totalPrice += TEXT_PRICE;
+//     }
+//   });
+
+//   return totalPrice;
+// };
+
+export const calculateTotalPrice = (basePrice, ...canvases) => {
+  let totalPrice = basePrice;
+
+  canvases.forEach((canvas) => {
+    canvas.getObjects().forEach((obj) => {
+      if (obj.type === "textbox") {
+        totalPrice += 50; // Assuming each text adds 50 to the price
+      } else if (obj.type === "image") {
+        totalPrice += 100; // Assuming each image adds 100 to the price
+      }
+    });
   });
 
   return totalPrice;
