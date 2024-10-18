@@ -2,7 +2,7 @@ import { useContext } from "react";
 import UserContext from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import Skelton from "../../layouts/Skelton";
-import DeleteIcon from "../../icons/DeleteIcon"; // Assuming you have a DeleteIcon component
+import HeartRemove from "../../icons/HeartRemove";
 
 export default function ProfileFav() {
     const { favoriteProducts, removeFromFavorites } = useContext(UserContext);
@@ -27,10 +27,10 @@ export default function ProfileFav() {
                                 >
                                     <figure className="relative pt-5">
                                         <div
-                                            className="bg-red-500 text-white rounded-3xl w-8 h-8 absolute top-9 start-4  flex justify-center items-center cursor-pointer"
+                                            className=" bg-red-500 text-white rounded-3xl w-8 h-8 absolute top-9 start-4  flex justify-center items-center cursor-pointer"
                                             onClick={() => removeFromFavorites(product._id)}
                                         >
-                                            <DeleteIcon />
+                                            <HeartRemove />
                                         </div>
                                         <img
                                             src={product.image}
