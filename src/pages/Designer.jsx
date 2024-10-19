@@ -1,4 +1,4 @@
-import '../styles/scroll.css';
+import "../styles/scroll.css";
 
 import { useRef, useEffect, useState, useContext } from "react";
 import { fabric } from "fabric";
@@ -262,7 +262,7 @@ export default function Designer() {
     }
   };
 
-  const handleSaveDesign = async () => {
+  const handleSaveDesign = async (action) => {
     setIsSaving(true);
     try {
       const canvasJSONFront = saveAsJSON(fabricCanvasFront.current);
@@ -299,7 +299,9 @@ export default function Designer() {
 
       const formData = new FormData();
       formData.append("productId", id);
-      formData.append("userId", userId);
+      if (action === "save") {
+        formData.append("userId", userId);
+      }
       formData.append(
         "canvases",
         JSON.stringify({ front: canvasJSONFront, back: canvasJSONBack })
@@ -322,7 +324,9 @@ export default function Designer() {
       let saveResponse;
       if (designId) {
         saveResponse = await updateCanvasToBackend(designId, formData);
-        toast.success("Your Design updated successfully");
+        if (action === "save") {
+          toast.success("Design Saved To Your Profile");
+        }
         console.log("Canvas updated successfully:", saveResponse);
         return saveResponse;
       } else {
@@ -332,7 +336,9 @@ export default function Designer() {
         const currentUrl = new URL(window.location.href);
         currentUrl.searchParams.set("edit", newDesignId);
         window.history.pushState({}, "", currentUrl.toString());
-        toast.success("Your Design added successfully");
+        if (action === "save") {
+          toast.success("Design Saved To Your Profile");
+        }
         console.log(saveResponse);
         return saveResponse;
       }
@@ -365,17 +371,14 @@ export default function Designer() {
   };
 
   const handleAddToCart = async () => {
-    if (!designId) {
-      toast.warn("Please save your design before adding to cart");
-      return;
-    }
     if (!selectedSize) {
       toast.warn("Please choose your size");
       return;
     }
 
+    const res = await handleSaveDesign("add");
     const cartItem = {
-      designId: designId,
+      designId: res.data.design._id,
       quantity: 1,
       size: selectedSize,
       type: "Design",
@@ -408,16 +411,23 @@ export default function Designer() {
     );
   };
 
-
   const frontImageRef = useRef(null);
   const backImageRef = useRef(null);
 
   const scrollToFront = () => {
-    frontImageRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    frontImageRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
   };
 
   const scrollToBack = () => {
-    backImageRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    backImageRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
   };
 
   return (
@@ -427,8 +437,7 @@ export default function Designer() {
       </div>
       <div className="flex flex-col lg:flex-row gap-6  justify-between  lg:mx-24 ">
         <div className="w-full lg:w-3/5 flex flex-col justify-start items-center ">
-
-         {/* designer images and buttons  */}
+          {/* designer images and buttons  */}
           <div className="flex flex-col w-full">
             <div className="flex sm:justify-between justify-evenly w-full">
               <button
@@ -444,21 +453,27 @@ export default function Designer() {
                 Clear Back Design
               </button>
               <button
-                className={`bg-white text-gray-700 py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-buttonColor ${isRemoveButtonDisabled(fabricCanvasFront.current)
-                  ? "bg-gray-200 border-none"
-                  : ""
-                  }`}
-                onClick={() => handleRemoveSelectedObj(fabricCanvasFront.current)}
+                className={`bg-white text-gray-700 py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-buttonColor ${
+                  isRemoveButtonDisabled(fabricCanvasFront.current)
+                    ? "bg-gray-200 border-none"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleRemoveSelectedObj(fabricCanvasFront.current)
+                }
                 disabled={isRemoveButtonDisabled(fabricCanvasFront.current)}
               >
                 Remove Front Selected
               </button>
               <button
-                className={`bg-white text-gray-700 py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-buttonColor ${isRemoveButtonDisabled(fabricCanvasBack.current)
-                  ? "bg-gray-200 border-none"
-                  : ""
-                  }`}
-                onClick={() => handleRemoveSelectedObj(fabricCanvasBack.current)}
+                className={`bg-white text-gray-700 py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-buttonColor ${
+                  isRemoveButtonDisabled(fabricCanvasBack.current)
+                    ? "bg-gray-200 border-none"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleRemoveSelectedObj(fabricCanvasBack.current)
+                }
                 disabled={isRemoveButtonDisabled(fabricCanvasBack.current)}
               >
                 Remove Back Selected
@@ -488,8 +503,8 @@ export default function Designer() {
                 ref={frontImageRef}
                 style={{
                   backgroundImage: `url(${backgroundImage})`,
-                  minWidth: '400px', // Ensure the div has a minimum width
-                  height: '500px', // Ensure the div has a fixed height
+                  minWidth: "400px", // Ensure the div has a minimum width
+                  height: "500px", // Ensure the div has a fixed height
                   flexShrink: 0, // Prevent the div from shrinking
                 }}
                 className="w-full flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover sm:bg-contain xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 md:w-[600px] md:h-[600px]"
@@ -507,8 +522,8 @@ export default function Designer() {
                 ref={backImageRef}
                 style={{
                   backgroundImage: `url(${backgroundBackImage})`,
-                  minWidth: '400px', // Ensure the div has a minimum width
-                  height: '500px', // Ensure the div has a fixed height
+                  minWidth: "400px", // Ensure the div has a minimum width
+                  height: "500px", // Ensure the div has a fixed height
                   flexShrink: 0, // Prevent the div from shrinking
                 }}
                 className="w-full flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover sm:bg-contain xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 md:w-[600px] md:h-[600px]"
@@ -523,9 +538,6 @@ export default function Designer() {
               </div>
             </div>
           </div>
-
-
-
         </div>
 
         <div className="w-full lg:w-2/4 p-4 shadow-md rounded-lg border border-gray-300 text-base-content">
@@ -774,9 +786,10 @@ export default function Designer() {
         <button
           className={`me-5 bg-white text-buttonColor py-2 px-4 rounded cursor-pointer 
               hover:bg-gray-100 transition duration-300 ease-in-out mt-5 w-full sm:w-44 
-              border border-buttonColor ${isSaving ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          onClick={handleSaveDesign}
+              border border-buttonColor ${
+                isSaving ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+          onClick={() => handleSaveDesign("save")}
           disabled={isSaving}
         >
           {isSaving ? (
