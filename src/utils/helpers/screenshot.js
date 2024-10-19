@@ -55,6 +55,7 @@ import html2canvas from "html2canvas-pro";
 export const takeScreenShotFunc = async (
   elementId, // ID of the HTML element to capture
   fileName, // Desired filename for the downloaded image
+  isDownload,
   fileType = "image/jpeg" // File type for the image (default is PNG)
 ) => {
   // Locate the element by its ID
@@ -83,10 +84,13 @@ export const takeScreenShotFunc = async (
     console.log("Image is:", image); // Optional: Log the image URL for debugging
 
     // Create a temporary link element to trigger the download
-    const a = document.createElement("a");
-    a.href = image; // Set the image as the link's href (the download URL)
-    a.download = fileName; // Set the desired filename for the download
-    a.click(); // Simulate a click to start the download
+    if (isDownload) {
+      const a = document.createElement("a");
+      a.href = image; // Set the image as the link's href (the download URL)
+      a.download = fileName; // Set the desired filename for the download
+      a.click(); // Simulate a click to start the download
+    }
+
     allCanvas.forEach((el) => {
       el.style.border = "1px dashed gray";
     });

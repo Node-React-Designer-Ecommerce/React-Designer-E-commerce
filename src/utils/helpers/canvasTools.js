@@ -27,14 +27,18 @@ export const resizeCanvas = (fabricCanvas, canvasWidth, canvasHeight) => {
 //   }
 // };
 
-export const captureScreenShot = async (fabricCanvas, elementId) => {
+export const captureScreenShot = async (
+  fabricCanvas,
+  elementId,
+  isDownload
+) => {
   fabricCanvas.discardActiveObject();
   fabricCanvas.renderAll();
   const imageOfDesign = await takeScreenShotFunc(
     elementId,
     "MyImage",
-    "image/jpeg",
-    "#f5f5f5"
+    isDownload,
+    "image/jpeg"
   );
   console.log(imageOfDesign);
   if (imageOfDesign) {

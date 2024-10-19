@@ -69,6 +69,7 @@ export default function Designer() {
   const [designId, setDesignId] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [canvasObjects, setCanvasObjects] = useState([]);
+  const [displayedCanvas, setDisplayedCanvas] = useState(null);
 
   const fetchProductAndDesign = async () => {
     if (!id) return;
@@ -148,6 +149,8 @@ export default function Designer() {
 
     fabricCanvasFront.current = new fabric.Canvas(canvasRefFront.current);
     fabricCanvasBack.current = new fabric.Canvas(canvasRefBack.current);
+    setDisplayedCanvas(fabricCanvasFront);
+    scrollToFront();
 
     const handleObjectAdded = (e) => {
       console.log("Object added:", e.target.type);
@@ -271,11 +274,13 @@ export default function Designer() {
 
       const imageOfDesignFront = await captureScreenShot(
         fabricCanvasFront.current,
-        "divToTakeScreenshotFront"
+        "divToTakeScreenshotFront",
+        false
       );
       const imageOfDesignBack = await captureScreenShot(
         fabricCanvasBack.current,
-        "divToTakeScreenshotBack"
+        "divToTakeScreenshotBack",
+        false
       );
 
       const basePrice = product.price;
@@ -420,6 +425,9 @@ export default function Designer() {
       block: "nearest",
       inline: "start",
     });
+    setDisplayedCanvas(fabricCanvasFront);
+    fabricCanvasFront.current.discardActiveObject();
+    fabricCanvasFront.current.renderAll();
   };
 
   const scrollToBack = () => {
@@ -428,6 +436,9 @@ export default function Designer() {
       block: "nearest",
       inline: "start",
     });
+    setDisplayedCanvas(fabricCanvasBack);
+    fabricCanvasBack.current.discardActiveObject();
+    fabricCanvasBack.current.renderAll();
   };
   const handleWheel = (event) => {
     event.preventDefault();
@@ -442,70 +453,53 @@ export default function Designer() {
       </div>
       <div className="flex flex-col lg:flex-row gap-6  justify-between  lg:mx-24 ">
         <div className="w-full lg:w-3/5 flex flex-col justify-start items-center ">
-
-
           {/* designer images and buttons  */}
           <div className="flex flex-col w-full">
             <div className="flex sm:justify-between justify-evenly w-full">
               <button
                 className="bg-red-700 text-white py-2 px-2 rounded w-32 sm:w-1/4 md:w-32 lg:w-32 cursor-pointer hover:bg-red-600 transition duration-300 ease-in-out"
-                onClick={() => handleResetCanva(fabricCanvasFront.current)}
+                onClick={() => handleResetCanva(displayedCanvas?.current)}
               >
-                Clear Front Design
+                Clear Design
               </button>
+
               <button
-                className="bg-red-700 text-white py-2 px-2 rounded w-32 sm:w-1/4 md:w-32 lg:w-32 cursor-pointer hover:bg-red-600 transition duration-300 ease-in-out"
-                onClick={() => handleResetCanva(fabricCanvasBack.current)}
-              >
-                Clear Back Design
-              </button>
-              <button
-                className={`bg-white text-gray-700 py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-buttonColor ${isRemoveButtonDisabled(fabricCanvasFront.current)
-                  ? "bg-gray-200 border-none"
-                  : ""
-                  }`}
+                className={`bg-white text-gray-700 py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-buttonColor ${
+                  isRemoveButtonDisabled(displayedCanvas?.current)
+                    ? "bg-gray-200 border-none"
+                    : ""
+                }`}
                 onClick={() =>
-                  handleRemoveSelectedObj(fabricCanvasFront.current)
+                  handleRemoveSelectedObj(displayedCanvas?.current)
                 }
-                disabled={isRemoveButtonDisabled(fabricCanvasFront.current)}
+                disabled={isRemoveButtonDisabled(displayedCanvas?.current)}
               >
-                Remove Front Selected
-              </button>
-              <button
-                className={`bg-white text-gray-700 py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-buttonColor ${isRemoveButtonDisabled(fabricCanvasBack.current)
-                  ? "bg-gray-200 border-none"
-                  : ""
-                  }`}
-                onClick={() =>
-                  handleRemoveSelectedObj(fabricCanvasBack.current)
-                }
-                disabled={isRemoveButtonDisabled(fabricCanvasBack.current)}
-              >
-                Remove Back Selected
+                Remove Selected
               </button>
             </div>
 
             <div className="flex flex-col  sm:flex-row   sm:justify-center items-center sm:items-start ">
-
-                {/* Buttons for Scrolling */}
-                <div className="flex flex-row sm:flex-col justify-center mt-5 gap-5 bg-lightBackGround w-2/4 sm:w-1/5">
-                  <button
-                    className=" text-white py-2 px-4 rounded "
-                    onClick={scrollToFront}
-                  >
-                    <img src="/frontmodel.jpg" alt="front model" />
-                  </button>
-                  <button
-                    className="  text-white py-2 px-4 rounded"
-                    onClick={scrollToBack}
-                  >
-                    <img src="/backmodel.jpg" alt="back model" />
-
-                  </button>
-                </div>
+              {/* Buttons for Scrolling */}
+              <div className="flex flex-row sm:flex-col justify-center mt-5 gap-5 bg-lightBackGround w-2/4 sm:w-1/5">
+                <button
+                  className=" text-white py-2 px-4 rounded "
+                  onClick={scrollToFront}
+                >
+                  <img src={backgroundImage} alt="front model" />
+                </button>
+                <button
+                  className="  text-white py-2 px-4 rounded"
+                  onClick={scrollToBack}
+                >
+                  <img src={backgroundBackImage} alt="back model" />
+                </button>
+              </div>
 
               {/* Scroll images */}
-              <div className="flex overflow-x-auto mt-5 w-full hide-scrollbar"  onWheel={handleWheel}>
+              <div
+                className="flex overflow-hidden mt-5 w-full hide-scrollbar"
+                onWheel={handleWheel}
+              >
                 <div
                   id="divToTakeScreenshotFront"
                   ref={frontImageRef}
@@ -515,7 +509,7 @@ export default function Designer() {
                     height: "500px", // Ensure the div has a fixed height
                     flexShrink: 0, // Prevent the div from shrinking
                   }}
-                  className="w-full flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover sm:bg-contain xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 md:w-[600px] md:h-[600px]"
+                  className="w-full flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover sm:bg-contain xs:bg-contain mdplus:bg-contain lgplus:bg-contain p-5 md:w-[600px] md:h-[600px]"
                 >
                   <canvas
                     id="canvasBorderFront"
@@ -545,10 +539,7 @@ export default function Designer() {
                   />
                 </div>
               </div>
-
             </div>
-
-
           </div>
         </div>
 
@@ -577,16 +568,16 @@ export default function Designer() {
                   type="file"
                   accept="image/*"
                   onChange={(e) =>
-                    handleAddImageOnCanva(e, fabricCanvasFront.current)
+                    handleAddImageOnCanva(e, displayedCanvas.current)
                   }
                 />
                 <label
                   htmlFor="chooseImgFront"
                   className=" bg-white text-buttonColor py-4 px-4 rounded cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  w-full border border-buttonColor text-center "
                 >
-                  Choose Image for Front
+                  Choose Image
                 </label>
-                <input
+                {/* <inp-ut
                   id="chooseImgBack"
                   className="hidden"
                   type="file"
@@ -600,7 +591,7 @@ export default function Designer() {
                   className=" bg-white text-buttonColor py-4 px-4 rounded cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  w-full border border-buttonColor text-center "
                 >
                   Choose Image for Back
-                </label>
+                </label> */}
               </div>
 
               <div className="mt-5">
@@ -611,16 +602,9 @@ export default function Designer() {
                 <button
                   className=" bg-white text-buttonColor py-4 px-4 rounded cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  w-full border border-buttonColor "
                   id="addTextBtnFront"
-                  onClick={() => handleAddText(fabricCanvasFront.current)}
+                  onClick={() => handleAddText(displayedCanvas.current)}
                 >
-                  Add Text to Front
-                </button>
-                <button
-                  className=" bg-white text-buttonColor py-4 px-4 rounded cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  w-full border border-buttonColor "
-                  id="addTextBtnBack"
-                  onClick={() => handleAddText(fabricCanvasBack.current)}
-                >
-                  Add Text to Back
+                  Add Text
                 </button>
               </div>
             </div>
@@ -798,8 +782,9 @@ export default function Designer() {
         <button
           className={`me-5 bg-white text-buttonColor py-2 px-4 rounded cursor-pointer 
               hover:bg-gray-100 transition duration-300 ease-in-out mt-5 w-full sm:w-44 
-              border border-buttonColor ${isSaving ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+              border border-buttonColor ${
+                isSaving ? "opacity-50 cursor-not-allowed" : ""
+              }`}
           onClick={() => handleSaveDesign("save")}
           disabled={isSaving}
         >

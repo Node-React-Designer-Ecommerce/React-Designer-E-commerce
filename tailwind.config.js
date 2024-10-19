@@ -16,7 +16,6 @@ export default {
         "custom-bg": "rgb(104 42 34)",
       },
       screens: {
-        xs: "683px", // From 683px
         mdplus: "1024px", // From 1024px
         lgplus: "1270px", // From 1283px
       },
