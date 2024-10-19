@@ -46,9 +46,9 @@ function Slider() {
           <div className="flex items-center justify-between h-full px-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="text-white text-center sm:text-start flex flex-col justify-center items-center">
-                <h2 className="text-4xl font-bold">{slide.text}</h2>
-                <p className="mt-4">{slide.price}</p>
-                <button className="btn mt-6 rounded-none">{slide.buttonText}</button>
+                {/* <h2 className="text-4xl font-bold">{slide.text}</h2>
+                <p className="mt-4">{slide.price}</p> */}
+                {/* <button className="btn mt-6 rounded-none">{slide.buttonText}</button> */}
               </div>
               <div className="flex justify-center items-center">
                 <img

@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 
 const Heroo = () => {
   return (
-    <div className="p-5" style={{ background: "#81B3DC" }}>
-
+    <div className="py-5" >
       <div
-        className="relative flex flex-col md:flex-row md:justify-between justify-center items-center "
-        style={{ background: "#81B3DC" }}
+        className="relative px-10 flex flex-col md:flex-row md:justify-between justify-center items-center "
+        // style={{ background: "#81b3dcab" }}
+        style={{ backgroundImage: "linear-gradient(to top, rgb(129 179 220 / 92%), rgb(129 179 220 / 0%))" }}
       >
 
         {/* Left Section */}
@@ -21,14 +21,14 @@ const Heroo = () => {
           <div className="flex gap-3 items-center justify-center md:justify-start">
             <Link
               to="/customize"
-              className="btn text-white"
+              className="btn border-none text-white"
               style={{
                 background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
               }}
             >
               Customize
             </Link>
-            <Link to="/products" className="btn btn-outline text-white ">
+            <Link to="/products" className="btn btn-outline text-white hover:bg-buttonColor hover:border-none transition duration-700">
               Products
             </Link>
           </div>
@@ -45,7 +45,7 @@ const Heroo = () => {
 
       </div>
       {/* Start Shopping Button */}
-      <div className="flex justify-center p-3">
+      <div className="flex justify-center p-3 invisible">
         <Link
           href="/products"
           className="btn btn-lg text-white"

@@ -34,7 +34,7 @@ export default function ProfileDesigns() {
                 <img
                   src={design.image[0]}
                   alt="Design"
-                  className="rounded-2xl p-2.5 h-[349px] w-full object-fit"
+                  className="rounded-2xl p-2.5 h-[349px] w-full object-cover"
                 />
               </figure>
               <div className="p-4 items-center gap-1 text-center">

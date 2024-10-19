@@ -4,7 +4,7 @@ function Hero() {
   return (
     <div className="w-full">
       <div
-        className="w-full h-auto flex flex-col md:flex-row justify-between items-center p-4"
+        className="w-full h-auto flex flex-col md:flex-row justify-between items-center px-4"
         style={{
           background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
         }}

@@ -56,18 +56,18 @@ function LandingProductItem() {
           {productChunks?.map((chunk, index) => (
             <div key={index} className="flex flex-wrap justify-center mx-auto gap-4" style={{ maxWidth: "1200px" }}>
               {chunk.map((product) => (
-                <div key={product.id} className="card w-72 bg-white shadow-lg mx-2">
+                <div key={product.id} className="card w-72 h-auto bg-white shadow-lg mx-2">
                   <figure>
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-[349px] object-cover"
                     />
                   </figure>
-                  <div className="card-body">
+                  {/* <div className="card-body">
                     <h2 className="card-title text-center">{product.name}</h2>
                     <p className="text-lg font-semibold text-center">${product.price}</p>
-                  </div>
+                  </div> */}
                 </div>
               ))}
             </div>
