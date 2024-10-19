@@ -40,7 +40,7 @@ export default function ProfileOrders() {
                                                 </div>
                                                 <div className="flex justify-between items-start  flex-col sm:flex-row sm:items-center mb-2">
                                                     <span className="font-bold">Total Price:</span>
-                                                    <span>${order.totalPrice}</span>
+                                                    <span>EG{order.totalPrice}</span>
                                                 </div>
                                             </div>
                                         </div>

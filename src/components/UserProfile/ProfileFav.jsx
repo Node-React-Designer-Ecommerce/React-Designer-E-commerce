@@ -35,13 +35,13 @@ export default function ProfileFav() {
                                         <img
                                             src={product.image}
                                             alt="Shoes"
-                                            className="rounded-2xl p-2.5 h-[349px] w-full object-fit"
+                                            className="rounded-2xl p-2.5 h-[349px] w-full object-cover"
                                         />
                                     </figure>
                                     <div className="p-4 items-center gap-1 text-center">
                                         <div className="flex justify-between">
                                             <h2 className="text-[17px] font-bold uppercase">{product.name}</h2>
-                                            <p className="text-xl font-bold text-mintColor">${product.price}</p>
+                                            <p className="text-xl font-bold text-buttonColor">EG{product.price}</p>
                                         </div>
                                         <p className="text-gray-500 py-2 capitalize text-nowrap truncate">{product.description}</p>
                                         <div className="flex justify-center pt-1 w-full">
