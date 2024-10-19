@@ -6,7 +6,7 @@ function Hero() {
       <div
         className="w-full h-auto flex flex-col md:flex-row justify-between items-center px-4"
         style={{
-          background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
+          background: "linear-gradient(to right, rgb(129 179 220 / 97%), rgb(206 106 218 / 66%))",
         }}
       >
         {/* Text Section */}
