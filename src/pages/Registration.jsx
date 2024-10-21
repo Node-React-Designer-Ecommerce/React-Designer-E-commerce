@@ -61,7 +61,7 @@ export default function App() {
       {/* Image Section */}
       <div className="md:order-1 flex justify-center items-center  rounded-xl">
         <img
-          src="/register.jpg"
+          src="/brand1.jpg"
           alt="Sign Up"
           className="h-4/5 object-cover rounded-xl"
         />

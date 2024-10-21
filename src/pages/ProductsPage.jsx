@@ -157,7 +157,7 @@ export default function ProductsPage() {
             <p className=" text-textColor text-xs md:text-base opacity-90 pb-3 md:pb-7 md:px-10 uppercase">
               Choose Your own style
             </p>
-            <p className="lg:text-lg text-xs md:px-16 sm:text-gray-700">
+            <p className="text-textColor text-xs md:text-base opacity-90 pb-3 md:pb-7 md:px-10">
               Simplicity is the keynote of all true elegance
             </p>
           </div>
@@ -170,11 +170,11 @@ export default function ProductsPage() {
           placeholder="  Search products here .."
           value={localSearch}
           onChange={handleLocalSearch}
-          className="input input-bordered border-textColor rounded-3xl mt-4  input-sm md:input-md w-full max-w-xs text-black"
+          className="input input-bordered w-full sm:w-2/5 border-textColor rounded-xl mt-4  input-sm md:input-md  max-w-xs text-black"
         />
       </div>
       
-      <div className="sticky top-28 mt-3 bg-white sm:bg-transparent sm:p-0 sm:top-20 z-30  flex justify-center sm:justify-center w-full sm:w-3/5">
+      <div className="sticky border-b-2 sm:border-0  border-textColor top-28 mt-3 bg-white sm:bg-transparent sm:p-0 sm:top-16 z-30  flex justify-center sm:justify-start ml-5 w-full sm:w-3/5">
         <div className="flex flex-wrap gap-2 mt-4 pb-5">
           <button
             key="all"

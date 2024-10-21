@@ -73,7 +73,7 @@ export default function Login() {
       {/* Image Section */}
       <div className="md:order-1 flex justify-center items-center rounded-xl">
         <img
-          src="/formcover2.jpg"
+          src="/brand3.jpg"
           alt="Login"
           className=" rounded-xl h-5/5"
         />
