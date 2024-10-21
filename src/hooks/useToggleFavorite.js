@@ -27,6 +27,13 @@ export const useToggleFavorite = () => {
   }, []);
 
   const toggleFavorite = async (productId) => {
+    // Optimistically update the UI
+    const newFavorites = {
+      ...favoriteProducts,
+      [productId]: !favoriteProducts[productId],
+    };
+    setFavoriteProducts(newFavorites);
+
     try {
       setIsLoading(true);
       if (favoriteProducts[productId]) {
@@ -34,13 +41,10 @@ export const useToggleFavorite = () => {
       } else {
         await addToFavorites(productId);
       }
-      const newFavorites = {
-        ...favoriteProducts,
-        [productId]: !favoriteProducts[productId],
-      };
-      setFavoriteProducts(newFavorites);
     } catch (error) {
+      // Revert the UI change if the API call fails
       console.error("Error toggling favorite product:", error);
+      setFavoriteProducts(favoriteProducts);
     } finally {
       setIsLoading(false);
     }
