@@ -791,9 +791,12 @@ export default function Designer() {
                 </div>
               </div>
             </dialog>
-            <button onClick={handleDownloadScreenShot}>
-              <Downloads />
-            </button>
+            <div className="flex justify-evenly text-textColor">
+              <span className="text-sm">Download your design images</span>
+              <button onClick={handleDownloadScreenShot}>
+                <Downloads />
+              </button>
+            </div>
           </div>
         </div>
       </div>
