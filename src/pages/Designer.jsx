@@ -2,10 +2,11 @@ import "../styles/scroll.css";
 
 import { useRef, useEffect, useState, useContext } from "react";
 import { fabric } from "fabric";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import RadioComponent from "../components/RadioComponent";
 import SizeCharts from "../components/Charts/SizeCharts";
 import XIcon from "../icons/XIcon";
+import Downloads from "../icons/Downloads";
 
 import {
   addText,
@@ -445,6 +446,21 @@ export default function Designer() {
     // event.stopImmediatePropagation()
     // event.stopPropagation();
   };
+  const handleDownloadScreenShot = async () => {
+    const imageOfDesignFront = await captureScreenShot(
+      fabricCanvasFront.current,
+      "divToTakeScreenshotFront",
+      true
+    );
+
+    const imageOfDesignBack = await captureScreenShot(
+      fabricCanvasBack.current,
+      "divToTakeScreenshotBack",
+      true
+    );
+    console.log("Front Image:", imageOfDesignFront);
+    console.log("Back Image:", imageOfDesignBack);
+  };
 
   return (
     <div className="container mx-auto px-4 mb-20 ">
@@ -457,14 +473,14 @@ export default function Designer() {
           <div className="flex flex-col w-full">
             <div className="flex sm:justify-between justify-evenly w-full">
               <button
-                className="bg-red-700 text-white py-2 px-2 rounded w-32 sm:w-1/4 md:w-32 lg:w-32 cursor-pointer hover:bg-red-600 transition duration-300 ease-in-out"
+                className="border border-red-500 text-red-500 py-2 px-2 rounded w-32 sm:w-1/4 md:w-32 lg:w-32 cursor-pointer  transition duration-300 ease-in-out"
                 onClick={() => handleResetCanva(displayedCanvas?.current)}
               >
                 Clear Design
               </button>
 
               <button
-                className={`bg-white text-gray-700 py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-buttonColor ${
+                className={`bg-white text-buttonColor py-2 px-4 rounded w-44 sm:w-1/4 md:w-44 lg:w-44 transition duration-300 ease-in-out border border-buttonColor ${
                   isRemoveButtonDisabled(displayedCanvas?.current)
                     ? "bg-gray-200 border-none"
                     : ""
@@ -775,6 +791,9 @@ export default function Designer() {
                 </div>
               </div>
             </dialog>
+            <button onClick={handleDownloadScreenShot}>
+              <Downloads />
+            </button>
           </div>
         </div>
       </div>
