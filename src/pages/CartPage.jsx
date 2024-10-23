@@ -62,7 +62,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto ">
       {isOpen && (
         <div
           id="modal-overlay"
@@ -91,7 +91,7 @@ export default function CartPage() {
       {!cart || cart.length === 0 ? (
         <EmptyCart></EmptyCart>
       ) : (
-        <div className="m-5">
+        <div className="my-5 mx-20 ">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-5">
             <div className="col-span-2 ">
               <div className="flex justify-between">
@@ -100,7 +100,7 @@ export default function CartPage() {
                 </h1>
                 <button
                   onClick={handleClearCart}
-                  className="bg-red-600 hover:bg-red-500 text-white  transition duration-300 ease-in-out rounded px-3 py-1 h-9 "
+                  className="text-red-500  border border-red-500   transition duration-300 ease-in-out rounded px-3 py-1 h-9 "
                   disabled={isClearing}
                 >
                   {isClearing ? (
@@ -135,7 +135,7 @@ export default function CartPage() {
                       <div className="absolute top-0 right-0 flex justify-end p-2">
                         <button
                           onClick={() => handleRemoveFromCart(product?._id)}
-                          className="bg-red-500 text-white rounded-3xl w-11  h-11 flex justify-center items-center cursor-pointer"
+                          className="  text-white rounded-3xl w-11  h-11 flex justify-center items-center cursor-pointer"
                           disabled={isRemoving === product?._id}
                         >
                           {isRemoving === product?._id ? (
@@ -164,39 +164,39 @@ export default function CartPage() {
                           <span className="text-gray-400 text-base">EG</span>{" "}
                         </p>
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-end mt-3">
-                    <div className="flex items-center">
-                      <div
-                        onClick={() =>
-                          handleQuantityChange(
-                            product?._id,
-                            product?.quantity - 1
-                          )
-                        }
-                        className=" rounded border border-buttonColor w-10 h-10 text-lg  flex items-center justify-center text-buttonColor hover:cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  "
-                        disabled={product?.quantity <= 1}
-                      >
-                        -
-                      </div>
-                      <span className="mx-3">{product?.quantity}</span>
-                      <div
-                        onClick={() =>
-                          handleQuantityChange(
-                            product?._id,
-                            product?.quantity + 1
-                          )
-                        }
-                        className=" rounded border border-buttonColor w-10 h-10 text-lg  flex items-center justify-center text-buttonColor hover:cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out "
-                        disabled={
-                          product?.quantity >=
-                          product?.product?.stock?.find(
-                            (s) => s?.size === product?.size
-                          )?.quantity
-                        }
-                      >
-                        +
+                      <div className="flex items-center justify-start mt-3">
+                        <div className="flex items-center">
+                          <div
+                            onClick={() =>
+                              handleQuantityChange(
+                                product?._id,
+                                product?.quantity - 1
+                              )
+                            }
+                            className=" rounded border border-buttonColor w-10 h-10 text-lg  flex items-center justify-center text-buttonColor hover:cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  "
+                            disabled={product?.quantity <= 1}
+                          >
+                            -
+                          </div>
+                          <span className="mx-3">{product?.quantity}</span>
+                          <div
+                            onClick={() =>
+                              handleQuantityChange(
+                                product?._id,
+                                product?.quantity + 1
+                              )
+                            }
+                            className=" rounded border border-buttonColor w-10 h-10 text-lg  flex items-center justify-center text-buttonColor hover:cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out "
+                            disabled={
+                              product?.quantity >=
+                              product?.product?.stock?.find(
+                                (s) => s?.size === product?.size
+                              )?.quantity
+                            }
+                          >
+                            +
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
