@@ -1,6 +1,17 @@
 import { Link } from "react-router-dom";
 
 function Footer() {
+  const playSound = () => {
+    const audio = new Audio(
+      "/public/WhatsApp Ptt 2024-09-09 at 7.57.36 PM.ogg"
+    );
+    audio.currentTime = 3;
+    audio.play();
+
+    setTimeout(() => {
+      audio.pause();
+    }, 2000); // 3 seconds
+  };
   return (
     <footer className="bg-gray-100 text-center sm:text-start  text-gray-700 p-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -103,7 +114,9 @@ function Footer() {
         </div>
 
         <div>
-          <h3 className="font-bold text-purpleColor text-center">Get In Touch</h3>
+          <h3 className="font-bold text-purpleColor text-center">
+            Get In Touch
+          </h3>
           <form className="mt-4">
             <input
               type="email"
@@ -125,13 +138,13 @@ function Footer() {
       <div className="text-center py-6 border-t mt-6">
         <p className="text-sm">
           Made With Love By{" "}
-          <Link
-            to={"/AboutUs"}
-            className="text-textColor hover:cursor-pointer"
-          >
+          <Link to={"/AboutUs"} className="text-textColor hover:cursor-pointer">
             WAK WAAK WAAAAK
           </Link>
-          Team <span className="text-3xl">🦆</span>
+          Team
+          <button onClick={playSound}>
+            <span className="text-3xl">🦆</span>
+          </button>
         </p>
       </div>
     </footer>

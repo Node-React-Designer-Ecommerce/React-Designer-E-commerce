@@ -31,15 +31,15 @@ export default function Navbar() {
   };
 
   return (
-    <div className="navbar bg-base-100 sticky top-0 z-50 border bottom-1 flex justify-between">
+    <div className="navbar bg-base-100 sticky top-0 z-50 border bottom-1 flex justify-between ">
       <div className="">
-        <Link to="/" className="">
+        <Link to="/" className="ms-10">
           <img src="/public/sammlyLogo.png" width={90} alt="logo" />
         </Link>
       </div>
 
       {/* Burger Icon for Small Screens */}
-      <div className="md:hidden text-textColor absolute left-24">
+      <div className="md:hidden text-textColor absolute left-24 ms-10">
         <button onClick={toggleMenu} className="btn btn-ghost btn-circle">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,15 +63,26 @@ export default function Navbar() {
         <CustomLink to="/">Home</CustomLink>
         <CustomLink to="/products">Products</CustomLink>
         <CustomLink to="/customize">Customize</CustomLink>
-        <CustomLink to="/aboutus" className>About Us</CustomLink>
+        <CustomLink to="/aboutus" className>
+          About Us
+        </CustomLink>
       </div>
 
       {/* Mobile Navigation Links */}
-      <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden`}>
+      <div className={`${isMenuOpen ? "block" : "hidden"} md:hidden`}>
         <div className="absolute top-16 left-0 bg-white w-full shadow-lg p-3">
-          <CustomLink to="/" className="block px-4 py-2 text-textColor">Home</CustomLink>
-          <CustomLink to="/products" className="block px-4 py-2 text-textColor">Products</CustomLink>
-          <CustomLink to="/customize" className="block px-4 py-2 text-textColor">Customize</CustomLink>
+          <CustomLink to="/" className="block px-4 py-2 text-textColor">
+            Home
+          </CustomLink>
+          <CustomLink to="/products" className="block px-4 py-2 text-textColor">
+            Products
+          </CustomLink>
+          <CustomLink
+            to="/customize"
+            className="block px-4 py-2 text-textColor"
+          >
+            Customize
+          </CustomLink>
           <CustomLink to="/aboutus">About Us</CustomLink>
         </div>
       </div>
@@ -85,15 +96,17 @@ export default function Navbar() {
               className="btn btn-ghost btn-circle"
             >
               <div className="indicator">
-                <Link  to="/cart" >
+                <Link to="/cart">
                   <CartIcon />
                 </Link>
-                <span className="badge badge-sm indicator-item">{totalQuantity}</span>
+                <span className="badge badge-sm indicator-item">
+                  {totalQuantity}
+                </span>
               </div>
             </div>
           </div>
         )}
-        <div className="dropdown dropdown-end">
+        <div className="dropdown dropdown-end me-10 ">
           <div
             tabIndex={0}
             role="button"

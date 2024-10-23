@@ -6,12 +6,13 @@ function Hero() {
       <div
         className="w-full h-auto flex flex-col md:flex-row justify-between items-center px-4"
         style={{
-          background: "linear-gradient(to right, rgb(129 179 220 / 97%), rgb(206 106 218 / 66%))",
+          background:
+            "linear-gradient(to right, rgb(129 179 220 / 97%), rgb(206 106 218 / 66%))",
         }}
       >
         {/* Text Section */}
         <div className="text-neutral-700 p-4 my-auto text-center md:text-left">
-          <h1 className="text-md sm:text-xl mb-4 md:text-2xl lg:text-2xl font-bold">
+          <h1 className="text-md sm:text-xl mb-4 md:text-3xl lg:text-3xl font-bold text-white">
             Show The World Your <br />
             Own Unique Style
           </h1>

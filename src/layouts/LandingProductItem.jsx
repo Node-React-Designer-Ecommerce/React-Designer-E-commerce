@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllProducts } from '../utils/api/productsapi';
+import { getAllProducts } from "../utils/api/productsapi";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Skelton from './../layouts/Skelton';
-import '../styles/CarouselCustom.css';
+import Skelton from "./../layouts/Skelton";
+import "../styles/CarouselCustom.css";
+import { Link } from "react-router-dom";
 
 // Utility function to group products into chunks of 3
 const chunkProducts = (products, chunkSize) => {
@@ -16,7 +17,7 @@ const chunkProducts = (products, chunkSize) => {
 
 function LandingProductItem() {
   const { isLoading, data: products } = useQuery({
-    queryKey: ['products'],
+    queryKey: ["products"],
     queryFn: getAllProducts,
     cacheTime: 50000,
   });
@@ -52,18 +53,54 @@ function LandingProductItem() {
           interval={3000}
           stopOnHover={true}
           className="custom-carousel w-full"
+          // Custom Previous Arrow
+          renderArrowPrev={(onClickHandler, hasPrev, label) =>
+            hasPrev && (
+              <button
+                type="button"
+                onClick={onClickHandler}
+                className="absolute left-0 z-10 p-2  text-white bg-textColor rounded-full ms-44 lg:flex hidden"
+                style={{ top: "50%", transform: "translateY(-50%)" }}
+              >
+                &#10094; {/* Unicode for left arrow */}
+              </button>
+            )
+          }
+          // Custom Next Arrow
+          renderArrowNext={(onClickHandler, hasNext, label) =>
+            hasNext && (
+              <button
+                type="button"
+                onClick={onClickHandler}
+                className="absolute right-0 z-10 p-2  text-white bg-textColor rounded-full  me-44 lg:flex hidden"
+                style={{ top: "50%", transform: "translateY(-50%)" }}
+              >
+                &#10095; {/* Unicode for right arrow */}
+              </button>
+            )
+          }
         >
           {productChunks?.map((chunk, index) => (
-            <div key={index} className="flex flex-wrap justify-center mx-auto gap-4" style={{ maxWidth: "1200px" }}>
+            <div
+              key={index}
+              className="flex flex-wrap justify-center mx-auto gap-4 mb-5 mt-5 "
+              style={{ maxWidth: "1200px" }}
+            >
               {chunk.map((product) => (
-                <div key={product.id} className="card w-72 h-auto bg-white shadow-lg mx-2">
+                <div
+                  key={product.id}
+                  className="card w-72 h-auto bg-white shadow-lg mx-2 p-5 mb-8  "
+                >
                   <figure>
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-[349px] object-cover"
-                    />
+                    <Link to={`/product-details/${product._id}`}>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-[349px] object-cover rounded-xl"
+                      />
+                    </Link>
                   </figure>
+
                   {/* <div className="card-body">
                     <h2 className="card-title text-center">{product.name}</h2>
                     <p className="text-lg font-semibold text-center">${product.price}</p>

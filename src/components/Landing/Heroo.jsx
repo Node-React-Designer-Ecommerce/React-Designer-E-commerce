@@ -2,18 +2,20 @@ import { Link } from "react-router-dom";
 
 const Heroo = () => {
   return (
-    <div className="py-5" >
+    <div className="py-5">
       <div
         className="relative px-10 flex flex-col md:flex-row md:justify-between justify-center items-center "
         // style={{ background: "#81b3dcab" }}
-        style={{ backgroundImage: "linear-gradient(to top, rgb(129 179 220 / 92%), rgb(129 179 220 / 0%))" }}
+        style={{
+          backgroundImage:
+            "linear-gradient(to top, rgb(129 179 220 / 92%), rgb(129 179 220 / 0%))",
+        }}
       >
-
         {/* Left Section */}
         <div className="flex flex-col space-y-4 max-w-lg text-center md:text-left">
           <h1 className="text-3xl md:text-5xl font-bold">
             Crafting a new age of{" "}
-            <span className="text-white">fashion</span>
+            <span className="text-black-200">fashion</span>
           </h1>
           <p className="text-base md:text-lg text-gray-800">
             Discover the Latest Trends, Timeless Classics, and Ultimate Comfort.
@@ -28,7 +30,10 @@ const Heroo = () => {
             >
               Customize
             </Link>
-            <Link to="/products" className="btn btn-outline text-white hover:bg-buttonColor hover:border-none transition duration-700">
+            <Link
+              to="/products"
+              className="btn btn-outline text-white hover:bg-buttonColor hover:border-none transition duration-700"
+            >
               Products
             </Link>
           </div>
@@ -42,7 +47,6 @@ const Heroo = () => {
             className="w-full md:w-auto h-auto object-cover"
           />
         </div>
-
       </div>
       {/* Start Shopping Button */}
       <div className="flex justify-center p-3 invisible">
@@ -56,7 +60,6 @@ const Heroo = () => {
           Start Shopping <span className="ml-2">➔</span>
         </Link>
       </div>
-
     </div>
   );
 };
