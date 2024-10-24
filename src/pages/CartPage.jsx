@@ -3,7 +3,7 @@ import { useCart } from "../context/CartContext";
 import EmptyCart from "../components/EmptyCart";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
-import DeleteIcon from "../icons/DeleteIcon";
+import XIcon from "../icons/XIcon";
 
 export default function CartPage() {
   const {
@@ -20,6 +20,9 @@ export default function CartPage() {
     getAvailableStock,
   } = useCart();
   const [isOpen, setIsOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showClearCartModal, setShowClearCartModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
   const [iframeSrc, setIframeSrc] = useState("");
 
   const checkout = async () => {
@@ -46,6 +49,40 @@ export default function CartPage() {
   const handleClickOutside = (e) => {
     if (e.target.id === "modal-overlay") {
       handleCloseModal();
+    }
+  };
+
+  const handleDeleteConfirm = (id) => {
+    setItemToDelete(id);
+    setShowModal(true);
+  }
+
+  const handleDeleteCancel = () => {
+    setItemToDelete(null);
+    setShowModal(false);
+  }
+
+  const handleDeleteConfirmed = () => {
+    if (itemToDelete) {
+      handleRemoveFromCart(itemToDelete);
+    }
+    setItemToDelete(null);
+    setShowModal(false);
+  }
+
+  const handleClearCartConfirm = () => {
+    setShowClearCartModal(true);
+  };
+
+  const handleClearCartCancel = () => {
+    setShowClearCartModal(false);
+  };
+
+  const handleClearCartConfirmed = async () => {
+    try {
+      await handleClearCart();
+    } finally {
+      setShowClearCartModal(false);
     }
   };
 
@@ -91,7 +128,7 @@ export default function CartPage() {
                   Shopping Cart
                 </h1>
                 <button
-                  onClick={handleClearCart}
+                  onClick={handleClearCartConfirm}
                   className="text-red-500 border border-red-500 transition duration-300 ease-in-out rounded px-3 py-1 h-9"
                   disabled={isClearing}
                 >
@@ -115,7 +152,7 @@ export default function CartPage() {
                   >
                     <div className="lg:flex md:flex items-center">
                       <img
-                        className="w-32 h-32 rounded"
+                        className="w-32 h-32 rounded object-cover"
                         src={
                           product?.type === "Product"
                             ? product?.product?.image
@@ -132,14 +169,14 @@ export default function CartPage() {
                       <div className="text-left">
                         <div className="absolute top-0 right-0 flex justify-end p-2">
                           <button
-                            onClick={() => handleRemoveFromCart(product?._id)}
+                            onClick={() => handleDeleteConfirm(product?._id)}
                             className="text-white rounded-3xl w-11 h-11 flex justify-center items-center cursor-pointer"
                             disabled={isRemoving === product?._id}
                           >
                             {isRemoving === product?._id ? (
                               <span className="loading loading-ring loading-md"></span>
                             ) : (
-                              <DeleteIcon />
+                              <XIcon />
                             )}
                           </button>
                         </div>
@@ -170,11 +207,10 @@ export default function CartPage() {
                                   product?.quantity - 1
                                 )
                               }
-                              className={`rounded border border-buttonColor w-10 h-10 text-lg flex items-center justify-center text-buttonColor transition duration-300 ease-in-out ${
-                                isMinQuantity || isUpdating
+                              className={`rounded border border-buttonColor w-10 h-10 text-lg flex items-center justify-center text-buttonColor transition duration-300 ease-in-out ${isMinQuantity || isUpdating
                                   ? "opacity-50 cursor-not-allowed"
                                   : "hover:bg-gray-100 cursor-pointer"
-                              }`}
+                                }`}
                               disabled={isMinQuantity || isUpdating}
                             >
                               -
@@ -193,11 +229,10 @@ export default function CartPage() {
                                   product?.quantity + 1
                                 )
                               }
-                              className={`rounded border border-buttonColor w-10 h-10 text-lg flex items-center justify-center text-buttonColor transition duration-300 ease-in-out ${
-                                isMaxQuantity || isUpdating
+                              className={`rounded border border-buttonColor w-10 h-10 text-lg flex items-center justify-center text-buttonColor transition duration-300 ease-in-out ${isMaxQuantity || isUpdating
                                   ? "opacity-50 cursor-not-allowed"
                                   : "hover:bg-gray-100 cursor-pointer"
-                              }`}
+                                }`}
                               disabled={isMaxQuantity || isUpdating}
                             >
                               +
@@ -243,6 +278,48 @@ export default function CartPage() {
                   Checkout
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {showModal && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm Delete</h3>
+            <p className="py-4">Are you sure you want to delete this design?</p>
+            <div className="modal-action">
+              <button
+                onClick={handleDeleteConfirmed}
+                className="btn border border-red-500 bg-white hover:bg-red-500 hover:text-white duration-300"
+              >
+                Delete
+              </button>
+              <button onClick={handleDeleteCancel} className="btn">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Modal for clearing the cart */}
+      {showClearCartModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg">
+            <h2 className="text-lg font-bold mb-4">Clear Cart</h2>
+            <p>Are you sure you want to clear the entire cart?</p>
+            <div className="flex justify-end space-x-4 mt-4">
+              <button
+                onClick={handleClearCartConfirmed}
+                className="btn border border-red-500 bg-white hover:bg-red-500 hover:text-white duration-300"
+              >
+                Clear Cart
+              </button>
+              <button
+                onClick={handleClearCartCancel}
+                className="btn"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>

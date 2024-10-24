@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import UserContext from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import Skelton from "../../layouts/Skelton";
-import DeleteIcon from "../../icons/DeleteIcon"; // Assuming you have a DeleteIcon component
+import XIcon from "../../icons/XIcon";
 
 export default function ProfileDesigns() {
   const [showModal, setShowModal] = useState(false);
@@ -46,10 +46,10 @@ export default function ProfileDesigns() {
             >
               <figure className="relative pt-5">
                 <div
-                  className="bg-lightBackGround text-white rounded-3xl w-11 absolute top-9 start-4 h-11 flex justify-center items-center cursor-pointer"
+                  className="bg-lightBackGround text-white rounded-3xl w-11 absolute top-9 end-4 h-11 flex justify-center items-center cursor-pointer"
                   onClick={() => handleDeleteConfirm(design._id)}
                 >
-                  <DeleteIcon />
+                  <XIcon />
                 </div>
                 <img
                   src={design.image[0]}

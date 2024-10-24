@@ -90,20 +90,19 @@ export default function Navbar() {
       <div className="">
         {isLoggedIn && (
           <div className="dropdown dropdown-end">
-            <div
+            <Link
+              to="/cart"
               tabIndex={0}
               role="button"
               className="btn btn-ghost btn-circle"
             >
               <div className="indicator">
-                <Link to="/cart">
-                  <CartIcon />
-                </Link>
+                <CartIcon />
                 <span className="badge badge-sm indicator-item">
                   {totalQuantity}
                 </span>
               </div>
-            </div>
+            </Link>
           </div>
         )}
         <div className="dropdown dropdown-end me-10 ">
@@ -114,9 +113,8 @@ export default function Navbar() {
           >
             <div className="rounded-2xl">
               <div
-                className={`avatar ${
-                  userProfile ? "online" : ""
-                } placeholder w-10`}
+                className={`avatar ${userProfile ? "online" : ""
+                  } placeholder w-10`}
               >
                 <div className="bg-white text-textColor border border-textColor w-16 rounded-full">
                   <span className="text-xl">
