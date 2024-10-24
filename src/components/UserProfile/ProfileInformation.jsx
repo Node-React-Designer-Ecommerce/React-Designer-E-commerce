@@ -5,6 +5,7 @@ import Skelton from './../../layouts/Skelton';
 
 export default function ProfileInformation() {
     const { userProfile, isEditing, error, handleEditProfile, handleSaveProfile } = useContext(UserContext);
+    const [showModal, setShowModal] = useState(false);
     const [editedProfile, setEditedProfile] = useState({
         name: userProfile?.name || '',
         address: userProfile?.address || '',
@@ -20,18 +21,28 @@ export default function ProfileInformation() {
         }));
     };
 
-    const handleSaveClick = async () => {
+    const handleSaveClick = (e) => {
+        e.preventDefault();
+        setShowModal(true); 
+    };
+
+    const handleEditConfirm = async () => {
         setIsSaving(true);
         try {
             await handleSaveProfile(editedProfile);
             toast.success('Profile updated successfully!');
-            window.location.reload()
+            // window.location.reload(); 
         } catch (error) {
             console.error('Error saving profile:', error);
             toast.error('Error updating profile. Please try again.');
         } finally {
             setIsSaving(false);
+            setShowModal(false); 
         }
+    };
+
+    const handleEditCancel = () => {
+        setShowModal(false);
     };
 
     if (!userProfile) {
@@ -126,6 +137,32 @@ export default function ProfileInformation() {
                     </div>
                 </div>
             </div>
+
+            {/* Modal for confirmation */}
+            {showModal && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 className="text-lg font-semibold mb-4">Confirm Changes</h3>
+                        <p>Are you sure you want to save these changes?</p>
+                        <div className="flex justify-end gap-2 mt-4">
+                            <button
+                                className="btn bg-buttonColor hover:bg-hoverButton text-white"
+                                onClick={handleEditConfirm}
+                                disabled={isSaving}
+                            >
+                                {isSaving ? <span className="loading loading-ring loading-md"></span> : 'Confirm'}
+                            </button>
+                            <button
+                                className="btn btn-outline text-gray-500 hover:bg-gray-700 mr-2"
+                                onClick={handleEditCancel}
+                                disabled={isSaving}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

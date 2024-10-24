@@ -1,11 +1,31 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import Skelton from "../../layouts/Skelton";
 import DeleteIcon from "../../icons/DeleteIcon"; // Assuming you have a DeleteIcon component
 
 export default function ProfileDesigns() {
+  const [showModal, setShowModal] = useState(false);
+  const [designToDelete, setDesignToDelete] = useState(null);
   const { designs, removeDesign } = useContext(UserContext);
+
+  const handleDeleteConfirm = (id) => {
+    setDesignToDelete(id);
+    setShowModal(true);
+  }
+
+  const handleDeleteCancel = () => {
+    setDesignToDelete(null);
+    setShowModal(false);
+  }
+
+  const handleDeleteConfirmed = () => {
+    if (designToDelete) {
+      removeDesign(designToDelete)
+    }
+    setDesignToDelete(null);
+    setShowModal(false);
+  }
 
   if (!designs) {
     return <Skelton />;
@@ -27,7 +47,7 @@ export default function ProfileDesigns() {
               <figure className="relative pt-5">
                 <div
                   className="bg-lightBackGround text-white rounded-3xl w-11 absolute top-9 start-4 h-11 flex justify-center items-center cursor-pointer"
-                  onClick={() => removeDesign(design._id)}
+                  onClick={() => handleDeleteConfirm(design._id)}
                 >
                   <DeleteIcon />
                 </div>
@@ -62,6 +82,25 @@ export default function ProfileDesigns() {
           ))
         )}
       </div>
+      {showModal && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm Delete</h3>
+            <p className="py-4">Are you sure you want to delete this design?</p>
+            <div className="modal-action">
+              <button
+                onClick={handleDeleteConfirmed}
+                className="btn border border-red-500 bg-white hover:bg-red-500 hover:text-white duration-300 "
+              >
+                Delete
+              </button>
+              <button onClick={handleDeleteCancel} className="btn">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
