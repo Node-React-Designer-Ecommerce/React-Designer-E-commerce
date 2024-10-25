@@ -88,7 +88,7 @@ function LandingProductItem() {
             >
               {chunk.map((product) => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className="card w-72 h-auto bg-white shadow-lg mx-2 p-5 mb-8  "
                 >
                   <figure>
