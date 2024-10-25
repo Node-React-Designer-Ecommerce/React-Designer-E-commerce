@@ -55,12 +55,12 @@ export default function CartPage() {
   const handleDeleteConfirm = (id) => {
     setItemToDelete(id);
     setShowModal(true);
-  }
+  };
 
   const handleDeleteCancel = () => {
     setItemToDelete(null);
     setShowModal(false);
-  }
+  };
 
   const handleDeleteConfirmed = () => {
     if (itemToDelete) {
@@ -68,7 +68,7 @@ export default function CartPage() {
     }
     setItemToDelete(null);
     setShowModal(false);
-  }
+  };
 
   const handleClearCartConfirm = () => {
     setShowClearCartModal(true);
@@ -207,10 +207,11 @@ export default function CartPage() {
                                   product?.quantity - 1
                                 )
                               }
-                              className={`rounded border border-buttonColor w-10 h-10 text-lg flex items-center justify-center text-buttonColor transition duration-300 ease-in-out ${isMinQuantity || isUpdating
+                              className={`rounded border border-buttonColor w-10 h-10 text-lg flex items-center justify-center text-buttonColor transition duration-300 ease-in-out ${
+                                isMinQuantity || isUpdating
                                   ? "opacity-50 cursor-not-allowed"
                                   : "hover:bg-gray-100 cursor-pointer"
-                                }`}
+                              }`}
                               disabled={isMinQuantity || isUpdating}
                             >
                               -
@@ -229,10 +230,11 @@ export default function CartPage() {
                                   product?.quantity + 1
                                 )
                               }
-                              className={`rounded border border-buttonColor w-10 h-10 text-lg flex items-center justify-center text-buttonColor transition duration-300 ease-in-out ${isMaxQuantity || isUpdating
+                              className={`rounded border border-buttonColor w-10 h-10 text-lg flex items-center justify-center text-buttonColor transition duration-300 ease-in-out ${
+                                isMaxQuantity || isUpdating
                                   ? "opacity-50 cursor-not-allowed"
                                   : "hover:bg-gray-100 cursor-pointer"
-                                }`}
+                              }`}
                               disabled={isMaxQuantity || isUpdating}
                             >
                               +
@@ -314,10 +316,7 @@ export default function CartPage() {
               >
                 Clear Cart
               </button>
-              <button
-                onClick={handleClearCartCancel}
-                className="btn"
-              >
+              <button onClick={handleClearCartCancel} className="btn">
                 Cancel
               </button>
             </div>
