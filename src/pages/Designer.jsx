@@ -88,6 +88,7 @@ export default function Designer() {
       if (editDesignId) {
         setDesignId(editDesignId);
         const fetchedDesign = await getdesignById(editDesignId);
+        console.log(fetchedDesign);
         setSavedCanvas({
           front: fetchedDesign.canvases.front,
           back: fetchedDesign.canvases.back,
@@ -267,7 +268,10 @@ export default function Designer() {
   };
 
   const handleSaveDesign = async (action) => {
-    setIsSaving(true);
+    if (action === "save") {
+      setIsSaving(true);
+    }
+
     try {
       const canvasJSONFront = saveAsJSON(fabricCanvasFront.current);
       const canvasJSONBack = saveAsJSON(fabricCanvasBack.current);
