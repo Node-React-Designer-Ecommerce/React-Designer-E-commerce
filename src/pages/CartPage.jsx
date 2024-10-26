@@ -174,7 +174,7 @@ export default function CartPage() {
                             disabled={isRemoving === product?._id}
                           >
                             {isRemoving === product?._id ? (
-                              <span className="loading loading-ring loading-md"></span>
+                              <span className="loading loading-ring loading-md "></span>
                             ) : (
                               <XIcon />
                             )}

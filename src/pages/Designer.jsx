@@ -7,6 +7,7 @@ import RadioComponent from "../components/RadioComponent";
 import SizeCharts from "../components/Charts/SizeCharts";
 import XIcon from "../icons/XIcon";
 import Downloads from "../icons/Downloads";
+import ShowMore from "../icons/ShowMore.jsx";
 
 import {
   addText,
@@ -450,6 +451,19 @@ export default function Designer() {
     // event.stopImmediatePropagation()
     // event.stopPropagation();
   };
+
+  // solve error of handlewheel
+  // useEffect(() => {
+  //   const handleWheel = (event) => {
+  //     event.preventDefault();
+  //   };
+
+  //   window.addEventListener("wheel", handleWheel, { passive: false });
+
+  //   return () => {
+  //     window.removeEventListener("wheel", handleWheel);
+  //   };
+  // }, []);
   const handleDownloadScreenShot = async () => {
     const imageOfDesignFront = await captureScreenShot(
       fabricCanvasFront.current,
@@ -471,7 +485,7 @@ export default function Designer() {
       <div className="text-textColor text-3xl sm:text-4xl text-center my-5 sm:my-8 md:my-10 font-bold">
         Customize your design
       </div>
-      <div className="flex flex-col lg:flex-row gap-6  justify-between  lg:mx-24 ">
+      <div className="flex flex-col lg:flex-row gap-6  justify-between  custom:mx-24 custom:gap-4 ">
         <div className="w-full lg:w-3/5 flex flex-col justify-start items-center ">
           {/* designer images and buttons  */}
           <div className="flex flex-col w-full">
@@ -517,7 +531,7 @@ export default function Designer() {
 
               {/* Scroll images */}
               <div
-                className="flex overflow-hidden mt-5 w-full hide-scrollbar"
+                className="flex overflow-hidden mt-5 w-full hide-scrollbar  "
                 onWheel={handleWheel}
               >
                 <div
@@ -529,7 +543,7 @@ export default function Designer() {
                     height: "500px", // Ensure the div has a fixed height
                     flexShrink: 0, // Prevent the div from shrinking
                   }}
-                  className="w-full flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover sm:bg-contain xs:bg-contain mdplus:bg-contain lgplus:bg-contain p-5 md:w-[600px] md:h-[600px]"
+                  className="w-full flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover sm:bg-contain xs:bg-contain mdplus:bg-contain lgplus:bg-contain p-5 md:w-[600px] md:h-[600px]  "
                 >
                   <canvas
                     id="canvasBorderFront"
@@ -548,7 +562,7 @@ export default function Designer() {
                     height: "500px", // Ensure the div has a fixed height
                     flexShrink: 0, // Prevent the div from shrinking
                   }}
-                  className="w-full flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover sm:bg-contain xs:bg-contain mdplus:bg-cover lgplus:bg-contain p-5 md:w-[600px] md:h-[600px]"
+                  className="w-full flex flex-col justify-center items-center bg-center bg-no-repeat bg-white relative rounded-lg bg-cover sm:bg-contain xs:bg-contain mdplus:bg-cover lgplus:bg-contain smplus:bg-cover p-5 md:w-[600px] md:h-[600px]"
                 >
                   <canvas
                     id="canvasBorderBack"
@@ -795,8 +809,13 @@ export default function Designer() {
                 </div>
               </div>
             </dialog>
-            <div className="flex justify-evenly text-textColor">
-              <span className="text-sm">Download your design images</span>
+            <div className="flex justify-center gap-2 text-textColor">
+              <span
+                onClick={handleDownloadScreenShot}
+                className="text-sm cursor-pointer"
+              >
+                Download your design images
+              </span>
               <button onClick={handleDownloadScreenShot}>
                 <Downloads />
               </button>
@@ -804,9 +823,9 @@ export default function Designer() {
           </div>
         </div>
       </div>
-      <div className="lg:flex justify-end mx-5 sm:mx-40 mt-5">
+      <div className=" lg:flex justify-end sm:mx-40 mt-5">
         <button
-          className={`me-5 bg-white text-buttonColor py-2 px-4 rounded cursor-pointer 
+          className={`me-5  bg-white text-buttonColor py-2 px-4 rounded cursor-pointer 
               hover:bg-gray-100 transition duration-300 ease-in-out mt-5 w-full sm:w-44 
               border border-buttonColor ${
                 isSaving ? "opacity-50 cursor-not-allowed" : ""
@@ -819,6 +838,12 @@ export default function Designer() {
           ) : (
             "Save Design"
           )}
+          <div className="relative group inline-block ">
+            <ShowMore />
+            <span className="absolute bottom-full  left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 mb-3 shadow-md rounded border border-gray-300 text-sm text-textColor bg-white border  rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              If you want to Edit your design later , save it .
+            </span>
+          </div>
         </button>
         {isLoggedIn ? (
           <button
@@ -826,7 +851,7 @@ export default function Designer() {
             style={{
               background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
             }}
-            className="py-2 px-4 rounded cursor-pointer  transition duration-700 ease-in-out  text-white btn  mt-5 w-full sm:w-44 me-8 "
+            className="py-2 px-4 rounded cursor-pointer  transition duration-700 ease-in-out  text-white btn  mt-5 w-full sm:w-44 me-2 "
             disabled={isAdding}
           >
             {isAdding ? (
