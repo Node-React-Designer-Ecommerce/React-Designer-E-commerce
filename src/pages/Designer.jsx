@@ -446,11 +446,11 @@ export default function Designer() {
     fabricCanvasBack.current.discardActiveObject();
     fabricCanvasBack.current.renderAll();
   };
-  const handleWheel = (event) => {
-    event.preventDefault();
-    // event.stopImmediatePropagation()
-    // event.stopPropagation();
-  };
+  // const handleWheel = (event) => {
+  //   event.preventDefault();
+  //   // event.stopImmediatePropagation()
+  //   // event.stopPropagation();
+  // };
 
   // solve error of handlewheel
   // useEffect(() => {
@@ -530,10 +530,7 @@ export default function Designer() {
               </div>
 
               {/* Scroll images */}
-              <div
-                className="flex overflow-hidden mt-5 w-full hide-scrollbar  "
-                onWheel={handleWheel}
-              >
+              <div className="flex overflow-hidden mt-5 w-full hide-scrollbar  ">
                 <div
                   id="divToTakeScreenshotFront"
                   ref={frontImageRef}
@@ -823,35 +820,37 @@ export default function Designer() {
           </div>
         </div>
       </div>
-      <div className=" lg:flex justify-end sm:mx-40 mt-5">
-        <button
-          className={`me-5  bg-white text-buttonColor py-2 px-4 rounded cursor-pointer 
-              hover:bg-gray-100 transition duration-300 ease-in-out mt-5 w-full sm:w-44 
-              border border-buttonColor ${
-                isSaving ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-          onClick={() => handleSaveDesign("save")}
-          disabled={isSaving}
-        >
-          {isSaving ? (
-            <span className="loading loading-ring loading-md"></span>
-          ) : (
-            "Save Design"
-          )}
-          <div className="relative group inline-block ">
-            <ShowMore />
-            <span className="absolute bottom-full  left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 mb-3 shadow-md rounded border border-gray-300 text-sm text-textColor bg-white border  rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              If you want to Edit your design later , save it .
-            </span>
-          </div>
-        </button>
+      <div className="lg:flex justify-end sm:mx-40 mt-5">
+        {isLoggedIn && (
+          <button
+            className={`me-5 bg-white text-buttonColor py-2 px-4 rounded cursor-pointer 
+                  hover:bg-gray-100 transition duration-300 ease-in-out mt-5 w-full sm:w-44 
+                  border border-buttonColor ${
+                    isSaving ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+            onClick={() => handleSaveDesign("save")}
+            disabled={isSaving}
+          >
+            {isSaving ? (
+              <span className="loading loading-ring loading-md"></span>
+            ) : (
+              "Save Design"
+            )}
+            <div className="relative group inline-block">
+              <ShowMore />
+              <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 mb-3 shadow-md rounded border border-gray-300 text-sm text-textColor bg-white border rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                If you want to Edit your design later, save it.
+              </span>
+            </div>
+          </button>
+        )}
         {isLoggedIn ? (
           <button
             onClick={handleAddToCart}
             style={{
               background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
             }}
-            className="py-2 px-4 rounded cursor-pointer  transition duration-700 ease-in-out  text-white btn  mt-5 w-full sm:w-44 me-2 "
+            className="py-2 px-4 rounded cursor-pointer transition duration-700 ease-in-out text-white btn mt-5 w-full sm:w-44 me-2"
             disabled={isAdding}
           >
             {isAdding ? (
@@ -863,9 +862,9 @@ export default function Designer() {
         ) : (
           <button
             onClick={navigateToLogin}
-            className="bg-red-500 hover:bg-red-600 transition duration-700 ease-in-out rounded-2xl w-full text-white py-2 px-14"
+            className="bg-red-500 hover:bg-red-600 transition duration-700 ease-in-out rounded w-60 text-white py-2 px-10 me-16"
           >
-            Login to Add to Cart
+            Login to save and Add to Cart
           </button>
         )}
       </div>
