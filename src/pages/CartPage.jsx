@@ -20,7 +20,7 @@ export default function CartPage() {
     handleRemoveFromCart,
     handleClearCart,
     getAvailableStock,
-    fetchCart
+    fetchCart,
   } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -324,8 +324,9 @@ export default function CartPage() {
                   onClick={checkout}
                   disabled={!paymentMethod}
                   style={{
-                    background: paymentMethod ? "linear-gradient(to right, #81B3DC, #CE6ADA)" : "white",
-                    color: paymentMethod ? "white" : "black", // Change text color based on paymentMethod
+                    background: paymentMethod
+                      ? "linear-gradient(to right, #81B3DC, #CE6ADA)"
+                      : "linear-gradient(to right, rgba(129, 179, 220, 0.5), rgba(206, 106, 218, 0.5))",
                   }}
                 >
                   Checkout
