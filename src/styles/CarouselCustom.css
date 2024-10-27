@@ -18,3 +18,13 @@
     height: 20px;
   background-color: #ce6ada;
 }
+
+.landing-product-item {
+  display: none;
+}
+
+@media (min-width: 996px) {
+  .landing-product-item {
+    display: block;
+  }
+}

@@ -33,7 +33,6 @@ export const getIsDesignableProduct = async () => {
 export const getIsDesignableProductById = async (id) => {
   try {
     const res = await axiosInstance.get(`/products/designable-products/${id}`);
-
     return res.data.data.designableProduct; // Ensure this matches the response structure
   } catch (error) {
     console.error("Error fetching designable products:", error);
