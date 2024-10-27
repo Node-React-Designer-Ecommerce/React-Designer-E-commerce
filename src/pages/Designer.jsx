@@ -89,7 +89,6 @@ export default function Designer() {
       if (editDesignId) {
         setDesignId(editDesignId);
         const fetchedDesign = await getdesignById(editDesignId);
-        console.log(fetchedDesign);
         setSavedCanvas({
           front: fetchedDesign.canvases.front,
           back: fetchedDesign.canvases.back,
@@ -202,13 +201,13 @@ export default function Designer() {
       console.log("Selection cleared");
     });
 
-    resizeCanvas(fabricCanvasFront, canvasWidth, canvasHeight);
-    resizeCanvas(fabricCanvasBack, canvasWidth, canvasHeight);
-
-    window.addEventListener("resize", () => {
+    const handleResize = () => {
       resizeCanvas(fabricCanvasFront, canvasWidth, canvasHeight);
       resizeCanvas(fabricCanvasBack, canvasWidth, canvasHeight);
-    });
+    };
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
 
     return () => {
       if (fabricCanvasFront.current) {
@@ -225,10 +224,7 @@ export default function Designer() {
         fabricCanvasBack.current.off("object:added", handleObjectAdded);
         fabricCanvasBack.current.off("object:removed", handleObjectRemoved);
       }
-      window.removeEventListener("resize", () => {
-        resizeCanvas(fabricCanvasFront.current, canvasWidth, canvasHeight);
-        resizeCanvas(fabricCanvasBack.current, canvasWidth, canvasHeight);
-      });
+      window.removeEventListener("resize", handleResize);
       fabricCanvasFront.current.dispose();
       fabricCanvasBack.current.dispose();
       const addTextBtn = document.getElementById("addTextBtn");

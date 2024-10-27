@@ -39,7 +39,6 @@ export default function App() {
       });
       navigate("/login");
     } catch (error) {
-      // console.log(error.response?.data?.message);
       if (error.response?.data?.message === "Email already exists") {
         setError("email", {
           type: "manual",
@@ -229,7 +228,9 @@ export default function App() {
             )}
           </div>
           {errors.passwordConfirm?.type === "required" && (
-            <span className="text-red-500 text-sm">Please confirm your password</span>
+            <span className="text-red-500 text-sm">
+              Please confirm your password
+            </span>
           )}
           {errors.passwordConfirm?.type === "validate" && (
             <span className="text-red-500 text-sm">Passwords do not match</span>
@@ -297,7 +298,9 @@ export default function App() {
             />
           </div>
           {errors.phone?.type === "required" && (
-            <span className="text-red-500 text-sm">Phone number is required</span>
+            <span className="text-red-500 text-sm">
+              Phone number is required
+            </span>
           )}
           {errors.phone?.type === "pattern" && (
             <span className="text-red-500 text-sm">

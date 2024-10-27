@@ -30,7 +30,6 @@ export default function ResetPassword() {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    console.log(data);
 
     try {
       await resetPassword(token, data.password, data.passwordConfirm); // Pass token, password, and passwordConfirm
@@ -148,10 +147,14 @@ export default function ResetPassword() {
               {errors.passwordConfirm && <ErrorIcon />}
             </div>
             {errors.passwordConfirm?.type === "required" && (
-              <span className="text-red-500 text-sm">Please confirm your password</span>
+              <span className="text-red-500 text-sm">
+                Please confirm your password
+              </span>
             )}
             {errors.passwordConfirm?.type === "validate" && (
-              <span className="text-red-500 text-sm">Passwords do not match</span>
+              <span className="text-red-500 text-sm">
+                Passwords do not match
+              </span>
             )}
           </div>
 

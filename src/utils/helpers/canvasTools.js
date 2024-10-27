@@ -40,7 +40,6 @@ export const captureScreenShot = async (
     isDownload,
     "image/jpeg"
   );
-  console.log(imageOfDesign);
   if (imageOfDesign) {
     return imageOfDesign;
   } else {
@@ -133,7 +132,6 @@ export const handleAddImage = (e, fabricCanvas, setDragImages) => {
       setDragImages((prevImages) => [...prevImages, imgObj]);
     };
   };
-  console.log(imgObj);
   return imgObj;
 };
 

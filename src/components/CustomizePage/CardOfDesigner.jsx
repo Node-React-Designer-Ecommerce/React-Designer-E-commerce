@@ -11,7 +11,6 @@ export default function CardOfDesigner() {
     queryFn: getIsDesignableProduct,
     cacheTime: 50000,
   });
-  console.log(data);
 
   if (isLoading) {
     return (
@@ -32,7 +31,6 @@ export default function CardOfDesigner() {
   }
 
   const products = data || []; // Ensure products is an array
-  console.log(products);
   return (
     <div className="mt-32">
       <div className="mb-5 font-bold text-4xl text-textColor text-center">

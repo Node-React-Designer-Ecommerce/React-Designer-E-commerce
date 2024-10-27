@@ -33,7 +33,6 @@ export default function CartPage() {
   };
 
   const checkout = async () => {
-    console.log(paymentMethod);
     if (paymentMethod === "Online") {
       await Onlinecheckout();
     } else if (paymentMethod === "COD") {

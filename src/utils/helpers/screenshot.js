@@ -81,7 +81,6 @@ export const takeScreenShotFunc = async (
 
     // Convert the canvas to a data URL for the image file
     const image = canvas.toDataURL(fileType, 0.7);
-    console.log("Image is:", image); // Optional: Log the image URL for debugging
 
     // Create a temporary link element to trigger the download
     if (isDownload) {
