@@ -31,13 +31,13 @@ export default function ProfileInformation() {
         try {
             await handleSaveProfile(editedProfile);
             toast.success('Profile updated successfully!');
-            // window.location.reload(); 
+            window.location.reload();
         } catch (error) {
             console.error('Error saving profile:', error);
             toast.error('Error updating profile. Please try again.');
         } finally {
             setIsSaving(false);
-            setShowModal(false); 
+            setShowModal(false);
         }
     };
 
