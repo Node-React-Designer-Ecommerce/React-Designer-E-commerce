@@ -20,13 +20,14 @@ export default function CartPage() {
     handleRemoveFromCart,
     handleClearCart,
     getAvailableStock,
+    fetchCart
   } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showClearCartModal, setShowClearCartModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [iframeSrc, setIframeSrc] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("Online");
+  const [paymentMethod, setPaymentMethod] = useState(null);
   const navigate = useNavigate();
 
   const changePaymentMethod = (e) => {
@@ -43,7 +44,8 @@ export default function CartPage() {
   };
   const CODcheckout = async () => {
     await createOrder(paymentMethod);
-    navigate("/user-profile"); //FIXME:
+    navigate("/");
+    fetchCart();
     toast.success("Your order done successfully , orders are being delivered");
   };
 
@@ -320,8 +322,10 @@ export default function CartPage() {
                 <button
                   className="transition duration-300 ease-in-out rounded text-white px-14 py-2 mt-10 w-full"
                   onClick={checkout}
+                  disabled={!paymentMethod}
                   style={{
-                    background: "linear-gradient(to right, #81B3DC, #CE6ADA)",
+                    background: paymentMethod ? "linear-gradient(to right, #81B3DC, #CE6ADA)" : "white",
+                    color: paymentMethod ? "white" : "black", // Change text color based on paymentMethod
                   }}
                 >
                   Checkout

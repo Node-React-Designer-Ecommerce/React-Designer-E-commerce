@@ -37,8 +37,10 @@ export const UserProvider = ({ children }) => {
       setUserOrders(ordersData);
       setFavoriteProducts(favProductsData);
       setUserDesigns(designs);
+      return { userProfile: profileData, userOrders: ordersData, favoriteProducts: favProductsData, designs };
     } catch (error) {
       setError(`Error fetching user data: ${error.message}`);
+      throw error; // Rethrow the error to be handled by React Query
     } finally {
       setIsLoading(false);
     }

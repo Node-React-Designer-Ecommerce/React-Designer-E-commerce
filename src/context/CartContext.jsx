@@ -212,20 +212,22 @@ export const CartProvider = ({ children }) => {
   const [updatingQuantity, setUpdatingQuantity] = useState(null);
 
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await getCart();
-        setCart(response.data.cart);
-        calculateTotals(response.data.cart);
-      } catch (err) {
-        toast.error(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    
 
     fetchCart();
   }, []);
+
+  const fetchCart = async () => {
+    try {
+      const response = await getCart();
+      setCart(response.data.cart);
+      calculateTotals(response.data.cart);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const calculateTotals = (cartItems) => {
     const totalQty = cartItems.reduce(
@@ -355,6 +357,7 @@ export const CartProvider = ({ children }) => {
         handleRemoveFromCart,
         handleClearCart,
         getAvailableStock,
+        fetchCart,
       }}
     >
       {children}

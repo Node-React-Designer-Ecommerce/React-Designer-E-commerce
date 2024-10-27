@@ -63,3 +63,19 @@ export const removeFromFavorites = async (productId) => {
     throw error;
   }
 };
+
+export const fetchData = async () => {
+  try {
+    const [ userOrders, favoriteProducts, designs] = await Promise.all([
+      fetchUserProfile(),
+      fetchUserOrders(),
+      fetchFavoriteProducts(),
+      fetchUserDesigns(),
+    ]);
+
+    return { userProfile, userOrders, favoriteProducts, designs };
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error; // Rethrow the error to be handled by React Query
+  }
+};
