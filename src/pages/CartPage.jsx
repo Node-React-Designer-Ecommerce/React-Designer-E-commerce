@@ -4,6 +4,7 @@ import EmptyCart from "../components/EmptyCart";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import XIcon from "../icons/XIcon";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
   const {
@@ -24,9 +25,28 @@ export default function CartPage() {
   const [showClearCartModal, setShowClearCartModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [iframeSrc, setIframeSrc] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("Online");
+  const navigate = useNavigate();
+
+  const changePaymentMethod = (e) => {
+    setPaymentMethod(e.target.value);
+  };
 
   const checkout = async () => {
-    const paymentMethod = "Online";
+    console.log(paymentMethod);
+    if (paymentMethod === "Online") {
+      await Onlinecheckout();
+    } else if (paymentMethod === "COD") {
+      // Assuming COD function is defined elsewhere in the file
+      await CODcheckout();
+    }
+  };
+  const CODcheckout = async () => {
+    await createOrder(paymentMethod);
+    navigate("/user-profile"); //FIXME:
+  };
+
+  const Onlinecheckout = async () => {
     try {
       const order = await createOrder(paymentMethod);
       const hash = order.data.kashierOrderHash;
@@ -269,6 +289,32 @@ export default function CartPage() {
                 <div className="flex justify-between mt-2">
                   <span className="font-bold">Total Price:</span>
                   <span>{totalPrice} EG</span>
+                </div>
+                <div className="flex justify-between mt-2">
+                  {/* <span className="font-bold">Payment Method:</span>
+                  <select name="paymentMethod" id="paymentMethod">
+                    <option value="Online">Online</option>
+                    <option value="COD">COD</option>
+                  </select> */}
+                  {/* <div className="flex flex-col sm:flex-row gap-5  items-end sm:items-center"> */}
+                  <div>
+                    <label className="font-bold">Payment Method:</label>
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-[12px] items-end font-medium">
+                    {["Online", "COD"].map((method) => (
+                      <label className="flex items-center gap-1" key={method}>
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          value={method}
+                          className="radio"
+                          onChange={changePaymentMethod}
+                        />
+                        {method}
+                      </label>
+                    ))}
+                  </div>
+                  {/* </div> */}
                 </div>
                 <button
                   className="transition duration-300 ease-in-out rounded text-white px-14 py-2 mt-10 w-full"
