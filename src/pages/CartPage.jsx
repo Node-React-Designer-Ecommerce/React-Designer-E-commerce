@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import XIcon from "../icons/XIcon";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function CartPage() {
   const {
@@ -43,6 +44,7 @@ export default function CartPage() {
   const CODcheckout = async () => {
     await createOrder(paymentMethod);
     navigate("/user-profile"); //FIXME:
+    toast.success("Your order done successfully , orders are being delivered");
   };
 
   const Onlinecheckout = async () => {

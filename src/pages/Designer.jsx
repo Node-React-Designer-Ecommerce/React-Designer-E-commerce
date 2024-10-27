@@ -350,6 +350,7 @@ export default function Designer() {
         return saveResponse;
       }
     } catch (error) {
+      toast.error("Drag 5 images only");
       console.error("Error saving canvas:", error);
     } finally {
       setIsSaving(false);
@@ -371,6 +372,7 @@ export default function Designer() {
 
   const handleAddImageOnCanva = (e, canvas) => {
     handleAddImage(e, canvas, setDragImages);
+    e.target.value = ""; // Reset the file input element
   };
 
   const handleRemoveSelectedObj = (canvas) => {
@@ -603,6 +605,12 @@ export default function Designer() {
                   className=" bg-white text-buttonColor py-4 px-4 rounded cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out  w-full border border-buttonColor text-center "
                 >
                   Choose Image
+                  <div className="relative group inline-block">
+                    <ShowMore />
+                    <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 mb-3 shadow-md rounded border border-gray-300 text-sm text-textColor bg-white border rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      Drag 5 images only
+                    </span>
+                  </div>
                 </label>
                 {/* <inp-ut
                   id="chooseImgBack"

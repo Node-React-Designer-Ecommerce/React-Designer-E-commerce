@@ -76,6 +76,7 @@ export default function ProfileOrders() {
                                   {item.product.name}
                                 </div>
                                 <div>Quantity: {item.quantity}</div>
+                                <div>Price: {item.price}</div>
                               </div>
                             </div>
                           ))}
