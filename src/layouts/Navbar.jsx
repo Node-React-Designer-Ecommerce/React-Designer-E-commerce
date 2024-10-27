@@ -113,8 +113,9 @@ export default function Navbar() {
           >
             <div className="rounded-2xl">
               <div
-                className={`avatar ${userProfile ? "online" : ""
-                  } placeholder w-10`}
+                className={`avatar ${
+                  userProfile ? "online" : ""
+                } placeholder w-10`}
               >
                 <div className="bg-white text-textColor border border-textColor w-16 rounded-full">
                   <span className="text-xl">
@@ -134,38 +135,38 @@ export default function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-slate-50 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li className="">
-              {isLoggedIn && (
+            {isLoggedIn && (
+              <li className="">
                 <Link
                   to="/user-profile"
                   className="px-5 py-1 text-textColor text-xl  hover:transition-all"
                 >
                   Profile
                 </Link>
-              )}
-            </li>
-            <li className="">
-              {!isLoggedIn && (
+              </li>
+            )}
+            {!isLoggedIn && (
+              <li className="">
                 <Link
                   to="/login"
                   className="px-5 py-1 text-textColor text-xl  hover:transition-all"
                 >
                   Login
                 </Link>
-              )}
-            </li>
-            <li className="">
-              {!isLoggedIn && (
+              </li>
+            )}
+            {!isLoggedIn && (
+              <li className="">
                 <Link
                   to="/sign-up"
                   className="px-5 py-1  text-textColor text-xl  hover:transition-all"
                 >
                   Register
                 </Link>
-              )}
-            </li>
-            <li className="">
-              {isLoggedIn && (
+              </li>
+            )}
+            {isLoggedIn && (
+              <li className="">
                 <button
                   onClick={handleLogout}
                   className="px-5 py-3 text-xl  text-red-600 rounded-lg hover:transition-all"
@@ -175,8 +176,8 @@ export default function Navbar() {
                     <ExitIcon />{" "}
                   </span>
                 </button>
-              )}
-            </li>
+              </li>
+            )}
           </ul>
         </div>
       </div>
