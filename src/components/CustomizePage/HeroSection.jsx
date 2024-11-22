@@ -4,7 +4,7 @@ export default function HeroSection() {
       <div className="md:col-span-2  ">
         <img
           //style={{ width: "800px", height: "400px" }}
-          src="/public/GirlHeader.png"
+          src="/GirlHeader.png"
           alt="girlHeader"
         />
       </div>

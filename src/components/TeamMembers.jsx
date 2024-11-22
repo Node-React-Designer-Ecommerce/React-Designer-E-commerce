@@ -5,7 +5,7 @@ export default function TeamMembers() {
     {
       name: "  Rwan Adel Omar",
       role: "Software Engineer",
-      imgSrc: "/public/rwan.jpg",
+      imgSrc: "/rwan.jpg",
       email: "rwan32310@gmail.com",
       linkedIn: "https://www.linkedin.com/in/rwan-adel-7315bb23b/",
     },
@@ -13,7 +13,7 @@ export default function TeamMembers() {
     {
       name: "Shady Mohamed Radwan",
       role: "Software Engineer",
-      imgSrc: "/public/shady.jpeg",
+      imgSrc: "/shady.jpeg",
       email: "yd.radwan@gmail.com",
       linkedIn: "https://www.linkedin.com/in/shady-radwan-8b0003196/",
     },
@@ -21,7 +21,7 @@ export default function TeamMembers() {
     {
       name: "Fatma Elzahraa Abdelaleem",
       role: "Software Engineer",
-      imgSrc: "/public/zahra.jpeg",
+      imgSrc: "/zahra.jpeg",
       email: "fatmaabdelaleem24@gmail.com",
       linkedIn:
         "https://www.linkedin.com/in/zahra-abdelaleem-%F0%93%82%86-1a56a4139/",
@@ -30,14 +30,14 @@ export default function TeamMembers() {
     {
       name: "Yasser Ahmed Salem",
       role: "Software Engineer",
-      imgSrc: "/public/yasser.jpg",
+      imgSrc: "/yasser.jpg",
       email: "yassersalem9099@gmail.com",
       linkedIn: "https://www.linkedin.com/in/yasser-salem-118b7b214/",
     },
     {
       name: "Farah Mahmoud Mahfouz",
       role: "Software Engineer",
-      imgSrc: "/public/farah.jpeg",
+      imgSrc: "/farah.jpeg",
       email: "farahmahfouz11@gmail.com",
       linkedIn: "https://www.linkedin.com/in/farahmahfouz/",
     },
@@ -70,11 +70,7 @@ export default function TeamMembers() {
                   <Mail />
                 </a>
                 <a href={member.linkedIn}>
-                  <img
-                    src="/public/linkdIn.png"
-                    alt="LinkedIn"
-                    className="w-8 h-8"
-                  />
+                  <img src="/linkdIn.png" alt="LinkedIn" className="w-8 h-8" />
                 </a>
               </div>
             </div>
