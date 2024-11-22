@@ -18,7 +18,7 @@ function Footer() {
         <div>
           <div className="flex justify-center sm:justify-start">
             <Link to="/" className="">
-              <img src="/public/sammlyLogo.png" width={90} alt="logo" />
+              <img src="/sammlyLogo.png" width={90} alt="logo" />
             </Link>
           </div>
 
