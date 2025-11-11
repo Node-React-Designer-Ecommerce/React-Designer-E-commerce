@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-const LIVE = "https://react-node-designer.glitch.me/api/v1";
+const LIVE = "https://node-designer-e-commerce-production.up.railway.app/api/v1";
 const LOCAL = "http://localhost:4001/api/v1/";
 
 const axiosInstance = axios.create({
